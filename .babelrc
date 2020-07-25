@@ -1,0 +1,47 @@
+{
+    "presets": [
+        "@babel/preset-env"
+    ],
+    "plugins": [
+        [
+            "@babel/plugin-proposal-class-properties"
+        ],
+        [
+            "@babel/transform-runtime"
+        ],
+        [
+            "module-resolver",
+            {
+                "alias": {
+                    "@root": [
+                        "./",
+                        "./"
+                    ],
+                    "@entity": [
+                        "./src/core",
+                        "./bin/core"
+                    ],
+                    "@config": [
+                        "./src/config",
+                        "./bin/config"
+                    ],
+                    "@sro": [
+                        "./src/srSecurity",
+                        "./bin/srSecurity"
+                    ],
+                    "@mw": [
+                        "./src/middlewares",
+                        "./bin/middlewares"
+                    ]
+                }
+            }
+        ]
+    ],
+    "env": {
+        "production": {
+            "presets": [
+                "minify"
+            ]
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@root/*": [
+        "*"
+      ],
+      "@entity/*": [
+        "src/core/*"
+      ],
+      "@class/*": [
+        "src/objects/*"
+      ],
+      "@sro/*": [
+        "src/srSecurity/*"
+      ],
+      "@mw/*": [
+        "src/middlewares/*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

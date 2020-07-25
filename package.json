@@ -1,0 +1,46 @@
+{
+  "name": "node-sr-proxy",
+  "version": "1.0.0",
+  "description": "Stateless NodeJS (ES6+) middleware layer for online MMORPG Silkroad Online",
+  "main": "index.js",
+  "author": "LITTLE.TOWN",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "GatewayServer": "cross-env MODULE=GatewayServer npm-run-all prod",
+    "DownloadServer": "cross-env MODULE=DownloadServer npm-run-all prod",
+    "AgentServer": "cross-env MODULE=AgentServer npm-run-all prod",
+    "dev:GatewayServer": "cross-env MODULE=GatewayServer npm-run-all dev",
+    "dev:DownloadServer": "cross-env MODULE=DownloadServer npm-run-all dev",
+    "dev:AgentServer": "cross-env MODULE=AgentServer npm-run-all dev",
+    "dev": "nodemon",
+    "start": "npm run prod",
+    "proxy": "babel-node ./src/index",
+    "proxy:prod": "node ./bin/index",
+    "proxy:dev": "cross-env NODE_ENV=development npm-run-all proxy",
+    "clean": "rimraf bin",
+    "build": "babel ./src --out-dir bin",
+    "prod": "cross-env NODE_ENV=production npm-run-all clean build proxy:prod",
+    "prod:check": "cross-env BABEL_ENV=production NODE_ENV=development npm-run-all clean build proxy:prod"
+  },
+  "dependencies": {
+    "lodash": "^4.17.19",
+    "long": "^4.0.0",
+    "npm-run-all": "^4.1.5",
+    "uuid": "^8.2.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/node": "^7.7.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/runtime": "^7.7.2",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-preset-minify": "^0.5.1",
+    "cross-env": "^6.0.3",
+    "nodemon": "^1.19.4",
+    "rimraf": "^3.0.0",
+    "source-map": "^0.7.3"
+  }
+}
