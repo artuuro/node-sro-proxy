@@ -1,5 +1,5 @@
 src/configuration/env.*.js
 node_modules
-dist
+bin
 *.log
 *.bak
