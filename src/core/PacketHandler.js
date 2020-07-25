@@ -1,4 +1,3 @@
-
 import PacketReader from '@sro/packet/Reader';
 
 class PacketHandler {
@@ -9,7 +8,9 @@ class PacketHandler {
   async handle(context, data, side) {
     const { size, opcode, encrypted } = new PacketReader(data);
     
-    console.log(`---\nfrom: ${side}\nsize: ${size}\nopcode: ${opcode}\nencrypted: ${encrypted}\n---`);
+    console.log(context.security);
+
+    console.log(`from: ${side}\nsize: ${size}\nopcode: ${opcode}\nencrypted: ${encrypted}`);
 
 
     // Write the packet to the target context

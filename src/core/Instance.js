@@ -1,5 +1,6 @@
 import net from 'net';
 import PacketHandler from '@entity/PacketHandler';
+import Security from '@sro/Security';
 
 class Instance {
   constructor(config, socket) {
@@ -16,7 +17,7 @@ class Instance {
       onread: {
         buffer: Buffer.alloc(8 * 1024)
       }
-    });
+    });    
   }
 
   attachListeners() {
@@ -24,10 +25,16 @@ class Instance {
     this.localSocket.on('close', () => console.log(`[CONENCTION CLOSED]`));
 
     // Sockets from remote (server)
-    this.remoteSocket.on('data', async data => await this.worker.handle(this.localSocket, data, 'server'));
+    this.remoteSocket.on('data', async data => {
+
+      await this.worker.handle(this.localSocket, data, 'server');
+    });
 
     // Sockets from local (client)
-    this.localSocket.on('data', async data => await this.worker.handle(this.remoteSocket, data, 'client'));
+    this.localSocket.on('data', async data => {
+
+      await this.worker.handle(this.remoteSocket, data, 'client')
+    });
   }
 }
 
