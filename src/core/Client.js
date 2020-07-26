@@ -11,8 +11,6 @@ class Client {
     this.socket.on('close', () => console.log(`[CONENCTION CLOSED]`));
 
     this.security = new Security();
-    this.security.generateSecurity(true, true, true);
-    
     return this;
   }
 }
