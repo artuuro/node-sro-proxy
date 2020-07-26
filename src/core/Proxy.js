@@ -19,7 +19,7 @@ class Proxy {
 
     this.server.on('connection', socket => {
       console.log(`Connected`, socket.address());
-    })
+    });
 
     this.server.listen(this.config.LOCAL.PORT, this.config.LOCAL.HOST);
     console.log(`[${this.config.module}]${JSON.stringify(this.config.LOCAL)} ready`);
