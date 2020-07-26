@@ -1,4 +1,4 @@
-import ProxyServer from "@entity/ProxyServer";
+import Proxy from "@core/Proxy";
 import config from "@config/Download";
 
-new ProxyServer(config).init();
+new Proxy(config).setup();

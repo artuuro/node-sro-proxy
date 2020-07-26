@@ -13,7 +13,7 @@ _ES6+ Middleware handling requests between client & server for MMORPG Silkroad O
 ## Launch production mode
 - GatewayServer `yarn GatewayServer`
 - AgentServer `yarn AgentServer`
-- DownloadServer `yarn dDownloadServer`
+- DownloadServer `yarn DownloadServer`
 ## Wish to contribute?
 - Use issues.
 - Do a pull request, thanks.

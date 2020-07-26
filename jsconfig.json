@@ -5,11 +5,8 @@
       "@root/*": [
         "*"
       ],
-      "@entity/*": [
+      "@core/*": [
         "src/core/*"
-      ],
-      "@class/*": [
-        "src/objects/*"
       ],
       "@sro/*": [
         "src/srSecurity/*"
