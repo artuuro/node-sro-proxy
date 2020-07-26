@@ -1,4 +1,4 @@
-import Security from '@sro/Security';
+import { SilkroadSecurityJS as Security } from 'silkroad-security';
 
 class Client {
   constructor(socket) {
@@ -11,6 +11,7 @@ class Client {
     this.socket.on('close', () => console.log(`[CONENCTION CLOSED]`));
 
     this.security = new Security();
+    this.security.GenerateHandshake(true, false, true);
     return this;
   }
 }

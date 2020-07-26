@@ -1,4 +1,4 @@
-import Security from '@sro/Security';
+import { SilkroadSecurityJS as Security } from 'silkroad-security';
 import { Socket } from 'net';
 
 class Remote {
