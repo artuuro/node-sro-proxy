@@ -10,15 +10,10 @@ class Remote {
     this.security = new Security();
     this.socket = new Socket();
 
-    this.socket.connect({
-      host: this.config.REMOTE.HOST,
-      port: this.config.REMOTE.PORT,
-      onread: {
-        buffer: Buffer.alloc(8 * 1024)
-      }
-    });
-
-    return this;
+    return {
+      security: this.security,
+      socket: this.socket
+    };
   }
 }
 

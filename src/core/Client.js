@@ -12,7 +12,11 @@ class Client {
 
     this.security = new Security();
     this.security.GenerateHandshake(true, false, true);
-    return this;
+
+    return {
+      security: this.security,
+      socket: this.socket
+    };
   }
 }
 

@@ -18,5 +18,5 @@ _ES6+ Middleware handling requests between client & server for MMORPG Silkroad O
 - Use issues.
 - Do a pull request, thanks.
 
-
 Built with ♡ by Artuuro @ https://sroparadise.net
+Special thanks to Mixizi @ https://github.com/EmirAzaiez/SilkroadSecurityJS

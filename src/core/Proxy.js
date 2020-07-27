@@ -9,51 +9,60 @@ class Proxy {
 
   setup() {
     this.server = createServer(socket => {
-      let client = new Client(socket).setup();
+
+      console.log(`new conn`, socket.address())
+
+      let local = new Client(socket).setup();
       let remote = new Remote(this.config).setup();
 
-      client.socket.on('data', data => client.security.Recv(data.toJSON().data));
+      remote.socket.connect({
+        host: this.config.REMOTE.HOST,
+        port: this.config.REMOTE.PORT,
+        onread: {
+          buffer: Buffer.alloc(8 * 1024)
+        }
+      });
+
+      local.socket.on('data', data => local.security.Recv(data.toJSON().data));
       remote.socket.on('data', data => remote.security.Recv(data.toJSON().data));
-  
-      // TODO: make it normal
-      this.stream = setInterval(() => {
-  
+
+
+      this.tick = setInterval(function () {
         // RECEIVE
-        const clientReceive = client.security.GetPacketToRecv() || [];
-        for (let index in clientReceive) {
-          const packet = clientReceive[index];
+        const localReceive = local.security.GetPacketToRecv() || [];
+        for (let index in localReceive) {
+          const packet = localReceive[index];
           //console.log(`local`, packet);
           remote.security.Send(packet.opcode, packet.data, packet.encrypted, packet.massive);
         }
-  
+
+        // SEND
+        const localSend = local.security.GetPacketToSend() || [];
+        for (let index in localSend) {
+          const packet = Buffer.from(localSend[index]);
+          local.socket.write(packet);
+        }
+
+
         const remoteReceive = remote.security.GetPacketToRecv() || [];
         for (let index in remoteReceive) {
           const packet = remoteReceive[index];
-          //console.log(`remote`, packet);
-          client.security.Send(packet.opcode, packet.data, packet.encrypted, packet.massive);
+          local.security.Send(packet.opcode, packet.data, packet.encrypted, packet.massive);
         }
-  
-        // SEND
-        const clientSend = client.security.GetPacketToSend() || [];
-        for (let index in clientSend) {
-          const data = Buffer.from(clientSend[index]);
-          console.log(`send client`)
-          if (client) client.socket.write(data);
-        }
-  
+
+
         const remoteSend = remote.security.GetPacketToSend() || [];
         for (let index in remoteSend) {
-          const data = Buffer.from(remoteSend[index]);
-          console.log(`send remote`)
-          if (client) remote.socket.write(data);
+          const packet = Buffer.from(remoteSend[index]);
+          remote.socket.write(packet);
         }
-  
+
       }, 1);
+
+      
     });
 
-    this.server.on('connection', socket => {
-      console.log(`Connected`, socket.address());
-    });
+
 
     this.server.listen(this.config.LOCAL.PORT, this.config.LOCAL.HOST);
     console.log(`[${this.config.module}]${JSON.stringify(this.config.LOCAL)}`);
