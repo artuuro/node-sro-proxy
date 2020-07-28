@@ -10,23 +10,9 @@ export default {
     HOST: '138.201.58.79',
     PORT: 16002
   },
-  middlewares: {},
-  packets: {
-    client: opcodes.client.concat([
-      {
-        name: "FILE_REQUEST",
-        code: 24580
-      }
-    ]),
-    server: opcodes.server.concat([
-      {
-        name: "FILE_CHUNK",
-        code: 4097
-      },
-      {
-        name: "FILE_COMPLETE",
-        code: 40964
-      }
-    ])
-  }
+  packets: Object.assign(opcodes, {
+    24580: "FILE_REQUEST",
+    4097:  "FILE_CHUNK",
+    40964:  "FILE_COMPLETE"
+  })
 };

@@ -7,8 +7,15 @@ class Proxy {
   constructor(config) {
     this.config = config;
     this.instances = {};
-    this.interceptors = [];
+    this.middlewares = {
+      client: {},
+      remote: {}
+    };
     this.events = new EventEmitter();
+  }
+
+  middleware(side, opcode, action) {
+    this.middlewares[side][opcode] = action;
   }
 
   remove(id) {
@@ -29,30 +36,37 @@ class Proxy {
         this.events.emit('event', {
           instance: instance,
           sender: sender,
-          config: this.config
+          config: this.config,
+          middleware: this.middlewares[sender]
         });
       }
     });
 
-    console.log(`[${id}][${sender}] READY`);
+    console.log(`READY: [${id}][${sender}]`);
   }
 
-  async handleEvent(event) {
-    const target = event.sender == 'client' ? 'remote' : 'client';
-    const receive =  await event.instance[event.sender].security.GetPacketToRecv() || [];
+  async handleEvent(ctx) {
+    const target = ctx.sender == 'client' ? 'remote' : 'client';
+    const receive = await ctx.instance[ctx.sender].security.GetPacketToRecv() || [];
 
     for (const packet of receive) {
-      console.log(`[${event.sender}] > (${packet.opcode}) > [${target}] [${event.config.packets[packet.opcode]}]`);
-      
-      await event.instance[target].security.Send(packet.opcode, packet.data, packet.encrypted, packet.massive);
+      if (ctx.config.debug) console.log(`[${ctx.sender}] > (${packet.opcode}) > [${target}] [${ctx.config.packets[packet.opcode] || "UNKNOWN"}]`);
+
+      const middleware = ctx.middleware[packet.opcode] || false;
+
+      if (middleware) {
+        const resultPacket = await middleware(packet, ctx);
+        if (resultPacket) await ctx.instance[target].security.Send(resultPacket.opcode, resultPacket.data, resultPacket.encrypted, resultPacket.massive);
+      } else {
+        await ctx.instance[target].security.Send(packet.opcode, packet.data, packet.encrypted, packet.massive);
+      }
     }
 
-    const send = await event.instance[target].security.GetPacketToSend() || [];
+    const send = await ctx.instance[target].security.GetPacketToSend() || [];
 
     for (const packet of send) {
-      await event.instance[target].socket.write(Buffer.from(packet));
+      await ctx.instance[target].socket.write(Buffer.from(packet));
     }
-
   }
 
   init() {
@@ -67,11 +81,9 @@ class Proxy {
         remote: remote.setup()
       };
 
-      // Listen for events from both sides:
       this.listen(instance, id, 'client');
       this.listen(instance, id, 'remote');
 
-      // Add to the pool:
       Object.assign(this.instances, {
         [id]: instance
       });
@@ -80,7 +92,7 @@ class Proxy {
 
     this.events.on('event', this.handleEvent);
     this.server.listen(this.config.LOCAL.PORT, this.config.LOCAL.HOST);
-    console.log(`READY: ${JSON.stringify(this.config.LOCAL)}`);
+    console.log(`READY: ${this.config.module} ${JSON.stringify(this.config.LOCAL)}`);
   }
 
 }

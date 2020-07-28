@@ -25,13 +25,9 @@
                         "./src/config",
                         "./bin/config"
                     ],
-                    "@sro": [
-                        "./src/srSecurity",
-                        "./bin/srSecurity"
-                    ],
-                    "@mw": [
-                        "./src/middlewares",
-                        "./bin/middlewares"
+                    "@control": [
+                        "./src/controllers",
+                        "./bin/controllers"
                     ]
                 }
             }

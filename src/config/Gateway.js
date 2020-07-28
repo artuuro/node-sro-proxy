@@ -1,6 +1,7 @@
 import opcodes from "@config/global.opcodes";
 
 export default {
+  debug: true,
   module: 'GatewayServer',
   LOCAL: {
     HOST: "0.0.0.0",
@@ -9,6 +10,10 @@ export default {
   REMOTE: {
     HOST: "138.201.58.79",
     PORT: 15779
+  },
+  AGENT_REDIRECT: {
+    HOST: "127.0.0.1",
+    PORT: 7002
   },
   packets: Object.assign(opcodes, {
     8994: "LOGIN_IBUV_CHALLENGE",
@@ -23,7 +28,6 @@ export default {
     41217: "SHARD_LIST_RESPONSE",
     41222: "SHARD_LIST_PING_RESPONSE",
     41763: "LOGIN_IBUV_CONFIRM_RESPONSE",
-    41218: "LOGIN_RESPONSE", 
-    58850: "LOGIN_RESPONSE"
+    41218: "LOGIN_RESPONSE"
   })
 };

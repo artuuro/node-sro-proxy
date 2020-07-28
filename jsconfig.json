@@ -8,11 +8,8 @@
       "@core/*": [
         "src/core/*"
       ],
-      "@sro/*": [
-        "src/srSecurity/*"
-      ],
-      "@mw/*": [
-        "src/middlewares/*"
+      "@control/*": [
+        "src/controllers/*"
       ]
     }
   },

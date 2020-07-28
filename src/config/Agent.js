@@ -2,6 +2,7 @@ import opcodes from './global.opcodes';
 
 export default {
   module: 'AgentServer',
+  debug: true,
   LOCAL: {
     HOST: '0.0.0.0',
     PORT: 7002
@@ -10,1559 +11,384 @@ export default {
     HOST: '138.201.58.79',
     PORT: 16004
   },
-  middlewares: {},
-  packets: {
-    client: opcodes.client.concat([
-      {
-        code: 29808,
-        name: "ACADEMY_CREATE"
-      },
-      {
-        code: 29809,
-        name: "ACADEMY_DISBAND"
-      },
-      {
-        code: 29813,
-        name: "ACADEMY_GRADE"
-      },
-      {
-        code: 29816,
-        name: "ACADEMY_HONOR_RANK"
-      },
-      {
-        code: 29811,
-        name: "ACADEMY_KICK"
-      },
-      {
-        code: 29812,
-        name: "ACADEMY_LEAVE"
-      },
-      {
-        code: 29815,
-        name: "ACADEMY_UPDATE_COMMENT"
-      },
-      {
-        code: 29819,
-        name: "ACCADEMY_MATCHING_CHANGE"
-      },
-      {
-        code: 29820,
-        name: "ACCADEMY_MATCHING_DELETE"
-      },
-      {
-        code: 29822,
-        name: "ACCADEMY_MATCHING_JOIN"
-      },
-      {
-        code: 29821,
-        name: "ACCADEMY_MATCHING_LIST"
-      },
-      {
-        code: 29818,
-        name: "ACCADEMY_MATCHING_REGISTER"
-      },
-      {
-        code: 13439,
-        name: "ACCADEMY_MATCHING_RESPONSE"
-      },
-      {
-        code: 29015,
-        name: "ALCHEMY_DISMANTLE"
-      },
-      {
-        code: 29009,
-        name: "ALCHEMY_ENCHANT"
-      },
-      {
-        code: 29013,
-        name: "ALCHEMY_MANUFACTURE"
-      },
-      {
-        code: 29008,
-        name: "ALCHEMY_REINFORCE"
-      },
-      {
-        code: 29034,
-        name: "ALCHEMY_SOCKET"
-      },
-      {
-        code: 24835,
-        name: "AUTH"
-      },
-      {
-        code: 29907,
-        name: "BARENA_REQUEST"
-      },
-      {
-        code: 25364,
-        name: "CAS_CLIENT"
-      },
-      {
-        code: 25366,
-        name: "CAS_SERVER_RESPONSE"
-      },
-      {
-        code: 28679,
-        name: "CHARACTER_SELECTION_ACTION"
-      },
-      {
-        code: 28673,
-        name: "CHARACTER_SELECTION_JOIN"
-      },
-      {
-        code: 29776,
-        name: "CHARACTER_SELECTION_RENAME"
-      },
-      {
-        code: 28709,
-        name: "CHAT"
-      },
-      {
-        code: 29453,
-        name: "COMMUNITY_BLOCK"
-      },
-      {
-        code: 29442,
-        name: "COMMUNITY_FRIEND_ADD"
-      },
-      {
-        code: 29444,
-        name: "COMMUNITY_FRIEND_DELETE"
-      },
-      {
-        code: 13059,
-        name: "COMMUNITY_FRIEND_RESPONSE"
-      },
-      {
-        code: 29450,
-        name: "COMMUNITY_MEMO_DELETE"
-      },
-      {
-        code: 29451,
-        name: "COMMUNITY_MEMO_LIST"
-      },
-      {
-        code: 29448,
-        name: "COMMUNITY_MEMO_OPEN"
-      },
-      {
-        code: 29449,
-        name: "COMMUNITY_MEMO_SEND"
-      },
-      {
-        code: 29452,
-        name: "COMMUNITY_MEMO_SEND_GROUP"
-      },
-      {
-        code: 29016,
-        name: "CONFIG_UPDATE"
-      },
-      {
-        code: 29962,
-        name: "CONSIGNMENT_BUY"
-      },
-      {
-        code: 29959,
-        name: "CONSIGNMENT_CLOSE"
-      },
-      {
-        code: 29958,
-        name: "CONSIGNMENT_DETAIL"
-      },
-      {
-        code: 29966,
-        name: "CONSIGNMENT_LIST"
-      },
-      {
-        code: 29960,
-        name: "CONSIGNMENT_REGISTER"
-      },
-      {
-        code: 29964,
-        name: "CONSIGNMENT_SEARCH"
-      },
-      {
-        code: 29963,
-        name: "CONSIGNMENT_SETTLE"
-      },
-      {
-        code: 29961,
-        name: "CONSIGNMENT_UNREGISTER"
-      },
-      {
-        code: 28869,
-        name: "COS_COMMAND"
-      },
-      {
-        code: 28951,
-        name: "COS_NAME"
-      },
-      {
-        code: 28870,
-        name: "COS_TERMINATE"
-      },
-      {
-        code: 28950,
-        name: "COS_UNSUMMON"
-      },
-      {
-        code: 28875,
-        name: "COS_UPDATE_RIDESTATE"
-      },
-      {
-        code: 29728,
-        name: "COS_UPDATE_SETTINGS"
-      },
-      {
-        code: 28803,
-        name: "EXCHANGE_APPROVE"
-      },
-      {
-        code: 28804,
-        name: "EXCHANGE_CANCEL"
-      },
-      {
-        code: 28802,
-        name: "EXCHANGE_CONFIRM"
-      },
-      {
-        code: 28801,
-        name: "EXCHANGE_START"
-      },
-      {
-        code: 29981,
-        name: "FGW_EXIT"
-      },
-      {
-        code: 29977,
-        name: "FGW_RECALL_LIST"
-      },
-      {
-        code: 29978,
-        name: "FGW_RECALL_MEMBER"
-      },
-      {
-        code: 29980,
-        name: "FGW_RECALL_RESPONSE"
-      },
-      {
-        code: 29874,
-        name: "FLAGWAR_REGISTER"
-      },
-      {
-        code: 29974,
-        name: "FRPVP_UPDATE"
-      },
-      {
-        code: 12416,
-        name: "GAME_INVITE"
-      },
-      {
-        code: 12306,
-        name: "GAME_READY"
-      },
-      {
-        code: 13750,
-        name: "GAME_RESET_COMPLETE"
-      },
-      {
-        code: 28906,
-        name: "GUIDE"
-      },
-      {
-        code: 28912,
-        name: "GUILD_CREATE"
-      },
-      {
-        code: 28913,
-        name: "GUILD_DISBAND"
-      },
-      {
-        code: 29272,
-        name: "GUILD_DONATE"
-      },
-      {
-        code: 28918,
-        name: "GUILD_DONATE_OBSOLETE"
-      },
-      {
-        code: 28934,
-        name: "GUILD_ELECTION_PARTICIPATE"
-      },
-      {
-        code: 28933,
-        name: "GUILD_ELECTION_START"
-      },
-      {
-        code: 28935,
-        name: "GUILD_ELECTION_VOTE"
-      },
-      {
-        code: 29953,
-        name: "GUILD_GP_HISTORY"
-      },
-      {
-        code: 28915,
-        name: "GUILD_INVITE"
-      },
-      {
-        code: 28916,
-        name: "GUILD_KICK"
-      },
-      {
-        code: 28914,
-        name: "GUILD_LEAVE"
-      },
-      {
-        code: 29273,
-        name: "GUILD_MERCENARY_ATTR"
-      },
-      {
-        code: 29274,
-        name: "GUILD_MERCENARY_TERMINATE"
-      },
-      {
-        code: 28922,
-        name: "GUILD_PROMOTE"
-      },
-      {
-        code: 29265,
-        name: "GUILD_STORAGE_CLOSE"
-      },
-      {
-        code: 29266,
-        name: "GUILD_STORAGE_LIST"
-      },
-      {
-        code: 29264,
-        name: "GUILD_STORAGE_OPEN"
-      },
-      {
-        code: 28931,
-        name: "GUILD_TRANSFER"
-      },
-      {
-        code: 28923,
-        name: "GUILD_UNION_INVITE"
-      },
-      {
-        code: 28925,
-        name: "GUILD_UNION_KICK"
-      },
-      {
-        code: 28924,
-        name: "GUILD_UNION_LEAVE"
-      },
-      {
-        code: 29270,
-        name: "GUILD_UPDATE_NICKNAME"
-      },
-      {
-        code: 28921,
-        name: "GUILD_UPDATE_NOTICE"
-      },
-      {
-        code: 28932,
-        name: "GUILD_UPDATE_PERMISSION"
-      },
-      {
-        code: 28927,
-        name: "GUILD_UPDATE_SIEGEAUTH"
-      },
-      {
-        code: 28946,
-        name: "GUILD_WAR_END"
-      },
-      {
-        code: 28948,
-        name: "GUILD_WAR_REWARD"
-      },
-      {
-        code: 28944,
-        name: "GUILD_WAR_START"
-      },
-      {
-        code: 28734,
-        name: "INVENTORY_ITEM_REPAIR"
-      },
-      {
-        code: 28748,
-        name: "INVENTORY_ITEM_USE"
-      },
-      {
-        code: 28724,
-        name: "INVENTORY_OPERATION"
-      },
-      {
-        code: 28732,
-        name: "INVENTORY_STORAGE_OPEN"
-      },
-      {
-        code: 28899,
-        name: "JOB_ALIAS"
-      },
-      {
-        code: 29908,
-        name: "JOB_EXPORT_DETAIL"
-      },
-      {
-        code: 28897,
-        name: "JOB_JOIN"
-      },
-      {
-        code: 28898,
-        name: "JOB_LEAVE"
-      },
-      {
-        code: 28901,
-        name: "JOB_OUTCOME"
-      },
-      {
-        code: 28902,
-        name: "JOB_PREV_INFO"
-      },
-      {
-        code: 28900,
-        name: "JOB_RANKING"
-      },
-      {
-        code: 28677,
-        name: "LOGOUT"
-      },
-      {
-        code: 28678,
-        name: "LOGOUT_CANCEL"
-      },
-      {
-        code: 13481,
-        name: "MAGICOPTION_GRANT"
-      },
-      {
-        code: 28688,
-        name: "OPERATOR_COMMAND"
-      },
-      {
-        code: 28768,
-        name: "PARTY_CREATE"
-      },
-      {
-        code: 28770,
-        name: "PARTY_INVITE"
-      },
-      {
-        code: 28771,
-        name: "PARTY_KICK"
-      },
-      {
-        code: 28769,
-        name: "PARTY_LEAVE"
-      },
-      {
-        code: 28778,
-        name: "PARTY_MATCHING_CHANGE"
-      },
-      {
-        code: 28779,
-        name: "PARTY_MATCHING_DELETE"
-      },
-      {
-        code: 28777,
-        name: "PARTY_MATCHING_FORM"
-      },
-      {
-        code: 28781,
-        name: "PARTY_MATCHING_JOIN"
-      },
-      {
-        code: 28780,
-        name: "PARTY_MATCHING_LIST"
-      },
-      {
-        code: 12398,
-        name: "PARTY_MATCHING_PLAYER_JOIN"
-      },
-      {
-        code: 28889,
-        name: "QUEST_ABANDON"
-      },
-      {
-        code: 28888,
-        name: "QUEST_DINGDONG"
-      },
-      {
-        code: 28891,
-        name: "QUEST_GATHER_CANCEL"
-      },
-      {
-        code: 29973,
-        name: "QUEST_REWAD_SELECT"
-      },
-      {
-        code: 12500,
-        name: "QUEST_TALK"
-      },
-      {
-        code: 28766,
-        name: "SIEGE_ACTION"
-      },
-      {
-        code: 28765,
-        name: "SIEGE_RETURN"
-      },
-      {
-        code: 28953,
-        name: "SILK_GACHA_EXCHANGE"
-      },
-      {
-        code: 28952,
-        name: "SILK_GACHA_PLAY"
-      },
-      {
-        code: 28954,
-        name: "SILK_HISTORY"
-      },
-      {
-        code: 28833,
-        name: "SKILL_LEARN"
-      },
-      {
-        code: 28834,
-        name: "SKILL_MASTERY_LEARN"
-      },
-      {
-        code: 29187,
-        name: "SKILL_MASTERY_WITHDRAW"
-      },
-      {
-        code: 29186,
-        name: "SKILL_WITHDRAW"
-      },
-      {
-        code: 28735,
-        name: "sro_client.00880A70"
-      },
-      {
-        code: 28947,
-        name: "sro_client.00881F80"
-      },
-      {
-        code: 29810,
-        name: "sro_client.008997A0"
-      },
-      {
-        code: 29814,
-        name: "sro_client.008998F0"
-      },
-      {
-        code: 29827,
-        name: "sro_client.0089B7B0"
-      },
-      {
-        code: 28961,
-        name: "sro_client.008A1360"
-      },
-      {
-        code: 28871,
-        name: "sro_client.008A7AC0"
-      },
-      {
-        code: 28852,
-        name: "STALL_BUY"
-      },
-      {
-        code: 28849,
-        name: "STALL_CREATE"
-      },
-      {
-        code: 28850,
-        name: "STALL_DESTROY"
-      },
-      {
-        code: 28853,
-        name: "STALL_LEAVE"
-      },
-      {
-        code: 28851,
-        name: "STALL_TALK"
-      },
-      {
-        code: 28858,
-        name: "STALL_UPDATE"
-      },
-      {
-        code: 29919,
-        name: "TAP_INFO"
-      },
-      {
-        code: 29920,
-        name: "TAP_UPDATE"
-      },
-      {
-        code: 28763,
-        name: "TELEPORT_CANCEL"
-      },
-      {
-        code: 28761,
-        name: "TELEPORT_DESIGNATE"
-      },
-      {
-        code: 28762,
-        name: "TELEPORT_USE"
-      }
-    ]),
-    server: opcodes.server.concat([
-      {
-        code: 46192,
-        name: "ACADEMY_CREATE"
-      },
-      {
-        code: 46193,
-        name: "ACADEMY_DISBAND"
-      },
-      {
-        code: 46194,
-        name: "sro_client.008997A0"
-      },
-      {
-        code: 46195,
-        name: "ACADEMY_KICK"
-      },
-      {
-        code: 46196,
-        name: "ACADEMY_LEAVE"
-      },
-      {
-        code: 46197,
-        name: "ACADEMY_GRADE"
-      },
-      {
-        code: 46198,
-        name: "sro_client.008998F0"
-      },
-      {
-        code: 46199,
-        name: "ACADEMY_UPDATE_COMMENT"
-      },
-      {
-        code: 46200,
-        name: "ACADEMY_HONOR_RANK"
-      },
-      {
-        code: 46202,
-        name: "ACCADEMY_MATCHING_REGISTER"
-      },
-      {
-        code: 46203,
-        name: "ACCADEMY_MATCHING_CHANGE"
-      },
-      {
-        code: 46204,
-        name: "ACCADEMY_MATCHING_DELETE"
-      },
-      {
-        code: 46205,
-        name: "ACCADEMY_MATCHING_LIST"
-      },
-      {
-        code: 46206,
-        name: "ACCADEMY_MATCHING_JOIN"
-      },
-      {
-        code: 29822,
-        name: "ACCADEMY_MATCHING_REQUEST"
-      },
-      {
-        code: 46211,
-        name: "sro_client.0089B7B0"
-      },
-      {
-        code: 15488,
-        name: "ACADEMY_UPDATE"
-      },
-      {
-        code: 15489,
-        name: "ACADEMY_INFO"
-      },
-      {
-        code: 15490,
-        name: "ACADEMY_UPDATE_BUFF"
-      },
-      {
-        code: 15494,
-        name: "sro_client.0089BF00"
-      },
-      {
-        code: 15495,
-        name: "sro_client.0089BAE0"
-      },
-      {
-        code: 45392,
-        name: "ALCHEMY_REINFORCE"
-      },
-      {
-        code: 45393,
-        name: "ALCHEMY_ENCHANT"
-      },
-      {
-        code: 45397,
-        name: "ALCHEMY_MANUFACTURE"
-      },
-      {
-        code: 12630,
-        name: "ALCHEMY_CANCELED"
-      },
-      {
-        code: 45399,
-        name: "ALCHEMY_DISMANTLE"
-      },
-      {
-        code: 45418,
-        name: "ALCHEMY_SOCKET"
-      },
-      {
-        code: 41219,
-        name: "AUTH"
-      },
-      {
-        code: 13522,
-        name: "BARENA_OPERATION"
-      },
-      {
-        code: 41748,
-        name: "CAS_CLIENT"
-      },
-      {
-        code: 25365,
-        name: "CAS_SERVER_REQUEST"
-      },
-      {
-        code: 45057,
-        name: "CHARACTER_SELECTION_JOIN"
-      },
-      {
-        code: 45063,
-        name: "CHARACTER_SELECTION_ACTION"
-      },
-      {
-        code: 46160,
-        name: "CHARACTER_SELECTION_RENAME"
-      },
-      {
-        code: 45093,
-        name: "CHAT"
-      },
-      {
-        code: 12326,
-        name: "CHAT_UPDATE"
-      },
-      {
-        code: 12333,
-        name: "CHAT_RESTRICT"
-      },
-      {
-        code: 45826,
-        name: "COMMUNITY_FRIEND_ADD"
-      },
-      {
-        code: 29442,
-        name: "COMMUNITY_FRIEND_REQUEST"
-      },
-      {
-        code: 45828,
-        name: "COMMUNITY_FRIEND_DELETE"
-      },
-      {
-        code: 13061,
-        name: "COMMUNITY_FRIEND_INFO"
-      },
-      {
-        code: 45832,
-        name: "COMMUNITY_MEMO_OPEN"
-      },
-      {
-        code: 45833,
-        name: "COMMUNITY_MEMO_SEND"
-      },
-      {
-        code: 45834,
-        name: "COMMUNITY_MEMO_DELETE"
-      },
-      {
-        code: 45835,
-        name: "COMMUNITY_MEMO_LIST"
-      },
-      {
-        code: 45836,
-        name: "COMMUNITY_MEMO_SEND_GROUP"
-      },
-      {
-        code: 45837,
-        name: "COMMUNITY_BLOCK"
-      },
-      {
-        code: 46342,
-        name: "CONSIGNMENT_DETAIL"
-      },
-      {
-        code: 46343,
-        name: "CONSIGNMENT_CLOSE"
-      },
-      {
-        code: 46344,
-        name: "CONSIGNMENT_REGISTER"
-      },
-      {
-        code: 46345,
-        name: "CONSIGNMENT_UNREGISTER"
-      },
-      {
-        code: 46346,
-        name: "CONSIGNMENT_BUY"
-      },
-      {
-        code: 46347,
-        name: "CONSIGNMENT_SETTLE"
-      },
-      {
-        code: 46348,
-        name: "CONSIGNMENT_SEARCH"
-      },
-      {
-        code: 13581,
-        name: "CONSIGNMENT_UPDATE"
-      },
-      {
-        code: 46350,
-        name: "CONSIGNMENT_LIST"
-      },
-      {
-        code: 13616,
-        name: "CONSIGNMENT_BUFF_ADD"
-      },
-      {
-        code: 13617,
-        name: "CONSIGNMENT_BUFF_REMOVE"
-      },
-      {
-        code: 13618,
-        name: "CONSIGNMENT_BUFF_UPDATE"
-      },
-      {
-        code: 45253,
-        name: "COS_COMMAND"
-      },
-      {
-        code: 45254,
-        name: "COS_TERMINATE"
-      },
-      {
-        code: 45255,
-        name: "sro_client.008A7AC0"
-      },
-      {
-        code: 12488,
-        name: "COS_INFO"
-      },
-      {
-        code: 12489,
-        name: "COS_UPDATE"
-      },
-      {
-        code: 12490,
-        name: "COS_UPDATE_STATE"
-      },
-      {
-        code: 45259,
-        name: "COS_UPDATE_RIDESTATE"
-      },
-      {
-        code: 45334,
-        name: "COS_UNSUMMON"
-      },
-      {
-        code: 45335,
-        name: "COS_NAME"
-      },
-      {
-        code: 46112,
-        name: "COS_UPDATE_SETTINGS"
-      },
-      {
-        code: 12320,
-        name: "ENVIRONMENT_CELESTIAL_POSITION"
-      },
-      {
-        code: 12327,
-        name: "ENVIRONMENT_CELESTIAL_UPDATE"
-      },
-      {
-        code: 14345,
-        name: "ENVIRONMENT_WEATHER_UPDATE"
-      },
-      {
-        code: 45185,
-        name: "EXCHANGE_START"
-      },
-      {
-        code: 45186,
-        name: "EXCHANGE_CONFIRM"
-      },
-      {
-        code: 45187,
-        name: "EXCHANGE_APPROVE"
-      },
-      {
-        code: 45188,
-        name: "EXCHANGE_CANCEL"
-      },
-      {
-        code: 12421,
-        name: "EXCHANGE_STARTED"
-      },
-      {
-        code: 12422,
-        name: "EXCHANGE_CONFIRMED"
-      },
-      {
-        code: 12423,
-        name: "EXCHANGE_APPROVED"
-      },
-      {
-        code: 12424,
-        name: "EXCHANGE_CANCELED"
-      },
-      {
-        code: 12425,
-        name: "EXCHANGE_UPDATE"
-      },
-      {
-        code: 12428,
-        name: "EXCHANGE_UPDATE_ITEMS"
-      },
-      {
-        code: 46361,
-        name: "FGW_RECALL_LIST"
-      },
-      {
-        code: 46362,
-        name: "FGW_RECALL_MEMBER"
-      },
-      {
-        code: 29722,
-        name: "FGW_RECALL_REQUEST"
-      },
-      {
-        code: 46364,
-        name: "FGW_RECALL_RESPONSE"
-      },
-      {
-        code: 46365,
-        name: "FGW_EXIT"
-      },
-      {
-        code: 13598,
-        name: "FGW_UPDATE"
-      },
-      {
-        code: 13489,
-        name: "FLAGWAR_UPDATE"
-      },
-      {
-        code: 46358,
-        name: "FRPVP_UPDATE"
-      },
-      {
-        code: 12300,
-        name: "GAME_NOTIFY"
-      },
-      {
-        code: 12416,
-        name: "GAME_INVITE"
-      },
-      {
-        code: 13749,
-        name: "GAME_RESET"
-      },
-      {
-        code: 13502,
-        name: "GAME_SERVERTIME"
-      },
-      {
-        code: 45290,
-        name: "GUIDE"
-      },
-      {
-        code: 12527,
-        name: "GUILD_ENTITY_UPDATE_HOSTILITY"
-      },
-      {
-        code: 45296,
-        name: "GUILD_CREATE"
-      },
-      {
-        code: 45297,
-        name: "GUILD_DISBAND"
-      },
-      {
-        code: 45298,
-        name: "GUILD_LEAVE"
-      },
-      {
-        code: 45299,
-        name: "GUILD_INVITE"
-      },
-      {
-        code: 45300,
-        name: "GUILD_KICK"
-      },
-      {
-        code: 14581,
-        name: "GUILD_UPDATE"
-      },
-      {
-        code: 45302,
-        name: "GUILD_DONATE_OBSOLETE"
-      },
-      {
-        code: 45304,
-        name: "sro_client.00881890"
-      },
-      {
-        code: 45305,
-        name: "GUILD_UPDATE_NOTICE"
-      },
-      {
-        code: 45306,
-        name: "GUILD_PROMOTE"
-      },
-      {
-        code: 45307,
-        name: "GUILD_UNION_INVITE"
-      },
-      {
-        code: 45308,
-        name: "GUILD_UNION_LEAVE"
-      },
-      {
-        code: 45309,
-        name: "GUILD_UNION_KICK"
-      },
-      {
-        code: 45311,
-        name: "GUILD_UPDATE_SIEGEAUTH"
-      },
-      {
-        code: 12543,
-        name: "GUILD_ENTITY_UPDATE"
-      },
-      {
-        code: 12544,
-        name: "GUILD_ENTITY_REMOVE"
-      },
-      {
-        code: 13491,
-        name: "GUILD_INFO_BEGIN"
-      },
-      {
-        code: 12545,
-        name: "GUILD_INFO_DATA"
-      },
-      {
-        code: 13492,
-        name: "GUILD_INFO_END"
-      },
-      {
-        code: 12546,
-        name: "GUILD_UNION_INFO"
-      },
-      {
-        code: 12547,
-        name: "GUILD_ENTITY_UPDATE_SIEGEAUTH"
-      },
-      {
-        code: 45315,
-        name: "GUILD_TRANSFER"
-      },
-      {
-        code: 45316,
-        name: "GUILD_UPDATE_PERMISSION"
-      },
-      {
-        code: 45317,
-        name: "GUILD_ELECTION_START"
-      },
-      {
-        code: 45318,
-        name: "GUILD_ELECTION_PARTICIPATE"
-      },
-      {
-        code: 45319,
-        name: "GUILD_ELECTION_VOTE"
-      },
-      {
-        code: 14600,
-        name: "GUILD_ELECTION_UPDATE"
-      },
-      {
-        code: 12553,
-        name: "GUILD_WAR_INFO"
-      },
-      {
-        code: 45328,
-        name: "GUILD_WAR_START"
-      },
-      {
-        code: 28944,
-        name: "GUILD_WAR_REQUEST"
-      },
-      {
-        code: 45330,
-        name: "GUILD_WAR_END"
-      },
-      {
-        code: 45331,
-        name: "sro_client.00881F80"
-      },
-      {
-        code: 45332,
-        name: "GUILD_WAR_REWARD"
-      },
-      {
-        code: 45648,
-        name: "GUILD_STORAGE_OPEN"
-      },
-      {
-        code: 45649,
-        name: "GUILD_STORAGE_CLOSE"
-      },
-      {
-        code: 45650,
-        name: "GUILD_STORAGE_LIST"
-      },
-      {
-        code: 12883,
-        name: "GUILD_STORAGE_BEGIN"
-      },
-      {
-        code: 12884,
-        name: "GUILD_STORAGE_END"
-      },
-      {
-        code: 12885,
-        name: "GUILD_STORAGE_DATA"
-      },
-      {
-        code: 45654,
-        name: "GUILD_UPDATE_NICKNAME"
-      },
-      {
-        code: 12886,
-        name: "GUILD_ENTITY_UPDATE_NICKNAME"
-      },
-      {
-        code: 12887,
-        name: "GUILD_ENTITY_UPDATE_CREST"
-      },
-      {
-        code: 29272,
-        name: "GUILD_DONATE"
-      },
-      {
-        code: 29273,
-        name: "GUILD_MERCENARY_ATTR"
-      },
-      {
-        code: 29274,
-        name: "GUILD_MERCENARY_TERMINATE"
-      },
-      {
-        code: 46337,
-        name: "GUILD_GP_HISTORY"
-      },
-      {
-        code: 12344,
-        name: "INVENTORY_ENTITY_EQUIP"
-      },
-      {
-        code: 12345,
-        name: "INVENTORY_ENTITY_UNEQUIP"
-      },
-      {
-        code: 12352,
-        name: "INVENTORY_UPDATE_ITEM_STATS"
-      },
-      {
-        code: 12353,
-        name: "INVENTORY_ENTITY_EQUIP_TIMER_START"
-      },
-      {
-        code: 12354,
-        name: "INVENTORY_ENTITY_EQUIP_TIMER_STOP"
-      },
-      {
-        code: 12359,
-        name: "INVENTORY_STORAGE_INFO_BEGIN"
-      },
-      {
-        code: 12360,
-        name: "INVENTORY_STORAGE_INFO_END"
-      },
-      {
-        code: 12361,
-        name: "INVENTORY_STORAGE_INFO_DATA"
-      },
-      {
-        code: 12370,
-        name: "INVENTORY_UPDATE_ITEM_DURABILITY"
-      },
-      {
-        code: 12434,
-        name: "INVENTORY_UPDATE_SIZE"
-      },
-      {
-        code: 12801,
-        name: "INVENTORY_UPDATE_AMMO"
-      },
-      {
-        code: 45108,
-        name: "INVENTORY_OPERATION"
-      },
-      {
-        code: 45116,
-        name: "INVENTORY_STORAGE_OPEN"
-      },
-      {
-        code: 45118,
-        name: "INVENTORY_ITEM_REPAIR"
-      },
-      {
-        code: 45119,
-        name: "sro_client.00880A70"
-      },
-      {
-        code: 45132,
-        name: "INVENTORY_ITEM_USE"
-      },
-      {
-        code: 12512,
-        name: "JOB_UPDATE_PRICE"
-      },
-      {
-        code: 45281,
-        name: "JOB_JOIN"
-      },
-      {
-        code: 45282,
-        name: "JOB_LEAVE"
-      },
-      {
-        code: 45283,
-        name: "JOB_ALIAS"
-      },
-      {
-        code: 45284,
-        name: "JOB_RANKING"
-      },
-      {
-        code: 45285,
-        name: "JOB_OUTCOME"
-      },
-      {
-        code: 45286,
-        name: "JOB_PREV_INFO"
-      },
-      {
-        code: 12518,
-        name: "JOB_UPDATE_EXP"
-      },
-      {
-        code: 12519,
-        name: "JOB_COS_DISTANCE"
-      },
-      {
-        code: 12520,
-        name: "JOB_UPDATE_SCALE"
-      },
-      {
-        code: 46292,
-        name: "JOB_EXPORT_DETAIL"
-      },
-      {
-        code: 13525,
-        name: "JOB_UPDATE_SAFETRADE"
-      },
-      {
-        code: 45061,
-        name: "LOGOUT"
-      },
-      {
-        code: 45062,
-        name: "LOGOUT_CANCEL"
-      },
-      {
-        code: 12298,
-        name: "LOGUT_SUCCESS"
-      },
-      {
-        code: 13482,
-        name: "MAGICOPTION_GRANT"
-      },
-      {
-        code: 13317,
-        name: "OPERATOR_PUNISHMENT"
-      },
-      {
-        code: 45072,
-        name: "OPERATOR_COMMAND"
-      },
-      {
-        code: 45152,
-        name: "PARTY_CREATE"
-      },
-      {
-        code: 45153,
-        name: "PARTY_LEAVE"
-      },
-      {
-        code: 45154,
-        name: "PARTY_INVITE"
-      },
-      {
-        code: 45155,
-        name: "PARTY_KICK"
-      },
-      {
-        code: 14436,
-        name: "PARTY_UPDATE"
-      },
-      {
-        code: 14437,
-        name: "PARTY_CREATED"
-      },
-      {
-        code: 12389,
-        name: "PARTY_CREATED_FROM_MATCHING"
-      },
-      {
-        code: 45159,
-        name: "sro_client.OnJoinPartyAck"
-      },
-      {
-        code: 12392,
-        name: "PARTY_DISTRIBUTION"
-      },
-      {
-        code: 45161,
-        name: "PARTY_MATCHING_FORM"
-      },
-      {
-        code: 45162,
-        name: "PARTY_MATCHING_CHANGE"
-      },
-      {
-        code: 45163,
-        name: "PARTY_MATCHING_DELETE"
-      },
-      {
-        code: 45164,
-        name: "PARTY_MATCHING_LIST"
-      },
-      {
-        code: 45165,
-        name: "PARTY_MATCHING_JOIN"
-      },
-      {
-        code: 28781,
-        name: "PARTY_MATCHING_PLAYER_JOIN"
-      },
-      {
-        code: 12493,
-        name: "PK_UPDATE_PENALTY"
-      },
-      {
-        code: 12494,
-        name: "PK_UPDATE_DAILY"
-      },
-      {
-        code: 12499,
-        name: "PK_UPDATE_LEVEL"
-      },
-      {
-        code: 12500,
-        name: "QUEST_TALK"
-      },
-      {
-        code: 12501,
-        name: "QUEST_UPDATE"
-      },
-      {
-        code: 12502,
-        name: "QUEST_MARK_ADD"
-      },
-      {
-        code: 12503,
-        name: "QUEST_MARK_REMOVE"
-      },
-      {
-        code: 45272,
-        name: "QUEST_DINGDONG"
-      },
-      {
-        code: 45273,
-        name: "QUEST_ABANDON"
-      },
-      {
-        code: 12506,
-        name: "QUEST_GATHER"
-      },
-      {
-        code: 45275,
-        name: "QUEST_GATHER_CANCEL"
-      },
-      {
-        code: 12508,
-        name: "QUEST_CAPTURE_RESULT"
-      },
-      {
-        code: 12524,
-        name: "QUEST_NOTIFY"
-      },
-      {
-        code: 13588,
-        name: "QUEST_REWARD_TALK"
-      },
-      {
-        code: 13589,
-        name: "QUEST_REWAD_SELECT"
-      },
-      {
-        code: 15522,
-        name: "QUEST_SCRIPT"
-      },
-      {
-        code: 45149,
-        name: "SIEGE_RETURN"
-      },
-      {
-        code: 45150,
-        name: "SIEGE_ACTION"
-      },
-      {
-        code: 14431,
-        name: "SIEGE_UPDATE"
-      },
-      {
-        code: 45336,
-        name: "SILK_GACHA_PLAY"
-      },
-      {
-        code: 45337,
-        name: "SILK_GACHA_EXCHANGE"
-      },
-      {
-        code: 45338,
-        name: "SILK_HISTORY"
-      },
-      {
-        code: 12576,
-        name: "SILK_GACHA_ANNOUNCE"
-      },
-      {
-        code: 45345,
-        name: "sro_client.008A1360"
-      },
-      {
-        code: 12627,
-        name: "SILK_UPDATE"
-      },
-      {
-        code: 12628,
-        name: "SILK_NOTIFY"
-      },
-      {
-        code: 45217,
-        name: "SKILL_LEARN"
-      },
-      {
-        code: 45218,
-        name: "SKILL_MASTERY_LEARN"
-      },
-      {
-        code: 45570,
-        name: "SKILL_WITHDRAW"
-      },
-      {
-        code: 45571,
-        name: "SKILL_MASTERY_WITHDRAW"
-      },
-      {
-        code: 12804,
-        name: "SKILL_WITHDRAW_INFO_WND"
-      },
-      {
-        code: 45233,
-        name: "STALL_CREATE"
-      },
-      {
-        code: 45234,
-        name: "STALL_DESTROY"
-      },
-      {
-        code: 45235,
-        name: "STALL_TALK"
-      },
-      {
-        code: 45236,
-        name: "STALL_BUY"
-      },
-      {
-        code: 45237,
-        name: "STALL_LEAVE"
-      },
-      {
-        code: 12471,
-        name: "STALL_ENTITY_ACTION"
-      },
-      {
-        code: 12472,
-        name: "STALL_ENTITY_CREATE"
-      },
-      {
-        code: 12473,
-        name: "STALL_ENTITY_DESTROY"
-      },
-      {
-        code: 45242,
-        name: "STALL_UPDATE"
-      },
-      {
-        code: 12475,
-        name: "STALL_ENTITY_NAME"
-      },
-      {
-        code: 46303,
-        name: "TAP_INFO"
-      },
-      {
-        code: 46304,
-        name: "TAP_UPDATE"
-      },
-      {
-        code: 13537,
-        name: "TAP_ICON"
-      },
-      {
-        code: 45145,
-        name: "TELEPORT_DESIGNATE"
-      },
-      {
-        code: 45146,
-        name: "TELEPORT_USE"
-      },
-      {
-        code: 45147,
-        name: "TELEPORT_CANCEL"
-      }
-    ])
-  }
+  packets: Object.assign(opcodes, {
+    29808: "ACADEMY_CREATE",
+    29809: "ACADEMY_DISBAND",
+    29813: "ACADEMY_GRADE",
+    29816: "ACADEMY_HONOR_RANK",
+    29811: "ACADEMY_KICK",
+    29812: "ACADEMY_LEAVE",
+    29815: "ACADEMY_UPDATE_COMMENT",
+    29819: "ACCADEMY_MATCHING_CHANGE",
+    29820: "ACCADEMY_MATCHING_DELETE",
+    29822: "ACCADEMY_MATCHING_JOIN",
+    29821: "ACCADEMY_MATCHING_LIST",
+    29818: "ACCADEMY_MATCHING_REGISTER",
+    13439: "ACCADEMY_MATCHING_RESPONSE",
+    29015: "ALCHEMY_DISMANTLE",
+    29009: "ALCHEMY_ENCHANT",
+    29013: "ALCHEMY_MANUFACTURE",
+    29008: "ALCHEMY_REINFORCE",
+    29034: "ALCHEMY_SOCKET",
+    24835: "AUTH",
+    29907: "BARENA_REQUEST",
+    25364: "CAS_CLIENT",
+    25366: "CAS_SERVER_RESPONSE",
+    28679: "CHARACTER_SELECTION_ACTION",
+    28673: "CHARACTER_SELECTION_JOIN",
+    29776: "CHARACTER_SELECTION_RENAME",
+    28709: "CHAT",
+    29453: "COMMUNITY_BLOCK",
+    29442: "COMMUNITY_FRIEND_ADD",
+    29444: "COMMUNITY_FRIEND_DELETE",
+    13059: "COMMUNITY_FRIEND_RESPONSE",
+    29450: "COMMUNITY_MEMO_DELETE",
+    29451: "COMMUNITY_MEMO_LIST",
+    29448: "COMMUNITY_MEMO_OPEN",
+    29449: "COMMUNITY_MEMO_SEND",
+    29452: "COMMUNITY_MEMO_SEND_GROUP",
+    29016: "CONFIG_UPDATE",
+    29962: "CONSIGNMENT_BUY",
+    29959: "CONSIGNMENT_CLOSE",
+    29958: "CONSIGNMENT_DETAIL",
+    29966: "CONSIGNMENT_LIST",
+    29960: "CONSIGNMENT_REGISTER",
+    29964: "CONSIGNMENT_SEARCH",
+    29963: "CONSIGNMENT_SETTLE",
+    29961: "CONSIGNMENT_UNREGISTER",
+    28869: "COS_COMMAND",
+    28951: "COS_NAME",
+    28870: "COS_TERMINATE",
+    28950: "COS_UNSUMMON",
+    28875: "COS_UPDATE_RIDESTATE",
+    29728: "COS_UPDATE_SETTINGS",
+    28803: "EXCHANGE_APPROVE",
+    28804: "EXCHANGE_CANCEL",
+    28802: "EXCHANGE_CONFIRM",
+    28801: "EXCHANGE_START",
+    29981: "FGW_EXIT",
+    29977: "FGW_RECALL_LIST",
+    29978: "FGW_RECALL_MEMBER",
+    29980: "FGW_RECALL_RESPONSE",
+    29874: "FLAGWAR_REGISTER",
+    29974: "FRPVP_UPDATE",
+    12416: "GAME_INVITE",
+    12306: "GAME_READY",
+    13750: "GAME_RESET_COMPLETE",
+    28906: "GUIDE",
+    28912: "GUILD_CREATE",
+    28913: "GUILD_DISBAND",
+    29272: "GUILD_DONATE",
+    28918: "GUILD_DONATE_OBSOLETE",
+    28934: "GUILD_ELECTION_PARTICIPATE",
+    28933: "GUILD_ELECTION_START",
+    28935: "GUILD_ELECTION_VOTE",
+    29953: "GUILD_GP_HISTORY",
+    28915: "GUILD_INVITE",
+    28916: "GUILD_KICK",
+    28914: "GUILD_LEAVE",
+    29273: "GUILD_MERCENARY_ATTR",
+    29274: "GUILD_MERCENARY_TERMINATE",
+    28922: "GUILD_PROMOTE",
+    29265: "GUILD_STORAGE_CLOSE",
+    29266: "GUILD_STORAGE_LIST",
+    29264: "GUILD_STORAGE_OPEN",
+    28931: "GUILD_TRANSFER",
+    28923: "GUILD_UNION_INVITE",
+    28925: "GUILD_UNION_KICK",
+    28924: "GUILD_UNION_LEAVE",
+    29270: "GUILD_UPDATE_NICKNAME",
+    28921: "GUILD_UPDATE_NOTICE",
+    28932: "GUILD_UPDATE_PERMISSION",
+    28927: "GUILD_UPDATE_SIEGEAUTH",
+    28946: "GUILD_WAR_END",
+    28948: "GUILD_WAR_REWARD",
+    28944: "GUILD_WAR_START",
+    28734: "INVENTORY_ITEM_REPAIR",
+    28748: "INVENTORY_ITEM_USE",
+    28724: "INVENTORY_OPERATION",
+    28732: "INVENTORY_STORAGE_OPEN",
+    28899: "JOB_ALIAS",
+    29908: "JOB_EXPORT_DETAIL",
+    28897: "JOB_JOIN",
+    28898: "JOB_LEAVE",
+    28901: "JOB_OUTCOME",
+    28902: "JOB_PREV_INFO",
+    28900: "JOB_RANKING",
+    28677: "LOGOUT",
+    28678: "LOGOUT_CANCEL",
+    13481: "MAGICOPTION_GRANT",
+    28688: "OPERATOR_COMMAND",
+    28768: "PARTY_CREATE",
+    28770: "PARTY_INVITE",
+    28771: "PARTY_KICK",
+    28769: "PARTY_LEAVE",
+    28778: "PARTY_MATCHING_CHANGE",
+    28779: "PARTY_MATCHING_DELETE",
+    28777: "PARTY_MATCHING_FORM",
+    28781: "PARTY_MATCHING_JOIN",
+    28780: "PARTY_MATCHING_LIST",
+    12398: "PARTY_MATCHING_PLAYER_JOIN",
+    28889: "QUEST_ABANDON",
+    28888: "QUEST_DINGDONG",
+    28891: "QUEST_GATHER_CANCEL",
+    29973: "QUEST_REWAD_SELECT",
+    12500: "QUEST_TALK",
+    28766: "SIEGE_ACTION",
+    28765: "SIEGE_RETURN",
+    28953: "SILK_GACHA_EXCHANGE",
+    28952: "SILK_GACHA_PLAY",
+    28954: "SILK_HISTORY",
+    28833: "SKILL_LEARN",
+    28834: "SKILL_MASTERY_LEARN",
+    29187: "SKILL_MASTERY_WITHDRAW",
+    29186: "SKILL_WITHDRAW",
+    28735: "sro_client.00880A70",
+    28947: "sro_client.00881F80",
+    29810: "sro_client.008997A0",
+    29814: "sro_client.008998F0",
+    29827: "sro_client.0089B7B0",
+    28961: "sro_client.008A1360",
+    28871: "sro_client.008A7AC0",
+    28852: "STALL_BUY",
+    28849: "STALL_CREATE",
+    28850: "STALL_DESTROY",
+    28853: "STALL_LEAVE",
+    28851: "STALL_TALK",
+    28858: "STALL_UPDATE",
+    29919: "TAP_INFO",
+    29920: "TAP_UPDATE",
+    28763: "TELEPORT_CANCEL",
+    28761: "TELEPORT_DESIGNATE",
+    28762: "TELEPORT_USE",
+    46192: "ACADEMY_CREATE",
+    46193: "ACADEMY_DISBAND",
+    46194: "sro_client.008997A0",
+    46195: "ACADEMY_KICK",
+    46196: "ACADEMY_LEAVE",
+    46197: "ACADEMY_GRADE",
+    46198: "sro_client.008998F0",
+    46199: "ACADEMY_UPDATE_COMMENT",
+    46200: "ACADEMY_HONOR_RANK",
+    46202: "ACCADEMY_MATCHING_REGISTER",
+    46203: "ACCADEMY_MATCHING_CHANGE",
+    46204: "ACCADEMY_MATCHING_DELETE",
+    46205: "ACCADEMY_MATCHING_LIST",
+    46206: "ACCADEMY_MATCHING_JOIN",
+    46211: "sro_client.0089B7B0",
+    15488: "ACADEMY_UPDATE",
+    15489: "ACADEMY_INFO",
+    15490: "ACADEMY_UPDATE_BUFF",
+    15494: "sro_client.0089BF00",
+    15495: "sro_client.0089BAE0",
+    45392: "ALCHEMY_REINFORCE",
+    45393: "ALCHEMY_ENCHANT",
+    45397: "ALCHEMY_MANUFACTURE",
+    12630: "ALCHEMY_CANCELED",
+    45399: "ALCHEMY_DISMANTLE",
+    45418: "ALCHEMY_SOCKET",
+    41219: "AUTH",
+    13522: "BARENA_OPERATION",
+    41748: "CAS_CLIENT",
+    25365: "CAS_SERVER_REQUEST",
+    45057: "CHARACTER_SELECTION_JOIN",
+    45063: "CHARACTER_SELECTION_ACTION",
+    46160: "CHARACTER_SELECTION_RENAME",
+    45093: "CHAT",
+    12326: "CHAT_UPDATE",
+    12333: "CHAT_RESTRICT",
+    45826: "COMMUNITY_FRIEND_ADD",
+    45828: "COMMUNITY_FRIEND_DELETE",
+    13061: "COMMUNITY_FRIEND_INFO",
+    45832: "COMMUNITY_MEMO_OPEN",
+    45833: "COMMUNITY_MEMO_SEND",
+    45834: "COMMUNITY_MEMO_DELETE",
+    45835: "COMMUNITY_MEMO_LIST",
+    45836: "COMMUNITY_MEMO_SEND_GROUP",
+    45837: "COMMUNITY_BLOCK",
+    46342: "CONSIGNMENT_DETAIL",
+    46343: "CONSIGNMENT_CLOSE",
+    46344: "CONSIGNMENT_REGISTER",
+    46345: "CONSIGNMENT_UNREGISTER",
+    46346: "CONSIGNMENT_BUY",
+    46347: "CONSIGNMENT_SETTLE",
+    46348: "CONSIGNMENT_SEARCH",
+    13581: "CONSIGNMENT_UPDATE",
+    46350: "CONSIGNMENT_LIST",
+    13616: "CONSIGNMENT_BUFF_ADD",
+    13617: "CONSIGNMENT_BUFF_REMOVE",
+    13618: "CONSIGNMENT_BUFF_UPDATE",
+    45253: "COS_COMMAND",
+    45254: "COS_TERMINATE",
+    45255: "sro_client.008A7AC0",
+    12488: "COS_INFO",
+    12489: "COS_UPDATE",
+    12490: "COS_UPDATE_STATE",
+    45259: "COS_UPDATE_RIDESTATE",
+    45334: "COS_UNSUMMON",
+    45335: "COS_NAME",
+    46112: "COS_UPDATE_SETTINGS",
+    12320: "ENVIRONMENT_CELESTIAL_POSITION",
+    12327: "ENVIRONMENT_CELESTIAL_UPDATE",
+    14345: "ENVIRONMENT_WEATHER_UPDATE",
+    45185: "EXCHANGE_START",
+    45186: "EXCHANGE_CONFIRM",
+    45187: "EXCHANGE_APPROVE",
+    45188: "EXCHANGE_CANCEL",
+    12421: "EXCHANGE_STARTED",
+    12422: "EXCHANGE_CONFIRMED",
+    12423: "EXCHANGE_APPROVED",
+    12424: "EXCHANGE_CANCELED",
+    12425: "EXCHANGE_UPDATE",
+    12428: "EXCHANGE_UPDATE_ITEMS",
+    46361: "FGW_RECALL_LIST",
+    46362: "FGW_RECALL_MEMBER",
+    29722: "FGW_RECALL_REQUEST",
+    46364: "FGW_RECALL_RESPONSE",
+    46365: "FGW_EXIT",
+    13598: "FGW_UPDATE",
+    13489: "FLAGWAR_UPDATE",
+    46358: "FRPVP_UPDATE",
+    12300: "GAME_NOTIFY",
+    13749: "GAME_RESET",
+    13502: "GAME_SERVERTIME",
+    45290: "GUIDE",
+    12527: "GUILD_ENTITY_UPDATE_HOSTILITY",
+    45296: "GUILD_CREATE",
+    45297: "GUILD_DISBAND",
+    45298: "GUILD_LEAVE",
+    45299: "GUILD_INVITE",
+    45300: "GUILD_KICK",
+    14581: "GUILD_UPDATE",
+    45302: "GUILD_DONATE_OBSOLETE",
+    45304: "sro_client.00881890",
+    45305: "GUILD_UPDATE_NOTICE",
+    45306: "GUILD_PROMOTE",
+    45307: "GUILD_UNION_INVITE",
+    45308: "GUILD_UNION_LEAVE",
+    45309: "GUILD_UNION_KICK",
+    45311: "GUILD_UPDATE_SIEGEAUTH",
+    12543: "GUILD_ENTITY_UPDATE",
+    12544: "GUILD_ENTITY_REMOVE",
+    13491: "GUILD_INFO_BEGIN",
+    12545: "GUILD_INFO_DATA",
+    13492: "GUILD_INFO_END",
+    12546: "GUILD_UNION_INFO",
+    12547: "GUILD_ENTITY_UPDATE_SIEGEAUTH",
+    45315: "GUILD_TRANSFER",
+    45316: "GUILD_UPDATE_PERMISSION",
+    45317: "GUILD_ELECTION_START",
+    45318: "GUILD_ELECTION_PARTICIPATE",
+    45319: "GUILD_ELECTION_VOTE",
+    14600: "GUILD_ELECTION_UPDATE",
+    12553: "GUILD_WAR_INFO",
+    45328: "GUILD_WAR_START",
+    45330: "GUILD_WAR_END",
+    45331: "sro_client.00881F80",
+    45332: "GUILD_WAR_REWARD",
+    45648: "GUILD_STORAGE_OPEN",
+    45649: "GUILD_STORAGE_CLOSE",
+    45650: "GUILD_STORAGE_LIST",
+    12883: "GUILD_STORAGE_BEGIN",
+    12884: "GUILD_STORAGE_END",
+    12885: "GUILD_STORAGE_DATA",
+    45654: "GUILD_UPDATE_NICKNAME",
+    12886: "GUILD_ENTITY_UPDATE_NICKNAME",
+    12887: "GUILD_ENTITY_UPDATE_CREST",
+    46337: "GUILD_GP_HISTORY",
+    12344: "INVENTORY_ENTITY_EQUIP",
+    12345: "INVENTORY_ENTITY_UNEQUIP",
+    12352: "INVENTORY_UPDATE_ITEM_STATS",
+    12353: "INVENTORY_ENTITY_EQUIP_TIMER_START",
+    12354: "INVENTORY_ENTITY_EQUIP_TIMER_STOP",
+    12359: "INVENTORY_STORAGE_INFO_BEGIN",
+    12360: "INVENTORY_STORAGE_INFO_END",
+    12361: "INVENTORY_STORAGE_INFO_DATA",
+    12370: "INVENTORY_UPDATE_ITEM_DURABILITY",
+    12434: "INVENTORY_UPDATE_SIZE",
+    12801: "INVENTORY_UPDATE_AMMO",
+    45108: "INVENTORY_OPERATION",
+    45116: "INVENTORY_STORAGE_OPEN",
+    45118: "INVENTORY_ITEM_REPAIR",
+    45119: "sro_client.00880A70",
+    45132: "INVENTORY_ITEM_USE",
+    12512: "JOB_UPDATE_PRICE",
+    45281: "JOB_JOIN",
+    45282: "JOB_LEAVE",
+    45283: "JOB_ALIAS",
+    45284: "JOB_RANKING",
+    45285: "JOB_OUTCOME",
+    45286: "JOB_PREV_INFO",
+    12518: "JOB_UPDATE_EXP",
+    12519: "JOB_COS_DISTANCE",
+    12520: "JOB_UPDATE_SCALE",
+    46292: "JOB_EXPORT_DETAIL",
+    13525: "JOB_UPDATE_SAFETRADE",
+    45061: "LOGOUT",
+    45062: "LOGOUT_CANCEL",
+    12298: "LOGUT_SUCCESS",
+    13482: "MAGICOPTION_GRANT",
+    13317: "OPERATOR_PUNISHMENT",
+    45072: "OPERATOR_COMMAND",
+    45152: "PARTY_CREATE",
+    45153: "PARTY_LEAVE",
+    45154: "PARTY_INVITE",
+    45155: "PARTY_KICK",
+    14436: "PARTY_UPDATE",
+    14437: "PARTY_CREATED",
+    12389: "PARTY_CREATED_FROM_MATCHING",
+    45159: "sro_client.OnJoinPartyAck",
+    12392: "PARTY_DISTRIBUTION",
+    45161: "PARTY_MATCHING_FORM",
+    45162: "PARTY_MATCHING_CHANGE",
+    45163: "PARTY_MATCHING_DELETE",
+    45164: "PARTY_MATCHING_LIST",
+    45165: "PARTY_MATCHING_JOIN",
+    12493: "PK_UPDATE_PENALTY",
+    12494: "PK_UPDATE_DAILY",
+    12499: "PK_UPDATE_LEVEL",
+    12501: "QUEST_UPDATE",
+    12502: "QUEST_MARK_ADD",
+    12503: "QUEST_MARK_REMOVE",
+    45272: "QUEST_DINGDONG",
+    45273: "QUEST_ABANDON",
+    12506: "QUEST_GATHER",
+    45275: "QUEST_GATHER_CANCEL",
+    12508: "QUEST_CAPTURE_RESULT",
+    12524: "QUEST_NOTIFY",
+    13588: "QUEST_REWARD_TALK",
+    13589: "QUEST_REWAD_SELECT",
+    15522: "QUEST_SCRIPT",
+    45149: "SIEGE_RETURN",
+    45150: "SIEGE_ACTION",
+    14431: "SIEGE_UPDATE",
+    45336: "SILK_GACHA_PLAY",
+    45337: "SILK_GACHA_EXCHANGE",
+    45338: "SILK_HISTORY",
+    12576: "SILK_GACHA_ANNOUNCE",
+    45345: "sro_client.008A1360",
+    12627: "SILK_UPDATE",
+    12628: "SILK_NOTIFY",
+    45217: "SKILL_LEARN",
+    45218: "SKILL_MASTERY_LEARN",
+    45570: "SKILL_WITHDRAW",
+    45571: "SKILL_MASTERY_WITHDRAW",
+    12804: "SKILL_WITHDRAW_INFO_WND",
+    45233: "STALL_CREATE",
+    45234: "STALL_DESTROY",
+    45235: "STALL_TALK",
+    45236: "STALL_BUY",
+    45237: "STALL_LEAVE",
+    12471: "STALL_ENTITY_ACTION",
+    12472: "STALL_ENTITY_CREATE",
+    12473: "STALL_ENTITY_DESTROY",
+    45242: "STALL_UPDATE",
+    12475: "STALL_ENTITY_NAME",
+    46303: "TAP_INFO",
+    46304: "TAP_UPDATE",
+    13537: "TAP_ICON",
+    45145: "TELEPORT_DESIGNATE",
+    45146: "TELEPORT_USE",
+    45147: "TELEPORT_CANCEL"
+  })
 };
