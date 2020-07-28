@@ -1,5 +1,3 @@
-import opcodes from "@config/global.opcodes";
-
 export default {
   module: 'DownloadServer',
   LOCAL: {
@@ -10,9 +8,10 @@ export default {
     HOST: '138.201.58.79',
     PORT: 16002
   },
-  packets: Object.assign(opcodes, {
-    24580: "FILE_REQUEST",
-    4097:  "FILE_CHUNK",
-    40964:  "FILE_COMPLETE"
-  })
+  whitelist: {
+    0x2001: 'GLOBAL_IDENTIFICATION',
+    0x2002: 'CLIENT_GLOBAL_PING',
+    0x9000: 'CLIENT_GLOBAL_HANDSHAKE_ACCEPT',
+    0x6004: 'CLIENT_DOWNLOAD_FILE_REQUEST'
+  }
 };

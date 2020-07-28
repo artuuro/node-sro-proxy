@@ -50,20 +50,21 @@ class Proxy {
     const receive = await ctx.instance[ctx.sender].security.GetPacketToRecv() || [];
 
     for (const packet of receive) {
-      if (ctx.config.debug) console.log(`[${ctx.sender}] > (${packet.opcode}) > [${target}] [${ctx.config.packets[packet.opcode] || "UNKNOWN"}]`);
+      if (ctx.config.debug) console.log(`[${ctx.sender}] > [${target}] (${packet.opcode})]`);
 
       const middleware = ctx.middleware[packet.opcode] || false;
 
-      if (middleware) {
-        const resultPacket = await middleware(packet, ctx);
-        if (resultPacket) await ctx.instance[target].security.Send(resultPacket.opcode, resultPacket.data, resultPacket.encrypted, resultPacket.massive);
-      } else {
-        await ctx.instance[target].security.Send(packet.opcode, packet.data, packet.encrypted, packet.massive);
+      if ((target === 'remote' && ctx.config.whitelist[packet.opcode]) || target == 'client') {
+        if (middleware) {
+          const resultPacket = await middleware(packet, ctx);
+          if (resultPacket) await ctx.instance[target].security.Send(resultPacket.opcode, resultPacket.data, resultPacket.encrypted, resultPacket.massive);
+        } else {
+          await ctx.instance[target].security.Send(packet.opcode, packet.data, packet.encrypted, packet.massive);
+        }
       }
     }
 
     const send = await ctx.instance[target].security.GetPacketToSend() || [];
-
     for (const packet of send) {
       await ctx.instance[target].socket.write(Buffer.from(packet));
     }
