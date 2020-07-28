@@ -1,71 +1,86 @@
 import { createServer } from 'net';
 import Client from '@core/Client';
 import Remote from '@core/Remote';
+import { EventEmitter } from 'events';
 
 class Proxy {
   constructor(config) {
     this.config = config;
+    this.instances = {};
+    this.interceptors = [];
+    this.events = new EventEmitter();
   }
 
-  setup() {
-    this.server = createServer(socket => {
+  remove(id) {
+    if (this.instances[id]) {
+      delete this.instances[id];
+      console.log(`[${id}] DISCONNECTED`);
+    }
+  }
 
-      console.log(`new conn`, socket.address())
+  listen(instance, id, sender) {
+    instance[sender].socket.on('error', () => this.remove(id));
+    instance[sender].socket.on('close', () => this.remove(id));
 
-      let local = new Client(socket).setup();
-      let remote = new Remote(this.config).setup();
+    instance[sender].socket.on('data', data => {
+      instance[sender].security.Recv(data.toJSON().data);
 
-      remote.socket.connect({
-        host: this.config.REMOTE.HOST,
-        port: this.config.REMOTE.PORT,
-        onread: {
-          buffer: Buffer.alloc(8 * 1024)
-        }
-      });
-
-      local.socket.on('data', data => local.security.Recv(data.toJSON().data));
-      remote.socket.on('data', data => remote.security.Recv(data.toJSON().data));
-
-
-      this.tick = setInterval(function () {
-        // RECEIVE
-        const localReceive = local.security.GetPacketToRecv() || [];
-        for (let index in localReceive) {
-          const packet = localReceive[index];
-          //console.log(`local`, packet);
-          remote.security.Send(packet.opcode, packet.data, packet.encrypted, packet.massive);
-        }
-
-        // SEND
-        const localSend = local.security.GetPacketToSend() || [];
-        for (let index in localSend) {
-          const packet = Buffer.from(localSend[index]);
-          local.socket.write(packet);
-        }
-
-
-        const remoteReceive = remote.security.GetPacketToRecv() || [];
-        for (let index in remoteReceive) {
-          const packet = remoteReceive[index];
-          local.security.Send(packet.opcode, packet.data, packet.encrypted, packet.massive);
-        }
-
-
-        const remoteSend = remote.security.GetPacketToSend() || [];
-        for (let index in remoteSend) {
-          const packet = Buffer.from(remoteSend[index]);
-          remote.socket.write(packet);
-        }
-
-      }, 1);
-
-      
+      if (this.instances[id]) {
+        this.events.emit('event', {
+          instance: instance,
+          sender: sender,
+          config: this.config
+        });
+      }
     });
 
+    console.log(`[${id}][${sender}] READY`);
+  }
 
+  async handleEvent(event) {
+    const target = event.sender == 'client' ? 'remote' : 'client';
+    const receive =  await event.instance[event.sender].security.GetPacketToRecv() || [];
 
+    for (const packet of receive) {
+      console.log(`[${event.sender}] > (${packet.opcode}) > [${target}] [${event.config.packets[packet.opcode]}]`);
+      
+      await event.instance[target].security.Send(packet.opcode, packet.data, packet.encrypted, packet.massive);
+    }
+
+    const send = await event.instance[target].security.GetPacketToSend() || [];
+
+    for (const packet of send) {
+      await event.instance[target].socket.write(Buffer.from(packet));
+    }
+
+  }
+
+  init() {
+    this.server = createServer(socket => {
+      const client = new Client(socket);
+      const remote = new Remote(this.config);
+
+      const id = `${socket.remoteAddress}:${socket.remotePort}`;
+
+      let instance = {
+        client: client.setup(),
+        remote: remote.setup()
+      };
+
+      // Listen for events from both sides:
+      this.listen(instance, id, 'client');
+      this.listen(instance, id, 'remote');
+
+      // Add to the pool:
+      Object.assign(this.instances, {
+        [id]: instance
+      });
+
+    });
+
+    this.events.on('event', this.handleEvent);
     this.server.listen(this.config.LOCAL.PORT, this.config.LOCAL.HOST);
-    console.log(`[${this.config.module}]${JSON.stringify(this.config.LOCAL)}`);
+    console.log(`READY: ${JSON.stringify(this.config.LOCAL)}`);
   }
 
 }
