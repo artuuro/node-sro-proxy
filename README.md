@@ -1,15 +1,15 @@
 # node-sr-proxy (WIP)
-_NodeJS (ES9) packet interceptor & middle-ware layer for MMORPG Silkroad Online Game Server & Client._
+_NodeJS (ES9) packet interceptor & middle-ware layer for MMORPG Silkroad Online Game Client <---> Server._
 
 # Features
 - Packet whitelisting
-- Opcode intercepting (middlewares)
+- Packet intercepting & manipulation
 - Multi module
-
 ## Prerequesities
 - NodeJS LTS: https://nodejs.org/dist/v12.18.3/node-v12.18.3-x64.msi
 - Silkroad Online game client & server 
 - Yarn package manager: `npm i -g yarn`
+- PM2 `yarn add -g pm2`
 ## Setup
 - Install dependencies `yarn`
 - Configure modules at `src/config/` files accordingly.
@@ -22,13 +22,14 @@ _NodeJS (ES9) packet interceptor & middle-ware layer for MMORPG Silkroad Online 
 - GatewayServer `yarn GatewayServer`
 - AgentServer `yarn AgentServer`
 - DownloadServer `yarn DownloadServer`
+- All at once `pm2 start && pm2 dashboard`
 ## Build
 `yarn build`
+# What else?
+- packet docs https://github.com/DummkopfOfHachtenduden/SilkroadDoc
+- silkroad-security https://github.com/EmirAzaiez/SilkroadSecurityJS
 ## Wish to contribute?
-- Use issues.
-- Do a pull request, thanks.
+- For bug reporting use issues.
+- For code contributions do a pull request.
 
-
-PACKETS DOCUMENTATION: https://github.com/DummkopfOfHachtenduden/SilkroadDoc
-Built with ♡ by Artuuro @ https://sroparadise.net,
-Special thanks to https://github.com/EmirAzaiez/SilkroadSecurityJS
+Built with ♡ by Artuuro @ https://sroparadise.net

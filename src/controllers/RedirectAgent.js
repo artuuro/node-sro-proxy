@@ -21,5 +21,4 @@ export default async (packet, ctx) => {
     default:
       return packet;
   }
-
 };

@@ -3,6 +3,6 @@ class EventHandler {
     this.ctx = context;
     
   }
-
-
 }
+
+export default EventHandler;
