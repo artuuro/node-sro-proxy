@@ -1,6 +1,7 @@
 import { createServer } from 'net';
 import Client from '@core/Client';
 import Remote from '@core/Remote';
+// import EventHandler from '@core/EventHandler';
 import { EventEmitter } from 'events';
 
 class Proxy {
@@ -45,17 +46,13 @@ class Proxy {
     console.log(`READY: [${id}][${sender}]`);
   }
 
+  // Move to EventHandler
   async handleEvent(ctx) {
     const target = ctx.sender == 'client' ? 'remote' : 'client';
     const receive = await ctx.instance[ctx.sender].security.GetPacketToRecv() || [];
-
     for (const packet of receive) {
-      if (ctx.config.debug) console.log(`[${ctx.sender}] > [${target}] (${packet.opcode})]`);
-
-      const middleware = ctx.middleware[packet.opcode] || false;
-
       if ((target === 'remote' && ctx.config.whitelist[packet.opcode]) || target == 'client') {
-        if (middleware) {
+        if (ctx.middleware[packet.opcode]) {
           const resultPacket = await middleware(packet, ctx);
           if (resultPacket) await ctx.instance[target].security.Send(resultPacket.opcode, resultPacket.data, resultPacket.encrypted, resultPacket.massive);
         } else {
@@ -63,7 +60,6 @@ class Proxy {
         }
       }
     }
-
     const send = await ctx.instance[target].security.GetPacketToSend() || [];
     for (const packet of send) {
       await ctx.instance[target].socket.write(Buffer.from(packet));
