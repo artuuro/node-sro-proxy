@@ -63,9 +63,8 @@ class Proxy {
       });
     });
    
-    this.server.listen(this.config.LOCAL.PORT, this.config.LOCAL.HOST);
-
     this.events.on('event', EventHandler);
+    this.server.listen(this.config.LOCAL.PORT, this.config.LOCAL.HOST);
 
     console.log(`READY: ${this.config.module} ${JSON.stringify(this.config.LOCAL)}`);
   }
