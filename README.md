@@ -1,10 +1,15 @@
-# node-sr-proxy (WIP)
+# node-sr-proxy
 _NodeJS (ES9) packet interceptor & middle-ware layer for MMORPG Silkroad Online Game Client <---> Server._
 
 # Features
-- Packet whitelisting
+- Correct client->server opcode whitelisting
 - Packet intercepting & manipulation
 - Multi module
+- Basic middlewares:
+  - Auto-Captcha (see `config/Gateway.js`)
+  - AgentServer redirection
+  - Client handshake blocker
+
 ## Prerequesities
 - NodeJS LTS: https://nodejs.org/dist/v12.18.3/node-v12.18.3-x64.msi
 - Silkroad Online game client & server 
