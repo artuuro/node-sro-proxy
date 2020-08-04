@@ -36,12 +36,13 @@ class Proxy {
           instance: instance,
           sender: sender,
           config: this.config,
-          middleware: this.middlewares[sender]
+          event: this.events,
+          middlewares: this.middlewares[sender] || false
         });
       }
     });
 
-    console.log(`READY: [${id}][${sender}]`);
+    console.log(`INSTANCE READY: [${id}][${sender}]`);
   }
 
   init() {
@@ -53,6 +54,7 @@ class Proxy {
         client: client.setup(),
         remote: remote.setup()
       };
+
       this.listen(instance, id, 'client');
       this.listen(instance, id, 'remote');
 
@@ -60,12 +62,13 @@ class Proxy {
         [id]: instance
       });
     });
+   
+    this.server.listen(this.config.LOCAL.PORT, this.config.LOCAL.HOST);
 
     this.events.on('event', EventHandler);
-    this.server.listen(this.config.LOCAL.PORT, this.config.LOCAL.HOST);
+
     console.log(`READY: ${this.config.module} ${JSON.stringify(this.config.LOCAL)}`);
   }
-
 }
 
 export default Proxy;

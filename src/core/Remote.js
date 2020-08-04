@@ -1,6 +1,5 @@
 import { SilkroadSecurityJS as Security } from 'silkroad-security';
 import { Socket } from 'net';
-
 class Remote {
   constructor(config) {
     this.config = config;
@@ -16,6 +15,7 @@ class Remote {
         buffer: Buffer.alloc(8 * 1024)
       }
     });
+    
     return {
       security: this.security,
       socket: this.socket

@@ -1,9 +1,11 @@
 import { stream } from 'silkroad-security';
 
-export default async (packet, ctx) => {
+async function RedirectAgent(Event, packet, target) {
+  const { AGENT_REDIRECT } = Event.config;
   const read = new stream.reader(packet.data);
   const status = read.uint8();
-
+  let data = {};
+  
   switch (status) {
     case 1:
       const token = read.uint32();
@@ -11,14 +13,20 @@ export default async (packet, ctx) => {
 
       _packet.uint8(status);
       _packet.uint32(token);
-      _packet.string(ctx.config.AGENT_REDIRECT.HOST);
-      _packet.uint16(ctx.config.AGENT_REDIRECT.PORT);
+      _packet.string(AGENT_REDIRECT.HOST);
+      _packet.uint16(AGENT_REDIRECT.PORT);
 
-      return {
+      data = {
         ...packet,
         data: _packet.toData()
       };
+      break;
     default:
-      return packet;
+      data = packet;
+      break;
   }
-};
+
+  await Event.instance[target].security.Send(data.opcode, data.data, data.encrypted, data.massive);
+}
+
+export default RedirectAgent;
