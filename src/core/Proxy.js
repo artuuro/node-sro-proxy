@@ -1,4 +1,4 @@
-import { Client, Remote, EventHandler } from '@core/index';
+import { Client, Remote, Packet, Scheduler } from '@core/index';
 import { createServer } from 'net';
 import { EventEmitter } from 'events';
 
@@ -63,7 +63,7 @@ class Proxy {
       });
     });
    
-    this.events.on('event', EventHandler);
+    this.events.on('event', Packet);
     this.server.listen(this.config.LOCAL.PORT, this.config.LOCAL.HOST);
 
     console.log(`READY: ${this.config.module} ${JSON.stringify(this.config.LOCAL)}`);
