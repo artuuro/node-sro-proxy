@@ -20,7 +20,7 @@ class Proxy {
   remove(id) {
     if (this.instances[id]) {
       delete this.instances[id];
-      console.log(`[${id}] DISCONNECTED`);
+      if (this.config.debug) console.log(`[Client]->{${id}}->(disconnected)`);
     }
   }
 
@@ -41,8 +41,6 @@ class Proxy {
         });
       }
     });
-
-    console.log(`INSTANCE READY: [${id}][${sender}]`);
   }
 
   init() {
@@ -50,10 +48,13 @@ class Proxy {
       const client = new Client(socket);
       const remote = new Remote(this.config);
       const id = `${socket.remoteAddress}:${socket.remotePort}`;
+
       let instance = {
         client: client.setup(),
         remote: remote.setup()
       };
+
+      if (this.config.debug) console.log(`[Client]->{${id}}->(connected)`);
 
       this.listen(instance, id, 'client');
       this.listen(instance, id, 'remote');
@@ -66,7 +67,7 @@ class Proxy {
     this.events.on('event', Event);
     this.server.listen(this.config.LOCAL.PORT, this.config.LOCAL.HOST);
 
-    console.log(`READY: ${this.config.module} ${JSON.stringify(this.config.LOCAL)}`);
+    if (this.config.debug) console.log(`[${this.config.module}]->${JSON.stringify(this.config.LOCAL)}->(ready)`);
   }
 }
 
