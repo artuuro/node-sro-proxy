@@ -1,9 +1,9 @@
-import BlockClientHandshake from './BlockClientHandshake';
 import RedirectAgent from './RedirectAgent';
 import AutoCaptcha from './AutoCaptcha';
+import RedirectDownload from './RedirectDownload';
 
 export {
-  BlockClientHandshake,
   RedirectAgent,
-  AutoCaptcha
+  AutoCaptcha,
+  RedirectDownload
 };

@@ -1,7 +1,7 @@
 import { stream } from 'silkroad-security';
 
 async function RedirectAgent(Event, packet, target) {
-  const { AGENT_REDIRECT } = Event.config;
+  const { AgentServer } = Event.config.REDIRECT;
   const read = new stream.reader(packet.data);
   const status = read.uint8();
   let data = {};
@@ -13,8 +13,8 @@ async function RedirectAgent(Event, packet, target) {
 
       _packet.uint8(status);
       _packet.uint32(token);
-      _packet.string(AGENT_REDIRECT.HOST);
-      _packet.uint16(AGENT_REDIRECT.PORT);
+      _packet.string(AgentServer.HOST);
+      _packet.uint16(AgentServer.PORT);
 
       data = {
         ...packet,

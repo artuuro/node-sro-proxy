@@ -1,13 +1,6 @@
 import Proxy from "@core/Proxy";
-import config from "@config/Agent";
-import schedules from "@config/Schedules";
-import * as ctrl from '@control/index';
+import { AgentServer } from "@config/index";
 
-const module = new Proxy({
-  schedules: schedules,
-  ...config
-});
-
-module.middleware('client', 0x2001, ctrl.BlockClientHandshake);
+const module = new Proxy(AgentServer);
 
 module.init();

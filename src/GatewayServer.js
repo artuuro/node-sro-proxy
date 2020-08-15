@@ -1,11 +1,11 @@
 import Proxy from '@core/Proxy';
-import config from '@config/Gateway';
-import * as ctrl from '@control/index';
+import { GatewayServer } from '@config/index';
+import * as ctrl from '@mw/index';
 
-const module = new Proxy(config);
+const module = new Proxy(GatewayServer);
 
-module.middleware('client', 0x2001, ctrl.BlockClientHandshake); //8193
-module.middleware('remote', 0xA102, ctrl.RedirectAgent); //41218
-module.middleware('remote', 0x2322, ctrl.AutoCaptcha); //8994
+module.middleware('remote', 0xA100, ctrl.RedirectDownload);
+module.middleware('remote', 0xA102, ctrl.RedirectAgent);
+module.middleware('remote', 0x2322, ctrl.AutoCaptcha);
 
 module.init();

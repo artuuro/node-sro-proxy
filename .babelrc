@@ -25,9 +25,13 @@
                         "./src/config",
                         "./bin/config"
                     ],
-                    "@control": [
-                        "./src/controllers",
-                        "./bin/controllers"
+                    "@mw": [
+                        "./src/middlewares",
+                        "./bin/middlewares"
+                    ],
+                    "@middleware": [
+                        "./src/middlewares",
+                        "./bin/middlewares"
                     ]
                 }
             }

@@ -1,6 +1,6 @@
 import Proxy from "@core/Proxy";
-import config from "@config/Download";
+import { DownloadServer } from "@config/index";
 
-const module = new Proxy(config);
+const module = new Proxy(DownloadServer);
 
 module.init();
