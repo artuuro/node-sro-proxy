@@ -2,6 +2,7 @@ export default {
   debug: true,
   module: 'GatewayServer',
   CAPTCHA: '0',
+  FAKE_PLAYERS: 82,
   LOCAL: {
     HOST: "0.0.0.0",
     PORT: 7001

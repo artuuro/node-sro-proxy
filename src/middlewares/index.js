@@ -1,9 +1,11 @@
 import RedirectAgent from './RedirectAgent';
-import AutoCaptcha from './AutoCaptcha';
 import RedirectDownload from './RedirectDownload';
+import AutoCaptcha from './AutoCaptcha';
+import RewriteShardList from './RewriteShardList';
 
 export {
   RedirectAgent,
+  RedirectDownload,
   AutoCaptcha,
-  RedirectDownload
+  RewriteShardList,
 };

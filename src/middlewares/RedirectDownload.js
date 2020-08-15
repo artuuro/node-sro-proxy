@@ -6,7 +6,7 @@ async function RedirectAgent(Event, packet, target) {
 
   const status = read.uint8();
 
-  let data = {};
+  let _packet = {};
 
   if (status == 2) {
     const statusCode = read.uint8();
@@ -15,17 +15,17 @@ async function RedirectAgent(Event, packet, target) {
       read.uint16();
 
       let version = read.uint32();
-      let loop = read.uint8();
+      let hasEntry = read.uint8();
 
-      const _packet = new stream.writer();
-      _packet.uint8(status);
-      _packet.uint8(statusCode);
-      _packet.string(DownloadServer.HOST);
-      _packet.uint16(DownloadServer.PORT);
-      _packet.uint32(version);
-      _packet.uint8(loop);
+      const write = new stream.writer();
+      write.uint8(status);
+      write.uint8(statusCode);
+      write.string(DownloadServer.HOST);
+      write.uint16(DownloadServer.PORT);
+      write.uint32(version);
+      write.uint8(hasEntry);
 
-      while (loop == 1) {
+      while (hasEntry == 1) {
         const file = {
           id: read.uint32(),
           name: read.string(),
@@ -34,26 +34,31 @@ async function RedirectAgent(Event, packet, target) {
           toPack: read.uint8()
         };
 
-        loop = read.uint8();
+        hasEntry = read.uint8();
 
-        _packet.uint32(file.id);
-        _packet.string(file.name);
-        _packet.string(file.path);
-        _packet.uint32(file.size);
-        _packet.uint8(file.toPack);
-        _packet.uint8(loop);
+        write.uint32(file.id);
+        write.string(file.name);
+        write.string(file.path);
+        write.uint32(file.size);
+        write.uint8(file.toPack);
+        write.uint8(hasEntry);
       }
 
-      data = {
+      _packet = {
         ...packet,
-        data: _packet.toData()
+        data: write.toData()
       };
     }
   } else {
-    data = packet;
+    _packet = packet;
   }
-
-  await Event.instance[target].security.Send(data.opcode, data.data, data.encrypted, data.massive);
+  
+  await Event.instance[target].security.Send(
+    _packet.opcode,
+    _packet.data,
+    _packet.encrypted,
+    _packet.massive
+  );
 }
 
 export default RedirectAgent;

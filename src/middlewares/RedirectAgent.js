@@ -4,29 +4,34 @@ async function RedirectAgent(Event, packet, target) {
   const { AgentServer } = Event.config.REDIRECT;
   const read = new stream.reader(packet.data);
   const status = read.uint8();
-  let data = {};
-  
+  let _packet = {};
+
   switch (status) {
     case 1:
       const token = read.uint32();
-      const _packet = new stream.writer();
+      const write = new stream.writer();
 
-      _packet.uint8(status);
-      _packet.uint32(token);
-      _packet.string(AgentServer.HOST);
-      _packet.uint16(AgentServer.PORT);
+      write.uint8(status);
+      write.uint32(token);
+      write.string(AgentServer.HOST);
+      write.uint16(AgentServer.PORT);
 
-      data = {
+      _packet = {
         ...packet,
-        data: _packet.toData()
+        data: write.toData()
       };
       break;
     default:
-      data = packet;
+      _packet = packet;
       break;
   }
-
-  await Event.instance[target].security.Send(data.opcode, data.data, data.encrypted, data.massive);
+  
+  await Event.instance[target].security.Send(
+    _packet.opcode,
+    _packet.data,
+    _packet.encrypted,
+    _packet.massive
+  );
 }
 
 export default RedirectAgent;
