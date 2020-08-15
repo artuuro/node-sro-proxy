@@ -13,11 +13,11 @@ export default {
   },
   REDIRECT: {
     AgentServer: {
-      HOST: "127.0.0.1",
+      HOST: "138.201.58.79",
       PORT: 7002
     },
     DownloadServer: {
-      HOST: "127.0.0.1",
+      HOST: "138.201.58.79",
       PORT: 7003
     }
   },
