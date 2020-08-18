@@ -1,15 +1,15 @@
-import { stream } from 'silkroad-security';
-
-async function RedirectAgent(Event, packet, target) {
+async function RedirectAgent(Event, packet) {
   const { AgentServer } = Event.config.REDIRECT;
-  const read = new stream.reader(packet.data);
+  const { writer, reader } = Event.stream;
+
+  const read = new reader(packet.data);
   const status = read.uint8();
   let _packet = {};
 
   switch (status) {
     case 1:
       const token = read.uint32();
-      const write = new stream.writer();
+      const write = new writer();
 
       write.uint8(status);
       write.uint32(token);
@@ -26,12 +26,7 @@ async function RedirectAgent(Event, packet, target) {
       break;
   }
   
-  await Event.instance[target].security.Send(
-    _packet.opcode,
-    _packet.data,
-    _packet.encrypted,
-    _packet.massive
-  );
+  return _packet;
 }
 
 export default RedirectAgent;

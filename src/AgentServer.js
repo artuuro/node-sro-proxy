@@ -6,4 +6,4 @@ const module = new Proxy(AgentServer);
 
 module.middleware('client', 0x705E, ctrl.SiegeActionSQLi);
 
-module.init();
+module.run();

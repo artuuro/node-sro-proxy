@@ -9,8 +9,8 @@ export default {
     PORT: 16002
   },
   whitelist: {
-    0x2002: 'CLIENT_GLOBAL_PING',
-    0x9000: 'CLIENT_GLOBAL_HANDSHAKE_ACCEPT',
-    0x6004: 'CLIENT_DOWNLOAD_FILE_REQUEST'
+    0x2002: 'PING',
+    0x9000: 'HANDSHAKE_ACCEPT',
+    0x6004: 'FILE_REQUEST'
   }
 };

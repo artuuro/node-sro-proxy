@@ -1,9 +1,9 @@
-import { stream } from 'silkroad-security';
-
-async function ServerStatus(Event, packet, target) {
-  const read = new stream.reader(packet.data);
+async function ServerStatus(Event, packet) {
   const { FAKE_PLAYERS } = Event.config;
-  const write = new stream.writer();
+  const { reader, writer } = Event.stream;
+
+  const read = new reader(packet.data);
+  const write = new writer();
 
   let hasFarmEntries = read.uint8();
 
@@ -44,17 +44,10 @@ async function ServerStatus(Event, packet, target) {
     write.uint8(hasShardEntries);
   }
 
-  let _packet = {
+  return {
     ...packet,
     data: write.toData()
   };
-
-  await Event.instance[target].security.Send(
-    _packet.opcode, 
-    _packet.data, 
-    _packet.encrypted, 
-    _packet.massive
-  );
 }
 
 export default ServerStatus;

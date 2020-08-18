@@ -1,16 +1,23 @@
+import { stream } from 'silkroad-security';
 import { Client, Remote, Event } from '@core/index';
 import { createServer } from 'net';
 import { EventEmitter } from 'events';
 
 class Proxy {
   constructor(config) {
-    this.config = config;
-    this.instances = {};
-    this.middlewares = {
-      client: {},
-      remote: {}
-    };
-    this.events = new EventEmitter();
+    Object.assign(this, {
+      config: {
+        debug: process.env.NODE_ENV == 'development',
+        ...config
+      },
+      instances: {},
+      middlewares: {
+        client: {},
+        remote: {}
+      },
+      stream: stream,
+      events: new EventEmitter()
+    });
   }
 
   middleware(side, opcode, action) {
@@ -36,6 +43,7 @@ class Proxy {
           instance: instance,
           sender: sender,
           config: this.config,
+          stream: this.stream,
           event: this.events,
           middlewares: this.middlewares[sender] || false
         });
@@ -43,7 +51,7 @@ class Proxy {
     });
   }
 
-  init() {
+  run() {
     this.server = createServer(socket => {
       const client = new Client(socket);
       const remote = new Remote(this.config);

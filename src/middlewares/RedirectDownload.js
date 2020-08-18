@@ -1,9 +1,8 @@
-import { stream } from 'silkroad-security';
-
-async function RedirectAgent(Event, packet, target) {
+async function RedirectAgent(Event, packet) {
   const { DownloadServer } = Event.config.REDIRECT;
-  const read = new stream.reader(packet.data);
+  const { reader, writer } = Event.stream;
 
+  const read = new reader(packet.data);
   const status = read.uint8();
 
   let _packet = {};
@@ -17,7 +16,7 @@ async function RedirectAgent(Event, packet, target) {
       let version = read.uint32();
       let hasEntry = read.uint8();
 
-      const write = new stream.writer();
+      const write = new writer();
       write.uint8(status);
       write.uint8(statusCode);
       write.string(DownloadServer.HOST);
@@ -53,12 +52,7 @@ async function RedirectAgent(Event, packet, target) {
     _packet = packet;
   }
   
-  await Event.instance[target].security.Send(
-    _packet.opcode,
-    _packet.data,
-    _packet.encrypted,
-    _packet.massive
-  );
+  return _packet;
 }
 
 export default RedirectAgent;

@@ -1,12 +1,13 @@
 {
-  "name": "node-sr-proxy",
-  "version": "1.0.0",
+  "name": "node-sro-proxy",
+  "version": "2.0.1",
   "description": "Stateless NodeJS (ES6+) middleware layer for online MMORPG Silkroad Online",
   "main": "index.js",
-  "author": "LITTLE.TOWN",
+  "author": "Arthur G",
   "license": "MIT",
   "private": true,
   "scripts": {
+    "install": "yarn --ignore-scripts",
     "GatewayServer": "cross-env MODULE=GatewayServer npm-run-all prod",
     "DownloadServer": "cross-env MODULE=DownloadServer npm-run-all prod",
     "AgentServer": "cross-env MODULE=AgentServer npm-run-all prod",

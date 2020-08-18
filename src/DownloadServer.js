@@ -3,4 +3,4 @@ import { DownloadServer } from "@config/index";
 
 const module = new Proxy(DownloadServer);
 
-module.init();
+module.run();

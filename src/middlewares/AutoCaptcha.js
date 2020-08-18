@@ -1,9 +1,8 @@
-import { stream } from 'silkroad-security';
-
 async function AutoCaptcha(Event) {
   const { remote } = Event.instance;
+  const { writer } = Event.stream;
 
-  const reply = new stream.writer();
+  const reply = new writer();
   reply.string(Event.config.CAPTCHA);
 
   await remote.security.Send(0x6323, reply, false, false);
