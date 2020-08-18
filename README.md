@@ -7,10 +7,10 @@ _NodeJS (ES9) packet interceptor & middle-ware layer for MMORPG Silkroad Online 
 - Multi module
 - Basic middlewares:
   - Auto-Captcha
-  - Online players
   - AgentServer redirect
   - DownloadServer redirect
   - ShardList rewrite (fake online players)
+  - Fortress SQL injection fix
 
 ## Prerequesities
 - NodeJS LTS: https://nodejs.org/dist/v12.18.3/node-v12.18.3-x64.msi
