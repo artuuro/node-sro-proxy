@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "install": "yarn --ignore-scripts",
+    "install:db": "cross-env MODULE=CreateDB npm-run-all prod",
     "GatewayServer": "cross-env MODULE=GatewayServer npm-run-all prod",
     "DownloadServer": "cross-env MODULE=DownloadServer npm-run-all prod",
     "AgentServer": "cross-env MODULE=AgentServer npm-run-all prod",
@@ -27,9 +28,11 @@
   "dependencies": {
     "lodash": "^4.17.19",
     "long": "^4.0.0",
+    "node-cache": "^5.1.2",
     "npm-run-all": "^4.1.5",
+    "sequelize": "^6.3.4",
     "silkroad-security": "^0.0.7",
-    "uuid": "^8.2.0"
+    "tedious": "^9.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.0",

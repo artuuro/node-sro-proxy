@@ -3,6 +3,8 @@ import RedirectDownload from './RedirectDownload';
 import AutoCaptcha from './AutoCaptcha';
 import RewriteShardList from './RewriteShardList';
 import SiegeActionSQLi from './SiegeActionSQLi';
+import UserChatInput from './UserChatInput';
+import HardwareID from './HardwareID';
 
 export {
   RedirectAgent,
@@ -10,4 +12,6 @@ export {
   AutoCaptcha,
   RewriteShardList,
   SiegeActionSQLi,
+  UserChatInput,
+  HardwareID 
 };

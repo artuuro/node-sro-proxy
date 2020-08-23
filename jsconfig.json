@@ -8,11 +8,14 @@
       "@core/*": [
         "src/core/*"
       ],
-      "@mw/*": [
-        "src/middlewares/*"
+      "@control/*": [
+        "src/controllers/*"
       ],
-      "@middleware/*": [
-        "src/middlewares/*"
+      "@service/*": [
+        "src/services/*"
+      ],
+      "@model/*": [
+        "src/models/*"
       ]
     }
   },

@@ -8,6 +8,19 @@ export default {
     HOST: '138.201.58.79',
     PORT: 16004
   },
+  CHAT_TYPES: {
+    1: 'Public',
+    2: 'Private',
+    3: '(Elevated)Public',
+    4: 'Party',
+    5: 'Guild',
+    6: 'Global',
+    7: '(Elevated)Notice',
+    9: 'Stall',
+    11: 'Union',
+    13: 'NPC Quest',
+    16: 'Academy'
+  },
   whitelist: {
     0x7474: 'ACADEMY_LEAVE',
     0x7150: 'ALCHEMY_REINFORCE',

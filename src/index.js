@@ -1,6 +1,6 @@
 const module = process.env.MODULE || false;
 
-process.on('uncaughtException', error => console.log(error));
+process.on('uncaughtException', console.error);
 
 try {
   require(`./${module}`);

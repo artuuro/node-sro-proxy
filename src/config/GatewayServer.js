@@ -3,20 +3,20 @@ export default {
   CAPTCHA: '0',
   FAKE_PLAYERS: 0,
   LOCAL: {
-    HOST: "0.0.0.0",
+    HOST: '0.0.0.0',
     PORT: 7001
   },
   REMOTE: {
-    HOST: "138.201.58.79",
+    HOST: '138.201.58.79',
     PORT: 15779
   },
   REDIRECT: {
     AgentServer: {
-      HOST: "138.201.58.79",
+      HOST: '127.0.0.1', //138.201.58.79
       PORT: 7002
     },
     DownloadServer: {
-      HOST: "138.201.58.79",
+      HOST: '127.0.0.1', //138.201.58.79
       PORT: 7003
     }
   },
@@ -27,6 +27,7 @@ export default {
     0x6101: 'SHARD_LIST_REQUEST',
     0x6102: 'LOGIN_REQUEST',
     0x6104: 'NOTICE_REQUEST',
-    0x6106: 'SHARD_LIST_PING_REQUEST'
+    0x6106: 'SHARD_LIST_PING_REQUEST',
+    0xCAFE: 'HWID_REGISTRATION'
   }
 };

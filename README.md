@@ -1,47 +1,49 @@
-# node-sr-proxy
-_NodeJS (ES9) packet interceptor & middle-ware layer for MMORPG Silkroad Online Game Client <---> Server._
+# node-sro-proxy
 
-# Features
-- Correct client->server opcode whitelisting
-- Packet intercepting & manipulation
-- Multi module
+
+## Features
+- Low memory footprint & latency
+- Client->server packet whitelists
+- Both way packet interception & manipulation
 - Basic middlewares:
+  - Client HWID capture
   - Auto-Captcha
   - AgentServer redirect
   - DownloadServer redirect
   - ShardList rewrite (fake online players)
   - Fortress SQL injection fix
 
-## Prerequesities
+### Prerequesities
 - NodeJS LTS: https://nodejs.org/dist/v12.18.3/node-v12.18.3-x64.msi
 - Silkroad Online game client & server 
 - Yarn package manager: `npm i -g yarn`
 - PM2 `yarn add -g pm2`
 
-## Setup
+### Setup
 - Install dependencies `yarn`
-- Configure modules at `src/config/` files accordingly.
-- Write middlewares by example from `src/controllers/`.
+- Setup `src/config/AgentServer.js`, `src/config/GatewayServer.js` and `src/config/DownloadServer.js` accordingly.
+- Rename `src/config/Database.js.example` to `Database.js` and configure accordingly.
+- Run `yarn install:db` to create (or drop & create again) the initial database.
 
-## Launch development mode
+### Launch in development mode
 - GatewayServer `yarn dev:GatewayServer`
 - AgentServer `yarn dev:AgentServer`
 - DownloadServer `yarn dev:DownloadServer`
 
-## Launch production mode
+### Launch in production mode
 - GatewayServer `yarn GatewayServer`
 - AgentServer `yarn AgentServer`
 - DownloadServer `yarn DownloadServer`
 - All at once `pm2 start && pm2 dashboard`
 
-## Build
+### Build
 `yarn build`
 
-# What else?
+## What else?
 - packet docs https://github.com/DummkopfOfHachtenduden/SilkroadDoc
 - silkroad-security https://github.com/EmirAzaiez/SilkroadSecurityJS
 
-## Would like to contribute?
+## Contributions?
 - For bug reporting use issues.
 - For code contributions do a pull request.
 
