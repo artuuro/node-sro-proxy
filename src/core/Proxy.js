@@ -50,7 +50,7 @@ class Proxy {
     return {
       id: input,
       ip, 
-      port,
+      port
     };
   }
 

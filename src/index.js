@@ -8,9 +8,7 @@ process.on('uncaughtException', error => {
 process.on('unhandledRejection', (error, promise) => {
   console.log(`[${module}]->(UnhandledRejection)->${promise}`);
   console.log(`[${module}]->(error)->${error}`);
-  promise.catch(() => {
-    console.log(`---- [FALLBACK COMPLETE] ----`);
-  });
+  promise.catch();
 });
 
 try {

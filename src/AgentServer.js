@@ -10,7 +10,7 @@ const module = new Proxy({
 
 (async () => {
   await module.registerService('database', svc.MSSQL);
-  await module.registerService('cache', svc.MemoryCache);
+  await module.registerService('cache', svc.Cache);
 
   await module.middleware('client', 0x705E, ctrl.SiegeActionSQLi);
   await module.middleware('client', 0x7025, ctrl.UserChatInput);
