@@ -1,9 +1,20 @@
 const module = process.env.MODULE || false;
 
-process.on('uncaughtException', console.error);
+// Let's not allow the app to exit and handle the shit globally:
+process.on('uncaughtException', error => {
+  console.log(`[uncaughtException]\n`, error);
+});
+
+process.on('unhandledRejection', (error, promise) => {
+  console.log(`[${module}]->(UnhandledRejection)->${promise}`);
+  console.log(`[${module}]->(error)->${error}`);
+  promise.catch(() => {
+    console.log(`---- [FALLBACK COMPLETE] ----`);
+  });
+});
 
 try {
   require(`./${module}`);
 } catch (error) {
-  throw new Error(error);
+  console.log(`[${module}]->(error)->${error}`);
 }
