@@ -1,7 +1,7 @@
 import MSSQL from './MSSQL';
-import MemoryCache from './MemoryCache';
+import Cache from './Cache';
 
 export {
   MSSQL,
-  MemoryCache
+  Cache
 };

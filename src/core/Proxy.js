@@ -109,7 +109,7 @@ class Proxy {
     this.events.on('event', Event);
     this.server.listen(this.config.LOCAL.PORT, this.config.LOCAL.HOST);
 
-    if (this.config.debug) console.log(`[${this.config.module}]->${JSON.stringify(this.config.LOCAL)}->(ready)`);
+    console.log(`[${this.config.module}]->${JSON.stringify(this.config.LOCAL)}->(ready)`);
   }
 }
 

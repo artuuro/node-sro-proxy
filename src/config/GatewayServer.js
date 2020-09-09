@@ -2,6 +2,7 @@ export default {
   module: 'GatewayServer',
   CAPTCHA: '0',
   FAKE_PLAYERS: 0,
+  HWID_LIMIT: 4,
   LOCAL: {
     HOST: '0.0.0.0',
     PORT: 7001

@@ -9,13 +9,12 @@ const module = new Proxy({
 });
 
 (async () => {
-  await module.registerService('database', svc.MSSQL);
-  await module.registerService('cache', svc.MemoryCache);
-
+  await module.registerService('cache', svc.Cache);
+  
   await module.middleware('client', 0xCAFE, ctrl.HardwareID);
   await module.middleware('remote', 0xA100, ctrl.RedirectDownload);
-  await module.middleware('remote', 0xA102, ctrl.RedirectAgent);
   await module.middleware('remote', 0xA101, ctrl.RewriteShardList);
+  await module.middleware('remote', 0xA102, ctrl.LoginResponse);
   await module.middleware('remote', 0x2322, ctrl.AutoCaptcha);
 
   await module.start();

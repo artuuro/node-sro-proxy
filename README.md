@@ -42,6 +42,7 @@
 ## What else?
 - packet docs https://github.com/DummkopfOfHachtenduden/SilkroadDoc
 - silkroad-security https://github.com/EmirAzaiez/SilkroadSecurityJS
+- SequelizeJS https://sequelize.org/master/manual/model-basics.html
 
 ## Contributions?
 - For bug reporting use issues.

@@ -1,9 +1,9 @@
-import Cache from 'node-cache';
+import NodeCache from 'node-cache';
 
-class MemoryCache {
+class Cache {
   async attach() {
     try {
-      Object.assign(this, new Cache());
+      Object.assign(this, new NodeCache());
       console.log(`[MemoryCache]->(installed)`);
     } catch (e) {
       throw new Error(e);
@@ -15,4 +15,4 @@ class MemoryCache {
   }
 }
 
-export default MemoryCache;
+export default Cache;
