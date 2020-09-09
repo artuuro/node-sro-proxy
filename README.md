@@ -1,11 +1,12 @@
 # node-sro-proxy
 
-
 ## Features
-- Low memory footprint & latency
+- Low memory usage & low latency
 - Client->server packet whitelists
 - Both way packet interception & manipulation
-- Basic middlewares:
+- Cluster mode enabling to handle basically unlimited amount of connections (more clusters = more connections)
+- Plugin/Service system allowing to load up things like MSSQL, Memory Cache (already provided) and similar.
+- Packet-based Middleware system with basic features as:
   - Client HWID capture
   - Auto-Captcha
   - AgentServer redirect
@@ -42,7 +43,7 @@
 ## What else?
 - packet docs https://github.com/DummkopfOfHachtenduden/SilkroadDoc
 - silkroad-security https://github.com/EmirAzaiez/SilkroadSecurityJS
-- SequelizeJS https://sequelize.org/master/manual/model-basics.html
+- SequelizeJS (for MSSQL) https://sequelize.org/master/manual/model-basics.html
 
 ## Contributions?
 - For bug reporting use issues.
