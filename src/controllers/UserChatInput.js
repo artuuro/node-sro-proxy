@@ -1,6 +1,6 @@
 async function UserChatInput(Event, packet) {
-  const { config, stream, adapter, clientId } = Event;
-  const { database, cache } = adapter;
+  const { config, stream, services, client } = Event;
+  const { database, cache } = services;
   const { reader } = stream;
   const { CHAT_TYPES } = config;
   const read = new reader(packet.data);
@@ -17,7 +17,7 @@ async function UserChatInput(Event, packet) {
     content: read.string()
   };
 
-  if (config.debug) console.log(`[${clientId}][CHAT][${typeName}]->${JSON.stringify(message)}`);
+  if (config.debug) console.log(`[${client.id}][CHAT][${typeName}]->${JSON.stringify(message)}`);
 
   return packet;
 }

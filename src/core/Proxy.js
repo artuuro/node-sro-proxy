@@ -48,9 +48,8 @@ class Proxy {
   getInstanceParams(input) {
     const [ ip, port ] = Buffer.from(input, 'base64').toString('utf-8').split(':');
     return {
-      id: input,
-      ip, 
-      port
+      ip: ip, 
+      port: port
     };
   }
 
@@ -71,6 +70,7 @@ class Proxy {
       if (this.instances[id]) {
         this.events.emit('event', {
           client: {
+            id: id,
             ...this.getInstanceParams(id)
           },
           instance: instance,
@@ -79,6 +79,7 @@ class Proxy {
           config: this.config,
           stream: this.stream,
           event: this.events,
+          services: this.services,
           middlewares: this.middlewares[sender] || false
         });
       }

@@ -9,6 +9,7 @@ const module = new Proxy({
 });
 
 (async () => {
+  await module.registerService('database', svc.MSSQL);
   await module.registerService('cache', svc.Cache);
   
   await module.middleware('client', 0xCAFE, ctrl.HardwareID);
