@@ -4,6 +4,7 @@ import { SilkroadSecurityJS as Security, stream } from 'silkroad-security';
 import { Socket } from 'net';
 
 const config = JSON.parse(process.argv[2]);
+const instanceId = process.argv[3];
 const socket = new Socket();
 
 const security = {
@@ -24,6 +25,14 @@ const middlewares = Object.keys(config.middlewares).reduce((endpoints, m) => {
     return endpoints;
 }, {});
 
+function decodeInstanceId(input) {
+    const [ip, port] = Buffer.from(input, 'base64').toString('utf-8').split(':');
+    return {
+        ip: ip,
+        port: port
+    };
+}
+
 async function handlePacket(sender, packet) {
     security[sender].Recv(packet.data || packet.toJSON().data);
 
@@ -39,6 +48,10 @@ async function handlePacket(sender, packet) {
                 stream,
                 config,
                 services,
+                client: {
+                    id: instanceId,
+                    ...decodeInstanceId(instanceId)
+                },
                 instance: {
                     remote: {
                         security: security.remote,

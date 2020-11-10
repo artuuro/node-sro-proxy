@@ -6,16 +6,13 @@ const createError = writer => {
 };
 
 async function HardwareID(Event, packet) {
-  const { stream, config, service } = Event;
-  const { database } = service;
+  const { stream, config, services } = Event;
+  const { MSSQL } = services;
   const { reader } = stream;
   const read = new reader(packet.data);
   const HWID = Buffer.from(read.string()).toString('base64');
   
   if (config.debug) console.log(`[HWID RECEIVED]->${JSON.stringify(Event.client)}->"${HWID}"`);
-
-  
-
   return;
 }
 

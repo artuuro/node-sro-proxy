@@ -31,7 +31,7 @@ class Proxy {
                 const id = this.generateUniqueId(`${socket.remoteAddress}:${socket.remotePort}`);
                 
                 // Fork
-                this.workers[id] = child.fork(`${__dirname}\\Worker`, [JSON.stringify(this.config)]);
+                this.workers[id] = child.fork(`${__dirname}\\Worker`, [JSON.stringify(this.config), id]);
                 
                 // S -> C
                 this.workers[id].on('message', buffer => this.workers[id] && socket.write(Buffer.from(buffer)));
