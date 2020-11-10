@@ -3,7 +3,7 @@ import Remote from '@core/Remote';
 import Event from '@core/Event';
 
 export {
-  Client,
-  Remote,
-  Event
+    Client,
+    Remote,
+    Event
 };

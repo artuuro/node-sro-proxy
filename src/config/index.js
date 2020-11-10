@@ -4,8 +4,8 @@ import DownloadServer from './DownloadServer';
 import Database from './Database';
 
 export {
-  AgentServer,
-  GatewayServer,
-  DownloadServer,
-  Database
+    AgentServer,
+    GatewayServer,
+    DownloadServer,
+    Database
 };

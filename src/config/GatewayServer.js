@@ -5,6 +5,7 @@ export default {
     CAPTCHA: '0',
     FAKE_PLAYERS: 0,
     HWID_LIMIT: 1,
+    VALIDATE_VPN: true,
     BANNED_COUNTRY_CODES: ['TR', 'GB'],
     LOCAL: {
         HOST: '0.0.0.0',

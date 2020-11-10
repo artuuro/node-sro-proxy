@@ -10,6 +10,7 @@ export default {
         HOST: '138.201.58.79',
         PORT: 16004
     },
+    VALIDATE_VPN: true,
     BANNED_COUNTRY_CODES: ['TR', 'GB'],
     CHAT_TYPES: {
         1: 'Public',
@@ -21,6 +22,7 @@ export default {
         7: '(Elevated)Notice',
         9: 'Stall',
         11: 'Union',
+        12: 'Global',
         13: 'NPC Quest',
         16: 'Academy'
     },

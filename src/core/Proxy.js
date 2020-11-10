@@ -28,15 +28,17 @@ class Proxy {
 
     async start() {
         try {
-            this.server = createServer(socket => {
+            this.server = createServer(async socket => {
                 const validate = new IPValidation(socket.remoteAddress);
 
-                const { isProxy, country } = validate.info();
+                const { isProxy, vpnDetected, country } = await validate.info();
 
                 const isBlockedCountry = this.config.BANNED_COUNTRY_CODES.has(country.short);
+                const isBlockedVPN = this.config.VALIDATE_VPN ? vpnDetected : false;
+                const isBlockedProxy = this.config.VALIDATE_VPN ? isProxy : false;
 
-                if (isBlockedCountry || isProxy) {
-                    console.log(`[Blocked Client]->(${socket.remoteAddress}:${socket.remotePort})->(Country: [${country.short}-${isBlockedCountry}] Proxy: ${isProxy})`);
+                if (isBlockedVPN || isBlockedCountry || isBlockedProxy) {
+                    console.log(`[Blocked Client]->(${socket.remoteAddress}:${socket.remotePort})->(Country (${country.short}): ${isBlockedCountry} | VPN: ${vpnDetected} | Proxy: ${isProxy})`);
                     socket.destroy();
                 } else {
                     const id = this.generateUniqueId(`${socket.remoteAddress}:${socket.remotePort}`);

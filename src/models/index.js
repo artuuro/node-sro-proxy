@@ -3,7 +3,7 @@ import Account from './Account';
 import Character from './Account';
 
 export {
-  Connection,
-  Account,
-  Character
+    Connection,
+    Account,
+    Character
 };
