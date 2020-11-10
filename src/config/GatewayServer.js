@@ -33,7 +33,7 @@ export default {
         0x6106: 'SHARD_LIST_PING_REQUEST',
         0xCAFE: 'HWID_REGISTRATION'
     },
-    services: ['MSSQL', 'Cache'],
+    services: ['MSSQL'],
     middlewares: {
         client: {
             0xCAFE: 'HardwareID'

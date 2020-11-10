@@ -24,11 +24,17 @@ async function ServerStatus(Event, packet) {
 
   write.uint8(hasShardEntries);
 
+
   if (hasShardEntries == 1) {
     let shard = {};
     shard.id = read.uint16();
-    shard.name = read.string('ascii');
-    shard.onlineCount = read.uint16() + FAKE_PLAYERS;
+
+    const shardName = read.string('ascii');
+    const playersOnline = read.uint16();
+
+    shard.name = `${shardName} (${playersOnline + FAKE_PLAYERS})`;
+
+    shard.onlineCount = playersOnline + FAKE_PLAYERS;
     shard.capacity = read.uint16();
     shard.status = read.uint8();
     shard.farmId = read.uint8();

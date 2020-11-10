@@ -34,10 +34,13 @@ class Proxy {
                 this.workers[id] = child.fork(`${__dirname}\\Worker`, [JSON.stringify(this.config)]);
                 
                 // S -> C
-                this.workers[id].on('message', buffer => socket.write(Buffer.from(buffer)));
+                this.workers[id].on('message', buffer => this.workers[id] && socket.write(Buffer.from(buffer)));
+
+                // When worker exits:
+                this.workers[id].on('disconnect', () => this.workers[id] && this.closeWorker(id));
 
                 // C -> S
-                socket.on('data', buffer => this.workers[id].send(buffer));
+                socket.on('data', buffer => this.workers[id] && this.workers[id].send(buffer));
 
                 // Disconnect / error
                 socket.on('error', () => this.closeWorker(id));

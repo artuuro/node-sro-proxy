@@ -79,8 +79,11 @@ socket.connect({
     }
 });
 
+// Errors
+socket.on('error', () => process.exit(0));
+socket.on('close', () => process.exit(0));
+
 // Server -> Client
 socket.on('data', data => handlePacket('remote', data));
-
 // Client -> Server
 process.on('message', data => handlePacket('client', data));
