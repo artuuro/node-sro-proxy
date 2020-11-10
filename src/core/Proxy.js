@@ -1,117 +1,58 @@
-import { stream } from 'silkroad-security';
-import { Client, Remote, Event } from '@core/index';
 import { createServer } from 'net';
-import { EventEmitter } from 'events';
+import child from 'child_process';
 
 class Proxy {
-  constructor(config) {
-    Object.assign(this, {
-      services: {},
-      config: {
-        debug: process.env.NODE_ENV == 'development',
-        ...config
-      },
-      instances: {},
-      middlewares: {
-        client: {},
-        remote: {}
-      },
-      stream: stream,
-      events: new EventEmitter()
-    });
-    if (this.config.debug) console.log(`[${this.config.module}]->{${process.env.NODE_ENV}}->(run)`);
-  }
-
-  async registerService(name, action) {
-    try {
-      this.services[name] = new action(this.config);
-      await this.services[name].attach();
-      if (this.config.debug) console.log(`[Service](${name})->(ready)`);
-    } catch (e) {
-      throw new Error(e);
-    }
-  }
-
-  async middleware(side, opcode, action) {
-    try {
-      this.middlewares[side][opcode] = action;
-      if (this.config.debug) console.log(`[Middleware]->{${side}}[${opcode}]->(ready)`);
-    } catch (e) {
-      throw new Error(e);
-    }
-  }
-
-  createInstanceID(input) {
-    return Buffer.from(input, 'utf-8').toString('base64');
-  }
-
-  getInstanceParams(input) {
-    const [ ip, port ] = Buffer.from(input, 'base64').toString('utf-8').split(':');
-    return {
-      ip: ip, 
-      port: port
-    };
-  }
-
-  removeInstance(id) {
-    if (this.instances[id]) {
-      delete this.instances[id];
-      if (this.config.debug) console.log(`[Client]->{${id}}->(disconnected)`);
-    }
-  }
-
-  listen(instance, id, sender) {
-    instance[sender].socket.on('error', () => this.removeInstance(id));
-    instance[sender].socket.on('close', () => this.removeInstance(id));
-
-    instance[sender].socket.on('data', data => {
-      instance[sender].security.Recv(data.toJSON().data);
-
-      if (this.instances[id]) {
-        this.events.emit('event', {
-          client: {
-            id: id,
-            ...this.getInstanceParams(id)
-          },
-          instance: instance,
-          sender: sender,
-          service: this.services,
-          config: this.config,
-          stream: this.stream,
-          event: this.events,
-          services: this.services,
-          middlewares: this.middlewares[sender] || false
+    constructor(config) {
+        Object.assign(this, {
+            config: {
+                debug: process.env.NODE_ENV == 'development',
+                ...config
+            },
+            workers: {}
         });
-      }
-    });
-  }
+    }
 
-  async start() {
-    this.server = createServer(socket => {
-      const client = new Client(socket);
-      const remote = new Remote(this.config);
-      const id = this.createInstanceID(`${socket.remoteAddress}:${socket.remotePort}`);
+    generateUniqueId(input) {
+        return Buffer.from(input, 'utf-8').toString('base64');
+    }
 
-      let instance = {
-        client: client.setup(),
-        remote: remote.setup()
-      };
+    closeWorker(id) {
+        if (this.workers[id]) {
+            this.workers[id].kill();
+            delete this.workers[id];
+            if (this.config.debug) console.log(`[Client]->{${id}}->(disconnected)`);
+        }
+    }
 
-      if (this.config.debug) console.log(`[Client]->(${socket.remoteAddress}:${socket.remotePort}){${id}}->(connected)`);
+    async start() {
+        try {
+            this.server = createServer(socket => {
+                // Base64 id
+                const id = this.generateUniqueId(`${socket.remoteAddress}:${socket.remotePort}`);
+                
+                // Fork
+                this.workers[id] = child.fork(`${__dirname}\\Worker`, [JSON.stringify(this.config)]);
+                
+                // S -> C
+                this.workers[id].on('message', buffer => socket.write(Buffer.from(buffer)));
 
-      this.listen(instance, id, 'client');
-      this.listen(instance, id, 'remote');
+                // C -> S
+                socket.on('data', buffer => this.workers[id].send(buffer));
 
-      Object.assign(this.instances, {
-        [id]: instance
-      });
-    });
+                // Disconnect / error
+                socket.on('error', () => this.closeWorker(id));
+                socket.on('close', () => this.closeWorker(id));
 
-    this.events.on('event', Event);
-    this.server.listen(this.config.LOCAL.PORT, this.config.LOCAL.HOST);
+                if (this.config.debug) console.log(`[Client]->(${socket.remoteAddress}:${socket.remotePort}){${id}}->(connected)`);
+            });
 
-    console.log(`[${this.config.module}]->${JSON.stringify(this.config.LOCAL)}->(ready)`);
-  }
+            this.server.listen(this.config.LOCAL.PORT, this.config.LOCAL.HOST);
+
+            console.log(`[${this.config.module}]->${JSON.stringify(this.config.LOCAL)}->(ready)`);
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
 }
 
 export default Proxy;

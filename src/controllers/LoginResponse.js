@@ -1,9 +1,4 @@
-const createError = writer => {
-  const write = new writer();
-  write.uint8(3);
-  write.uint8(8);
-  return write.toData();
-};
+
 
 const createAgentRedirect = (writer, data) => {
   const write = new writer();

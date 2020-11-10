@@ -1,10 +1,10 @@
-const Account = (i, t) => i.define('account', {
+const Character = (i, t) => i.define('character', {
   id: {
     type: t.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  username: {
+  charname: {
     type: t.STRING,
     allowNull: false
   },
@@ -12,4 +12,4 @@ const Account = (i, t) => i.define('account', {
   updatedAt: t.DATE
 });
 
-export default Account;
+export default Character;

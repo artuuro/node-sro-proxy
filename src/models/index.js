@@ -1,8 +1,9 @@
-import Client from './Client';
+import Connection from './Connection';
 import Account from './Account';
-
+import Character from './Account';
 
 export {
-  Client,
-  Account
+  Connection,
+  Account,
+  Character
 };

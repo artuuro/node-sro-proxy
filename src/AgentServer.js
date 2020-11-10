@@ -8,11 +8,4 @@ const module = new Proxy({
   MSSQL: Database
 });
 
-(async () => {
-  await module.registerService('database', svc.MSSQL);
-  await module.registerService('cache', svc.Cache);
-
-  await module.middleware('client', 0x705E, ctrl.SiegeActionSQLi);
-  await module.middleware('client', 0x7025, ctrl.UserChatInput);
-  await module.start();
-})();
+module.start();
