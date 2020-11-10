@@ -1,4 +1,9 @@
+import { resolve } from 'path';
 const module = process.env.MODULE || false;
+
+global.ROOT_DIR = resolve(__dirname, '..');
+
+console.log(ROOT_DIR)
 
 process.on('unhandledRejection', (error, promise) => {
   console.log(`[${module}]->(UnhandledRejection)->${promise}`);

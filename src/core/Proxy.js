@@ -1,12 +1,14 @@
 import { createServer } from 'net';
 import child from 'child_process';
+import IPValidation from '@core/IPValidation';
 
 class Proxy {
     constructor(config) {
         Object.assign(this, {
             config: {
                 debug: process.env.NODE_ENV == 'development',
-                ...config
+                ...config,
+                BANNED_COUNTRY_CODES: new Set(config.BANNED_COUNTRY_CODES || [])
             },
             workers: {}
         });
@@ -27,26 +29,36 @@ class Proxy {
     async start() {
         try {
             this.server = createServer(socket => {
-                // Base64 id
-                const id = this.generateUniqueId(`${socket.remoteAddress}:${socket.remotePort}`);
-                
-                // Fork
-                this.workers[id] = child.fork(`${__dirname}\\Worker`, [JSON.stringify(this.config), id]);
-                
-                // S -> C
-                this.workers[id].on('message', buffer => this.workers[id] && socket.write(Buffer.from(buffer)));
+                const validate = new IPValidation(socket.remoteAddress);
 
-                // When worker exits:
-                this.workers[id].on('disconnect', () => this.workers[id] && this.closeWorker(id));
+                const { isProxy, country } = validate.info();
 
-                // C -> S
-                socket.on('data', buffer => this.workers[id] && this.workers[id].send(buffer));
+                const isBlockedCountry = this.config.BANNED_COUNTRY_CODES.has(country.short);
 
-                // Disconnect / error
-                socket.on('error', () => this.closeWorker(id));
-                socket.on('close', () => this.closeWorker(id));
+                if (isBlockedCountry || isProxy) {
+                    console.log(`[Blocked Client]->(${socket.remoteAddress}:${socket.remotePort})->(Country: [${country.short}-${isBlockedCountry}] Proxy: ${isProxy})`);
+                    socket.destroy();
+                } else {
+                    const id = this.generateUniqueId(`${socket.remoteAddress}:${socket.remotePort}`);
 
-                if (this.config.debug) console.log(`[Client]->(${socket.remoteAddress}:${socket.remotePort}){${id}}->(connected)`);
+                    // Fork
+                    this.workers[id] = child.fork(`${__dirname}\\Worker`, [JSON.stringify(this.config), id]);
+
+                    // S -> C
+                    this.workers[id].on('message', buffer => this.workers[id] && socket.write(Buffer.from(buffer)));
+
+                    // When worker exits:
+                    this.workers[id].on('disconnect', () => this.workers[id] && this.closeWorker(id));
+
+                    // C -> S
+                    socket.on('data', buffer => this.workers[id] && this.workers[id].send(buffer));
+
+                    // Disconnect / error
+                    socket.on('error', () => this.closeWorker(id));
+                    socket.on('close', () => this.closeWorker(id));
+
+                    if (this.config.debug) console.log(`[Client]->(${socket.remoteAddress}:${socket.remotePort}){${id}}->(connected)`);
+                }
             });
 
             this.server.listen(this.config.LOCAL.PORT, this.config.LOCAL.HOST);

@@ -1284,6 +1284,11 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+big-integer@>=1.6.8, big-integer@^1.6.47:
+  version "1.6.48"
+  resolved "https://registry.yarnpkg.com/big-integer/-/big-integer-1.6.48.tgz#8fd88bd1632cba4a1c8c3e3d7159f08bb95b4b9e"
+  integrity sha512-j51egjPa7/i+RdiRuJbPdJ2FIUYYPhvYLjzoYbcMMm62ooO6F94fETG4MTs46zPAF9Brs04OajboA/qTGuz78w==
+
 binary-extensions@^1.0.0:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.13.1.tgz#598afe54755b2868a5330d2aff9d4ebb53209b65"
@@ -2203,6 +2208,20 @@ invariant@^2.2.2, invariant@^2.2.4:
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
   dependencies:
     loose-envify "^1.0.0"
+
+ip2location-nodejs@^8.4.0:
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/ip2location-nodejs/-/ip2location-nodejs-8.4.0.tgz#65efb526adb171c4e51fa962c3165f957831530d"
+  integrity sha512-wTw+pcw9wRcybMqm0nInzl4xDy2NjYRJ8UkLXfyL8W4Cy6+Id4A8E+Hlx+1yKEyzD4kGNlILgX6xnI1PwxlESA==
+  dependencies:
+    big-integer "^1.6.47"
+
+ip2proxy-nodejs@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/ip2proxy-nodejs/-/ip2proxy-nodejs-3.0.0.tgz#d49d0ffd8a8588fe787ea995e39532765c8ac8f7"
+  integrity sha512-ReaYDdb16LI52FI+1z2q4mh2cE3OaHpof7wyNZyizvVK6rV9hDSGW2nVZ5W9B8wkIW/dKZLeCV6ouQLKUBKn4g==
+  dependencies:
+    big-integer ">=1.6.8"
 
 is-accessor-descriptor@^0.1.6:
   version "0.1.6"

@@ -1,5 +1,6 @@
 export default {
   module: 'DownloadServer',
+  BANNED_COUNTRY_CODES: ['TR', 'GB'],
   LOCAL: {
     HOST: '0.0.0.0',
     PORT: 7003

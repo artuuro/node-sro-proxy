@@ -5,6 +5,7 @@ export default {
     CAPTCHA: '0',
     FAKE_PLAYERS: 0,
     HWID_LIMIT: 1,
+    BANNED_COUNTRY_CODES: ['TR', 'GB'],
     LOCAL: {
         HOST: '0.0.0.0',
         PORT: 7001
