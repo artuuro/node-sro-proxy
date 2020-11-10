@@ -4,7 +4,7 @@
   "description": "Stateless NodeJS (ES6+) middleware layer for online MMORPG Silkroad Online",
   "main": "index.js",
   "author": "Arthur G",
-  "license": "MIT",
+  "license": "AGPL-3.0-only",
   "private": true,
   "scripts": {
     "install": "yarn --ignore-scripts",
