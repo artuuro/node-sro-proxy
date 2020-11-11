@@ -1,5 +1,5 @@
 import { createServer } from 'net';
-import child from 'child_process';
+import { Worker } from 'worker_threads';
 import IPValidation from '@core/IPValidation';
 
 class Proxy {
@@ -20,9 +20,9 @@ class Proxy {
 
     closeWorker(id) {
         if (this.workers[id]) {
-            this.workers[id].kill();
+            this.workers[id].terminate();
             delete this.workers[id];
-            if (this.config.debug) console.log(`[Client]->{${id}}->(disconnected)`);
+            if (this.config.debug) console.log(`[Client]->{${id}}->(closed)`);
         }
     }
 
@@ -30,36 +30,30 @@ class Proxy {
         try {
             this.server = createServer(async socket => {
                 const validate = new IPValidation(socket.remoteAddress);
+                const { isProxy, country } = validate.info();
 
-                const { isProxy, vpnDetected, country } = await validate.info();
-
-                const isBlockedCountry = this.config.BANNED_COUNTRY_CODES.has(country.short);
-                const isBlockedVPN = this.config.VALIDATE_VPN ? vpnDetected : false;
-                const isBlockedProxy = this.config.VALIDATE_VPN ? isProxy : false;
-
-                if (isBlockedVPN || isBlockedCountry || isBlockedProxy) {
+                if ( this.config.BANNED_COUNTRY_CODES.has(country.short) || isProxy) {
                     console.log(`[Blocked Client]->(${socket.remoteAddress}:${socket.remotePort})->(Country (${country.short}): ${isBlockedCountry} | VPN: ${vpnDetected} | Proxy: ${isProxy})`);
                     socket.destroy();
                 } else {
                     const id = this.generateUniqueId(`${socket.remoteAddress}:${socket.remotePort}`);
+                    const workerInstance = this.config.debug ? `${__dirname}/babel-worker.js` : `${__dirname}/Worker.js`;
+                    
+                    this.workers[id] = new Worker(workerInstance, {
+                        workerData: {
+                            config: this.config, instanceId: id
+                        }
+                    });
 
-                    // Fork
-                    this.workers[id] = child.fork(`${__dirname}\\Worker`, [JSON.stringify(this.config), id]);
-
-                    // S -> C
                     this.workers[id].on('message', buffer => this.workers[id] && socket.write(Buffer.from(buffer)));
+                    this.workers[id].on('exit', () => this.closeWorker(id));
+                    this.workers[id].on('error', (e) => this.closeWorker(id));
 
-                    // When worker exits:
-                    this.workers[id].on('disconnect', () => this.workers[id] && this.closeWorker(id));
-
-                    // C -> S
-                    socket.on('data', buffer => this.workers[id] && this.workers[id].send(buffer));
-
-                    // Disconnect / error
+                    socket.on('data', buffer => this.workers[id] && this.workers[id].postMessage(buffer));
                     socket.on('error', () => this.closeWorker(id));
                     socket.on('close', () => this.closeWorker(id));
 
-                    if (this.config.debug) console.log(`[Client]->(${socket.remoteAddress}:${socket.remotePort}){${id}}->(connected)`);
+                    if (this.config.debug) console.log(`[Client]->(${socket.remoteAddress}:${socket.remotePort}){${id}}->(launched)`);
                 }
             });
 

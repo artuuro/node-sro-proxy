@@ -1,7 +1,6 @@
-import { resolve } from 'path';
-const module = process.env.MODULE || false;
+import * as modules from '@main';
 
-global.ROOT_DIR = resolve(__dirname, '..');
+const index = process.env.MODULE || 'GatewayServer';
 
 process.on('unhandledRejection', (error, promise) => {
     console.log(`[${module}]->(UnhandledRejection)->${promise}`);
@@ -14,7 +13,7 @@ process.on('uncaughtException', error => {
 });
 
 try {
-    require(`./${module}`);
+    new modules[index]().run();
 } catch (error) {
-    console.log(`[${module}]->(error)->${error}`);
+    console.log(`[${index}]->(error)->${error}`);
 }

@@ -1,4 +1,4 @@
-const Client = (i, t) => i.define('client', {
+const Client = (i, t) => i.define('instances', {
     id: {
         type: t.INTEGER,
         primaryKey: true,
@@ -11,6 +11,14 @@ const Client = (i, t) => i.define('client', {
     hwid: {
         type: t.STRING,
         allowNull: false
+    },
+    CharID: {
+        type: t.INTEGER,
+        allowNull: true
+    },
+    JID: {
+        type: t.INTEGER,
+        allowNUll: true
     },
     createdAt: t.DATE,
     updatedAt: t.DATE

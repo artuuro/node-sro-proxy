@@ -1,6 +1,5 @@
 export default {
     module: 'DownloadServer',
-    VALIDATE_VPN: true,
     BANNED_COUNTRY_CODES: ['TR', 'GB'],
     LOCAL: {
         HOST: '0.0.0.0',

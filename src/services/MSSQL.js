@@ -29,11 +29,10 @@ class MSSQL {
 
     async sync() {
         try {
-            await this.connection.sync({
-                force: true
-            });
+            await this.connection.sync({ force: true });
             if (this.config.debug) console.log(`[DB SYNC]->(complete)`);
         } catch (e) {
+            console.log(e);
             throw new Error(e);
         }
     }

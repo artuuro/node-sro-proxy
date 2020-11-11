@@ -1,9 +1,5 @@
-import Connection from './Connection';
-import Account from './Account';
-import Character from './Account';
+import Instances from './Instances';
 
 export {
-    Connection,
-    Account,
-    Character
+    Instances
 };

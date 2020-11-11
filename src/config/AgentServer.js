@@ -1,5 +1,4 @@
 export default {
-    debug: true,
     fork_mode: true,
     module: 'AgentServer',
     LOCAL: {
@@ -10,7 +9,6 @@ export default {
         HOST: '138.201.58.79',
         PORT: 16004
     },
-    VALIDATE_VPN: true,
     BANNED_COUNTRY_CODES: ['TR', 'GB'],
     CHAT_TYPES: {
         1: 'Public',

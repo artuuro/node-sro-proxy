@@ -1,12 +1,11 @@
-import * as ctrl from '@control/index';
-import * as svc from '@service/index';
+import { workerData, parentPort } from 'worker_threads';
 import { SilkroadSecurityJS as Security, stream } from 'silkroad-security';
 import { Socket } from 'net';
+import * as ctrl from '@control/index';
+import * as svc from '@service/index';
 
-const config = JSON.parse(process.argv[2]);
-const instanceId = process.argv[3];
+const { config, instanceId } = workerData;
 const socket = new Socket();
-
 const security = {
     client: new Security(),
     remote: new Security()
@@ -34,7 +33,7 @@ function decodeInstanceId(input) {
 }
 
 async function handlePacket(sender, packet) {
-    security[sender].Recv(packet.data || packet.toJSON().data);
+    security[sender].Recv(Buffer.from(packet).toJSON().data);
 
     const target = sender == 'client' ? 'remote' : 'client';
 
@@ -75,7 +74,7 @@ async function handlePacket(sender, packet) {
         switch (target) {
             case 'remote': socket.write(Buffer.from(packet));
                 break;
-            default: process.send(packet);
+            default: parentPort.postMessage(packet);
                 break;
         }
     }
@@ -99,4 +98,4 @@ socket.on('close', () => process.exit(0));
 // Server -> Client
 socket.on('data', data => handlePacket('remote', data));
 // Client -> Server
-process.on('message', data => handlePacket('client', data));
+parentPort.on('message', data => handlePacket('client', data));
