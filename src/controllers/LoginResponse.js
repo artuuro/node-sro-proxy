@@ -1,5 +1,3 @@
-
-
 const createAgentRedirect = (writer, data) => {
     const write = new writer();
     write.uint8(data.status);
@@ -33,12 +31,6 @@ async function LoginResponse(Event, packet) {
             _packet = packet;
             break;
     }
-
-    // failure packet
-    // _packet = {
-    //   ...packet,
-    //   data: createError(writer)
-    // };
 
     return _packet;
 }

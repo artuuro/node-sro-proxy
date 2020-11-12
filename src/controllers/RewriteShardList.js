@@ -23,8 +23,7 @@ async function ServerStatus(Event, packet) {
     let hasShardEntries = read.uint8();
 
     write.uint8(hasShardEntries);
-
-
+    
     if (hasShardEntries == 1) {
         let shard = {};
         shard.id = read.uint16();
@@ -33,7 +32,6 @@ async function ServerStatus(Event, packet) {
         const playersOnline = read.uint16();
 
         shard.name = `${shardName} (${playersOnline + FAKE_PLAYERS})`;
-
         shard.onlineCount = playersOnline + FAKE_PLAYERS;
         shard.capacity = read.uint16();
         shard.status = read.uint8();

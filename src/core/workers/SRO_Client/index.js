@@ -1,9 +1,11 @@
+import NodeCache from 'node-cache';
 import { workerData, parentPort } from 'worker_threads';
 import { SilkroadSecurityJS as Security, stream } from 'silkroad-security';
 import { Socket } from 'net';
 import * as ctrl from '@control/index';
 
-const { config, instanceId } = workerData;
+const cache = new NodeCache();
+const { config, info } = workerData;
 const socket = new Socket();
 const security = {
     client: new Security(),
@@ -18,19 +20,10 @@ const middlewares = Object.keys(config.middlewares).reduce((endpoints, m) => {
     return endpoints;
 }, {});
 
-function decodeInstanceId(input) {
-    const [ip, port] = Buffer.from(input, 'base64').toString('utf-8').split(':');
-    return {
-        ip: ip,
-        port: port
-    };
-}
-
 async function handlePacket(sender, packet) {
     security[sender].Recv(Buffer.from(packet).toJSON().data);
 
     const target = sender == 'client' ? 'remote' : 'client';
-
     const incomingStream = await security[sender].GetPacketToRecv() || [];
 
     for (const packet of incomingStream) {
@@ -38,14 +31,11 @@ async function handlePacket(sender, packet) {
             const middleware = middlewares[sender] ? middlewares[sender][packet.opcode] || false : false;
 
             const _packet = middleware ? await middleware({
+                cache,
                 stream,
                 config,
-                services,
-                client: {
-                    id: instanceId,
-                    ...decodeInstanceId(instanceId)
-                },
                 instance: {
+                    info,
                     remote: {
                         security: security.remote,
                         socket: socket
@@ -59,7 +49,7 @@ async function handlePacket(sender, packet) {
                 _packet.encrypted,
                 _packet.massive
             );
-        } else if (config.debug && target === 'remote') console.log(`[${sender}]->(${packet.opcode})->${target}: NOT WHITELISTED`);
+        }// else if (config.debug && target === 'remote') console.log(`[${sender}]->(${packet.opcode})->${target}: NOT WHITELISTED`);
     }
 
     const outgoingStream = await security[target].GetPacketToSend() || [];

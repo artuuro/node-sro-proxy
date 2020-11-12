@@ -43,7 +43,12 @@ class Proxy {
 
                     this.workers[id] = new Worker(workerInstance, {
                         workerData: {
-                            config: this.config, instanceId: id
+                            config: this.config, 
+                            info: {
+                                id,
+                                ip: socket.remoteAddress,
+                                port: socket.remotePort
+                            }
                         }
                     });
 
