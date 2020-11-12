@@ -2,7 +2,7 @@ export default {
     fork_mode: true,
     module: 'GatewayServer',
     CAPTCHA: '0',
-    FAKE_PLAYERS: 0,
+    FAKE_PLAYERS: 82,
     HWID_LIMIT: 1,
     BANNED_COUNTRY_CODES: ['TR', 'GB'],
     LOCAL: {

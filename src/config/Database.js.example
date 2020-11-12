@@ -1,6 +1,12 @@
 export default {
-    HOST: "",           // Remote or local hostname
-    INDEX: "",          // DB Index (database name)
-    USERNAME: "",       // DB Username
-    PASSWORD: "",       // DB Password
+    host: '',           // Remote or local hostname
+    database: '',       // DB Index (database name)
+    username: '',       // DB Username
+    password: '',       // DB Password
+    //dialect: 'mssql'  
+    /* dialect can be one of:
+     * 'mysql' | 'mariadb' | 'postgres' | 'mssql' 
+     * system defaults to mssql 
+     */
+    
 };

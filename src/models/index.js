@@ -1,5 +1,5 @@
-import Instances from './Instances';
+import Client from './Client';
 
 export {
-    Instances
+    Client
 };

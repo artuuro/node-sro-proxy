@@ -2,7 +2,6 @@ import { workerData, parentPort } from 'worker_threads';
 import { SilkroadSecurityJS as Security, stream } from 'silkroad-security';
 import { Socket } from 'net';
 import * as ctrl from '@control/index';
-import * as svc from '@service/index';
 
 const { config, instanceId } = workerData;
 const socket = new Socket();
@@ -10,11 +9,6 @@ const security = {
     client: new Security(),
     remote: new Security()
 };
-
-const services = config.services.reduce((services, s) => {
-    services[s] = new svc[s](config);
-    return services;
-}, {});
 
 const middlewares = Object.keys(config.middlewares).reduce((endpoints, m) => {
     endpoints[m] = Object.keys(config.middlewares[m]).reduce((handles, opcode) => {

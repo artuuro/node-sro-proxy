@@ -2,6 +2,8 @@ import { createServer } from 'net';
 import { Worker } from 'worker_threads';
 import IPValidation from '@core/IPValidation';
 
+const WORKERS_PATH = `${__dirname}/workers/`;
+
 class Proxy {
     constructor(config) {
         Object.assign(this, {
@@ -32,13 +34,13 @@ class Proxy {
                 const validate = new IPValidation(socket.remoteAddress);
                 const { isProxy, country } = validate.info();
 
-                if ( this.config.BANNED_COUNTRY_CODES.has(country.short) || isProxy) {
+                if (this.config.BANNED_COUNTRY_CODES.has(country.short) || isProxy) {
                     console.log(`[Blocked Client]->(${socket.remoteAddress}:${socket.remotePort})->(Country (${country.short}): ${isBlockedCountry} | VPN: ${vpnDetected} | Proxy: ${isProxy})`);
                     socket.destroy();
                 } else {
                     const id = this.generateUniqueId(`${socket.remoteAddress}:${socket.remotePort}`);
-                    const workerInstance = this.config.debug ? `${__dirname}/babel-worker.js` : `${__dirname}/Worker.js`;
-                    
+                    const workerInstance = this.config.debug ? `${WORKERS_PATH}/SRO_Client/index.dev.js` : `${WORKERS_PATH}/SRO_Client/index.js`;
+
                     this.workers[id] = new Worker(workerInstance, {
                         workerData: {
                             config: this.config, instanceId: id

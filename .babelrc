@@ -21,10 +21,6 @@
                         "./src/core",
                         "./bin/core"
                     ],
-                    "@main": [
-                        "./src/main",
-                        "./bin/main"
-                    ],
                     "@config": [
                         "./src/config",
                         "./bin/config"

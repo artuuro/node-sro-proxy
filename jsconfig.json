@@ -8,9 +8,6 @@
       "@core/*": [
         "src/core/*"
       ],
-      "@main/*": [
-        "src/main/*"
-      ],
       "@control/*": [
         "src/controllers/*"
       ],

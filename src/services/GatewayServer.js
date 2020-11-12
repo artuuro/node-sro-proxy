@@ -1,12 +1,9 @@
 import Proxy from '@core/Proxy';
-import { GatewayServer as config, Database } from '@config';
+import config from '@config/GatewayServer';
 
 class GatewayServer {
     constructor() {
-        this.module = new Proxy({
-            ...config,
-            MSSQL: Database
-        });
+        this.module = new Proxy(config);
     }
 
     async run() {

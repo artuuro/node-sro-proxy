@@ -1,5 +1,5 @@
-import Proxy from "@core/Proxy";
-import { DownloadServer as config } from "@config";
+import Proxy from '@core/Proxy';
+import config from '@config/DownloadServer';
 
 class DownloadServer {
     constructor() {
