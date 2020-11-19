@@ -1,6 +1,6 @@
 import * as service from '@service';
 
-const index = process.env.MODULE || 'GatewayServer';
+const index = process.env.MODULE || false;
 const isDev = process.env.NODE_ENV == 'development';
 
 process.on('unhandledRejection', (error, promise) => {
@@ -21,7 +21,7 @@ process.on('uncaughtException', (error) => {
 });
 
 try {
-    new service[index]().run();
+    index && new service[index]().run();
 } catch (error) {
     console.log(`[${index}]->(error)->${error}`);
 }

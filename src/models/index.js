@@ -1,5 +1,7 @@
-import Client from './Client';
+import Clients from './Clients';
+import Blacklist from './Blacklist';
 
 export {
-    Client
+    Clients,
+    Blacklist
 };

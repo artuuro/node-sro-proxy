@@ -1,9 +1,12 @@
-import Proxy from '@core/Proxy';
+import Router from '@lib/Router';
 import config from '@config/GatewayServer';
-
+import dbConfig from '@config/Database';
 class GatewayServer {
     constructor() {
-        this.module = new Proxy(config);
+        this.module = new Router({
+            ...config,
+            API: dbConfig.API
+        });
     }
 
     async run() {

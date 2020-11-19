@@ -1,9 +1,9 @@
-import Proxy from '@core/Proxy';
+import Router from '@lib/Router';
 import config from '@config/DownloadServer';
 
 class DownloadServer {
     constructor() {
-        this.module = new Proxy(config);
+        this.module = new Router(config);
     }
 
     async run() {

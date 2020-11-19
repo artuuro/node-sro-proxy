@@ -1,26 +1,31 @@
 {
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@root/*": [
-        "*"
-      ],
-      "@core/*": [
-        "src/core/*"
-      ],
-      "@control/*": [
-        "src/controllers/*"
-      ],
-      "@service/*": [
-        "src/services/*"
-      ],
-      "@model/*": [
-        "src/models/*"
-      ]
-    }
-  },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+    "compilerOptions": {
+        "baseUrl": "./",
+        "paths": {
+            "@root/*": [
+                "*"
+            ],
+            "@core/*": [
+                "src/core/*"
+            ],
+            "@control/*": [
+                "src/controllers/*"
+            ],
+            "@service/*": [
+                "src/services/*"
+            ],
+            "@model/*": [
+                "src/models/*"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "bin",
+        "data"
+    ]
 }

@@ -1,5 +1,5 @@
 import config from '@config/Database';
-import Adapter from '@core/workers/Database/Adapter';
+import Adapter from '@lib/SQLAdapter';
 
 class CreateDB {
     constructor() {
@@ -8,10 +8,9 @@ class CreateDB {
 
     async run() {
         try {
-            console.log(`------SYNC------`);
             const instance = await this.adapter.instance();
             await instance.sync({ force: true });
-            console.log(`------DONE------`);
+            console.log(`Database Recreated`);
             process.exit(0);
         } catch (e) {
             throw new Error(e);
