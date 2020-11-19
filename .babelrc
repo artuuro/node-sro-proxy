@@ -17,13 +17,9 @@
                         "./",
                         "./"
                     ],
-                    "@core": [
-                        "./src/core",
-                        "./bin/core"
-                    ],
-                    "@main": [
-                        "./src/main",
-                        "./bin/main"
+                    "@lib": [
+                        "./src/lib",
+                        "./bin/lib"
                     ],
                     "@config": [
                         "./src/config",

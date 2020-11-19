@@ -9,7 +9,8 @@ export default {
         HOST: '138.201.58.79',
         PORT: 16004
     },
-    BANNED_COUNTRY_CODES: ['TR', 'GB'],
+    IP_LIMIT: 1,
+    BANNED_COUNTRY_CODES: [],
     CHAT_TYPES: {
         1: 'Public',
         2: 'Private',

@@ -1,19 +1,18 @@
-const createError = writer => {
-  const write = new writer();
-  write.uint8(3);
-  write.uint8(8);
-  return write.toData();
-};
-
 async function HardwareID(Event, packet) {
-  const { stream, config, services } = Event;
-  const { MSSQL } = services;
-  const { reader } = stream;
-  const read = new reader(packet.data);
-  const HWID = Buffer.from(read.string()).toString('base64');
-  
-  if (config.debug) console.log(`[HWID RECEIVED]->${JSON.stringify(Event.client)}->"${HWID}"`);
-  return;
+    const { stream, config } = Event;
+    const { reader } = stream;
+    const read = new reader(packet.data);
+    const HWID = Buffer.from(read.string()).toString('base64');
+
+    const footprint = {
+        ...Event.instance.info,
+        HWID
+    };
+
+    console.log(footprint);
+    
+    if (config.debug) console.log(`[HWID RECEIVED]->${JSON.stringify(Event.instance.info)}->"${HWID}"`);
+    return;
 }
 
 export default HardwareID;

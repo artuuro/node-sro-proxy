@@ -1,19 +1,27 @@
-import * as modules from '@main';
+import * as service from '@service';
 
-const index = process.env.MODULE || 'GatewayServer';
+const index = process.env.MODULE || false;
+const isDev = process.env.NODE_ENV == 'development';
 
 process.on('unhandledRejection', (error, promise) => {
-    console.log(`[${module}]->(UnhandledRejection)->${promise}`);
-    console.log(`[${module}]->(PromiseError)->${error}`);
-    promise.catch();
+    if (isDev) {
+        console.log(`[${index}]->(UnhandledRejection)->${promise}`);
+        console.log(`[${index}]->(PromiseError)->${error}`);
+        process.exit(0);
+    } else {
+        promise.catch();
+    }
 });
 
-process.on('uncaughtException', error => {
-    console.log(`[${module}]->(UncaughtException)->${error}`);
+process.on('uncaughtException', (error) => {
+    if (isDev) {
+        console.log(`[${index}]->(UncaughtException)->${error}`);
+        process.exit(0);
+    }
 });
 
 try {
-    new modules[index]().run();
+    index && new service[index]().run();
 } catch (error) {
     console.log(`[${index}]->(error)->${error}`);
 }

@@ -1,6 +1,11 @@
 export default {
-    HOST: "",           // Remote or local hostname
-    INDEX: "",          // DB Index (database name)
-    USERNAME: "",       // DB Username
-    PASSWORD: "",       // DB Password
+    host: '',           // Remote or local hostname
+    database: '',       // DB Index (database name)
+    username: '',       // DB Username
+    password: '',       // DB Password
+    API: {
+        HOST: 'http://127.0.0.1/', // API microservice to work with database
+        PORT: 1020, // Port where it will be bound
+        AUTH: '0x33' // Authentication key for client workers
+    }
 };
