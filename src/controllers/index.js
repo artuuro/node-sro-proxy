@@ -5,6 +5,7 @@ import RewriteShardList from './RewriteShardList';
 import SiegeActionSQLi from './SiegeActionSQLi';
 import UserChatInput from './UserChatInput';
 import HardwareID from './HardwareID';
+import WeatherUpdate from './WeatherUpdate';
 
 export {
     LoginResponse,
@@ -13,5 +14,6 @@ export {
     RewriteShardList,
     SiegeActionSQLi,
     UserChatInput,
-    HardwareID
+    HardwareID,
+    WeatherUpdate
 };

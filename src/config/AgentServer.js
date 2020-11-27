@@ -25,11 +25,21 @@ export default {
         13: 'NPC Quest',
         16: 'Academy'
     },
-    services: ['MSSQL', 'Cache'],
+    WEATHER: {
+        types: {
+            'still': 1,
+            'raining': 2,
+            'snowing': 3
+        },
+        defaultIntensity: 400
+    },
     middlewares: {
         client: {
             0x705E: 'SiegeActionSQLi',
             0x7025: 'UserChatInput'
+        },
+        remote: {
+            0x3809: 'WeatherUpdate'
         }
     },
     whitelist: {

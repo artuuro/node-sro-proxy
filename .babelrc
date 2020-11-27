@@ -33,7 +33,7 @@
                         "./src/services",
                         "./bin/services"
                     ],
-                    "@model": [
+                    "@models": [
                         "./src/models",
                         "./bin/models"
                     ]

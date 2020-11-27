@@ -4,11 +4,7 @@ const Blacklist = (db, types) => db.define('Blacklist', {
         primaryKey: true,
         autoIncrement: true
     },
-    ip: {
-        type: types.STRING,
-        allowNull: false
-    },
-    hwid: {
+    remote: {
         type: types.STRING,
         allowNull: false
     },

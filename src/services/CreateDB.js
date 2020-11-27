@@ -1,9 +1,9 @@
 import config from '@config/Database';
-import Adapter from '@lib/SQLAdapter';
-
+import SQLAdapter from '@lib/SQLAdapter';
+import * as models from '@models/gateway';
 class CreateDB {
     constructor() {
-        this.adapter = new Adapter(config);
+        this.adapter = new SQLAdapter(config, models);
     }
 
     async run() {

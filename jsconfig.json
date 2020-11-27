@@ -14,7 +14,7 @@
             "@service/*": [
                 "src/services/*"
             ],
-            "@model/*": [
+            "@models/*": [
                 "src/models/*"
             ]
         }

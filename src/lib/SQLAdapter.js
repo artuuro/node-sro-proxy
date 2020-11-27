@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes } from 'sequelize';
 
 class SQLAdapter {
-    constructor({ host, database, username, password, dialect = 'mssql' }, models) {
+    constructor({ host, database, username, password, dialect = 'mssql', pool }, models) {
         this.models = models;
         this.database = new Sequelize(
             database,
@@ -23,6 +23,7 @@ class SQLAdapter {
             }
             return this.database;
         } catch (error) {
+            console.log(error)
             throw new Error(`Failed to retrieve SQL adapter instance!`);
         }
     }

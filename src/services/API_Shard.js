@@ -2,7 +2,7 @@ import config from '@config/Database';
 import SQLAdapter from '@lib/SQLAdapter';
 import express from 'express';
 import crud, { sequelizeCrud } from 'express-sequelize-crud';
-import * as models from '@model/shard/index';
+import * as models from '@models/shard';
 
 class API {
     constructor() {

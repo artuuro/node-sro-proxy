@@ -1,5 +1,5 @@
   {
-    "exec": "yarn proxy:dev",
+    "exec": "yarn server:dev",
     "watch": [
       "src/*"
     ],

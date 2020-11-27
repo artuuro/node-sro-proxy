@@ -32,9 +32,12 @@ class Proxy {
     async start() {
         try {
             this.server = createServer(async socket => {
-                const { data } = await API.get('/blacklist', {
+                if (this.config.debug) console.log(`[Client]->(${socket.remoteAddress}:${socket.remotePort})->(connected)`);
+
+                const { data } = await API.get(`/blacklist`, {
                     params: {
-                        ip: socket.remoteAddress
+                        sort: JSON.stringify(['createdAt']),
+                        filter: JSON.stringify({ remote: socket.remoteAddress })
                     }
                 });
 
@@ -43,7 +46,7 @@ class Proxy {
                 const { isProxy, country } = validate.info();
 
                 if (this.config.BANNED_COUNTRY_CODES.has(country.short) || isProxy || ipBlacklisted) {
-                    console.log(`[Blocked Client]->(${socket.remoteAddress}:${socket.remotePort})->(COUNTRY: (${country.short}) | PROXY: ${isProxy} | BLACKLIST: ${ipBlacklisted})`);
+                    console.log(`[Blocked]->(${socket.remoteAddress}:${socket.remotePort})->(COUNTRY: (${country.short}) | PROXY: ${isProxy} | BLACKLIST: ${ipBlacklisted})`);
                     socket.destroy();
                 } else {
                     const id = this.generateUniqueId(`${socket.remoteAddress}:${socket.remotePort}`);
@@ -64,11 +67,11 @@ class Proxy {
                     this.workers[id].on('exit', () => this.closeWorker(id));
                     this.workers[id].on('error', (e) => this.closeWorker(id));
 
+                    if (this.config.debug) this.workers[id].on('stdout', msg => console.log(`[${id}]>`, msg));
+
                     socket.on('data', buffer => this.workers[id] && this.workers[id].postMessage(buffer));
                     socket.on('error', () => this.closeWorker(id));
                     socket.on('close', () => this.closeWorker(id));
-
-                    if (this.config.debug) console.log(`[Client]->(${socket.remoteAddress}:${socket.remotePort}){${id}}->(launched)`);
                 }
             });
 
