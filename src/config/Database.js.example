@@ -5,7 +5,11 @@ export default {
     password: '',       // DB Password
     API: {
         HOST: 'http://127.0.0.1/', // API microservice to work with database
-        PORT: 1020, // Port where it will be bound
-        AUTH: '0x33' // Authentication key for client workers
+        PORTS: {
+            API_Gateway: 1991,
+            API_Account: 1992,
+            API_Shard: 1993
+        },
+        AUTH: '0x33' // Authentication key for API access
     }
 };

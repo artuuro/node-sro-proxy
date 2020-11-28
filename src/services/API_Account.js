@@ -36,8 +36,8 @@ class API {
                 res.status(404).json({ message: 'Not Found' });
             });
 
-            this.app.listen(config.API.PORT + 1);
-            console.log(`Webserver online: ${config.API.PORT + 1}`);
+            this.app.listen(config.API.PORTS,API_Account);
+            console.log(`Webserver online: ${config.API.PORTS,API_Account}`);
         } catch (e) {
             throw new Error(e);
         }

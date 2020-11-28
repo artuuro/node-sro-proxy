@@ -5,7 +5,7 @@ import API from '@lib/helpers/API';
 
 const WORKERS_PATH = `${__dirname}/workers/`;
 
-class Proxy {
+class Gateway {
     constructor(config) {
         Object.assign(this, {
             config: {
@@ -15,6 +15,10 @@ class Proxy {
             },
             workers: {}
         });
+    }
+
+    broadcast() {
+
     }
 
     generateUniqueId(input) {
@@ -84,4 +88,4 @@ class Proxy {
     }
 }
 
-export default Proxy;
+export default Gateway;

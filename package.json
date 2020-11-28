@@ -33,6 +33,7 @@
     },
     "dependencies": {
         "axios": "^0.21.0",
+        "botflow": "^1.0.7",
         "express": "^4.17.1",
         "express-sequelize-crud": "^6.1.2",
         "ip2location-nodejs": "^8.4.0",

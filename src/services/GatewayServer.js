@@ -1,11 +1,11 @@
-import Router from '@lib/Router';
+import Router from '@lib/Gateway';
 import config from '@config/GatewayServer';
-import dbConfig from '@config/Database';
+import { API } from '@config/Database';
 class GatewayServer {
     constructor() {
         this.module = new Router({
             ...config,
-            API: dbConfig.API
+            API
         });
     }
 

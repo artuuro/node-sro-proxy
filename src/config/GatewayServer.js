@@ -5,7 +5,7 @@ export default {
     FAKE_PLAYERS: 82,
     IP_LIMIT: 1,
     HWID_LIMIT: 1,
-    BANNED_COUNTRY_CODES: ['TR', 'GB'],
+    BANNED_COUNTRY_CODES: ['TR'],
     LOCAL: {
         HOST: '0.0.0.0',
         PORT: 7001

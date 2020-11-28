@@ -1,4 +1,4 @@
-import Router from '@lib/Router';
+import Router from '@lib/Gateway';
 import config from '@config/DownloadServer';
 
 class DownloadServer {

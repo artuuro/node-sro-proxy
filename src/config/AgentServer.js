@@ -10,7 +10,7 @@ export default {
         PORT: 16004
     },
     IP_LIMIT: 1,
-    BANNED_COUNTRY_CODES: [],
+    BANNED_COUNTRY_CODES: ['TR'],
     CHAT_TYPES: {
         1: 'Public',
         2: 'Private',
@@ -25,13 +25,9 @@ export default {
         13: 'NPC Quest',
         16: 'Academy'
     },
-    WEATHER: {
-        types: {
-            'still': 1,
-            'raining': 2,
-            'snowing': 3
-        },
-        defaultIntensity: 400
+    weather: {
+        type: 3, // 1 = normal, 2 = rain, 3 = snowing
+        intensity: 200 //(default is 200)
     },
     middlewares: {
         client: {
