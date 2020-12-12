@@ -31,7 +31,7 @@ async function ServerStatus(Event, packet) {
         const shardName = read.string('ascii');
         const playersOnline = read.uint16();
 
-        shard.name = `${shardName} (${playersOnline + FAKE_PLAYERS})`;
+        shard.name = `${shardName}`;
         shard.onlineCount = playersOnline + FAKE_PLAYERS;
         shard.capacity = read.uint16();
         shard.status = read.uint8();
@@ -49,8 +49,10 @@ async function ServerStatus(Event, packet) {
     }
 
     return {
-        ...packet,
-        data: write.toData()
+        packet: {
+            ...packet,
+            data: write.toData()
+        }
     };
 }
 

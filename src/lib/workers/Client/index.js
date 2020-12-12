@@ -1,14 +1,26 @@
-import { workerData, parentPort } from 'worker_threads';
 import { SilkroadSecurityJS as Security, stream } from 'silkroad-security';
+import DataAPI from '@lib/DataAPI';
+import NodeCache from 'node-cache';
 import { Socket } from 'net';
 import * as ctrl from '@control';
-import API from '@lib/helpers/API';
 
-const { config, info } = workerData;
+const { config, info } = JSON.parse(process.argv[2]);
 const socket = new Socket();
 const security = {
     client: new Security(),
     remote: new Security()
+};
+
+const memory = new NodeCache();
+
+const disconnect = async () => {
+    const get_session = memory.get('session') || false;
+
+    if (get_session) await DataAPI.proxy.put(`/instances/${get_session}`, {
+        connected: false
+    });
+
+    process.send({ type: 'disconnect' });
 };
 
 const middlewares = Object.keys(config.middlewares).reduce((endpoints, mw) => ({
@@ -22,33 +34,40 @@ const middlewares = Object.keys(config.middlewares).reduce((endpoints, mw) => ({
 async function handlePacket(sender, packet) {
     security[sender].Recv(Buffer.from(packet).toJSON().data);
 
-    const target = sender == 'client' ? 'remote' : 'client';
+    let target = sender == 'client' ? 'remote' : 'client';
     const incomingStream = await security[sender].GetPacketToRecv() || [];
 
     for (const packet of incomingStream) {
         if ((target === 'remote' && config.whitelist[packet.opcode]) || target == 'client') {
             const middleware = middlewares[sender] ? middlewares[sender][packet.opcode] || false : false;
 
-            const _packet = middleware ? await middleware({
+            const result = middleware ? await middleware({
                 stream,
                 config,
-                api: API,
+                api: DataAPI,
+                memory,
+                disconnect,
                 instance: {
                     info,
-                    remote: {
-                        security: security.remote,
-                        socket: socket
-                    }
+                    security,
+                    serverSocket: socket
                 }
-            }, packet, target) : packet;
+            }, packet, target) : { packet };
 
-            if (_packet) await security[target].Send(
-                _packet.opcode,
-                _packet.data,
-                _packet.encrypted,
-                _packet.massive
-            );
-        }// else if (config.debug && target === 'remote') console.log(`[${sender}]->(${packet.opcode})->${target}: NOT WHITELISTED`);
+            if (result) {
+                target = result.target ? result.target : target;
+
+                if (result.packet) await security[target].Send(
+                    result.packet.opcode,
+                    result.packet.data,
+                    result.packet.encrypted,
+                    result.packet.massive
+                )
+
+                if (result.exit) disconnect();
+            }
+
+        }
     }
 
     const outgoingStream = await security[target].GetPacketToSend() || [];
@@ -57,7 +76,11 @@ async function handlePacket(sender, packet) {
         switch (target) {
             case 'remote': socket.write(Buffer.from(packet));
                 break;
-            default: parentPort.postMessage(packet);
+            default:
+                process.send({
+                    type: 'buffer',
+                    data: packet
+                });
                 break;
         }
     }
@@ -70,15 +93,25 @@ socket.connect({
     host: config.REMOTE.HOST,
     port: config.REMOTE.PORT,
     onread: {
-        buffer: Buffer.alloc(8 * 1024)
+        buffer: Buffer.alloc(8192)
     }
 });
 
 // Errors
-socket.on('error', () => process.exit(0));
-socket.on('close', () => process.exit(0));
+socket.on('error', disconnect);
+socket.on('close', disconnect);
 
 // Server -> Client
 socket.on('data', data => handlePacket('remote', data));
+
 // Client -> Server
-parentPort.on('message', data => handlePacket('client', data));
+process.on('message', async message => {
+    switch (message.code) {
+        case 1:
+            await handlePacket('client', message.data);
+        break;
+        case 0: // disconnect
+            await disconnect();
+        break;
+    }
+});

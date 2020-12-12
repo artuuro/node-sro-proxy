@@ -1,10 +1,11 @@
 export default {
-    fork_mode: true,
     module: 'GatewayServer',
     CAPTCHA: '0',
-    FAKE_PLAYERS: 82,
-    IP_LIMIT: 1,
-    HWID_LIMIT: 1,
+    FAKE_PLAYERS: 403,
+    LIMITS: {
+        IP: 1,
+        HWID: 1
+    },
     BANNED_COUNTRY_CODES: ['TR'],
     LOCAL: {
         HOST: '0.0.0.0',
@@ -36,13 +37,15 @@ export default {
     },
     middlewares: {
         client: {
-            0xCAFE: 'HardwareID'
+            0xCAFE: 'HardwareID',
+            0x6102: 'Authentication'
         },
         remote: {
             0xA100: 'RedirectDownload',
             0xA101: 'RewriteShardList',
             0xA102: 'LoginResponse',
-            0x2322: 'AutoCaptcha'
+            0x2322: 'AutoCaptcha',
+            
         }
     }
 };

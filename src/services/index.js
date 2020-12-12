@@ -2,7 +2,7 @@ import AgentServer from './AgentServer';
 import GatewayServer from './GatewayServer';
 import DownloadServer from './DownloadServer';
 import CreateDB from './CreateDB';
-import API_Gateway from './API_Gateway';
+import API_Proxy from './API_Proxy';
 import API_Account from './API_Account';
 import API_Shard from './API_Shard';
 
@@ -11,7 +11,7 @@ export {
     GatewayServer,
     DownloadServer,
     CreateDB,
-    API_Gateway,
+    API_Proxy,
     API_Account,
     API_Shard
 };

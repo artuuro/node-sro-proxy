@@ -2,11 +2,14 @@ import config from '@config/Database';
 import SQLAdapter from '@lib/SQLAdapter';
 import express from 'express';
 import crud, { sequelizeCrud } from 'express-sequelize-crud';
-import * as models from '@models/gateway';
 
-class API_Gateway {
-    constructor() {
-        this.adapter = new SQLAdapter(config, models);
+class WebServer {
+    constructor(serverConfig, models) {
+        this.serverConfig = serverConfig;
+        this.adapter = new SQLAdapter({
+            ...config,
+            database: this.serverConfig.database
+        }, models);
     }
 
     async run() {
@@ -14,9 +17,9 @@ class API_Gateway {
             this.database = await this.adapter.instance();
             this.app = new express();
 
-            this.app.use(function (req, res, next) {
-                console.log(req.headers.token, req.params, req.query);
-                if (req.headers.token && req.headers.token === config.API.AUTH) return next();
+            // LOCAL AUTH:
+            this.app.use((req, res, next) => {
+                if (req.headers.token && req.headers.token === this.serverConfig.auth) return next();
                 return res.status(401).json({ message: 'Not Authorized' });
             });
 
@@ -25,16 +28,16 @@ class API_Gateway {
                 console.log(`Model ${name} registered route: /${name.toLowerCase()}`);
             }
 
-            this.app.use(function (err, req, res, next) {
+            this.app.use((err, req, res, next) => {
                 res.status(404).json({ message: 'Not Found' });
             });
 
-            this.app.listen(config.API.PORTS.API_Gateway);
-            console.log(`Webserver online: ${config.API.PORTS.API_Gateway}`);
+            this.app.listen(this.serverConfig.port);
+            console.log(`Webserver online: ${this.serverConfig.port} (${this.serverConfig.database})`);
         } catch (e) {
             throw new Error(e);
         }
     }
 }
 
-export default API_Gateway;
+export default WebServer;

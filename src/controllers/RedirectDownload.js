@@ -52,7 +52,9 @@ async function RedirectAgent(Event, packet) {
         _packet = packet;
     }
 
-    return _packet;
+    return {
+        packet: _packet
+    };
 }
 
 export default RedirectAgent;

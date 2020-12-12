@@ -10,7 +10,11 @@ const Blacklist = (db, types) => db.define('Blacklist', {
     },
     reason: {
         type: types.STRING,
-        default: 'System Restricted'
+        default: 'Violated User Agreement'
+    },
+    active: {
+        type: types.BOOLEAN,
+        default: true
     },
     createdAt: types.DATE,
     updatedAt: types.DATE

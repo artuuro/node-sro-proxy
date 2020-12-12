@@ -1,14 +1,9 @@
-import Router from '@lib/Gateway';
 import config from '@config/AgentServer';
-
-class AgentServer {
+import AsyncServer from '@lib/AsyncServer';
+class Agent extends AsyncServer {
     constructor() {
-        this.module = new Router(config);
-    }
-
-    async run() {
-        return this.module.start();
+        super(config);
     }
 }
 
-export default AgentServer;
+export default Agent;

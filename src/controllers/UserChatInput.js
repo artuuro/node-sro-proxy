@@ -17,7 +17,7 @@ async function UserChatInput(Event, packet) {
 
     if (config.debug) console.log(`[${JSON.stringify(Event.instance.info)}]\r\n[CHAT][${typeName}]->${JSON.stringify(message)}`);
 
-    return packet;
+    return { packet };
 }
 
 export default UserChatInput;

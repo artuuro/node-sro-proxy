@@ -1,15 +1,5 @@
 export default {
     host: '',           // Remote or local hostname
-    database: '',       // DB Index (database name)
     username: '',       // DB Username
-    password: '',       // DB Password
-    API: {
-        HOST: 'http://127.0.0.1/', // API microservice to work with database
-        PORTS: {
-            API_Gateway: 1991,
-            API_Account: 1992,
-            API_Shard: 1993
-        },
-        AUTH: '0x33' // Authentication key for API access
-    }
+    password: ''       // DB Password
 };

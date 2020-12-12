@@ -6,6 +6,8 @@ import SiegeActionSQLi from './SiegeActionSQLi';
 import UserChatInput from './UserChatInput';
 import HardwareID from './HardwareID';
 import WeatherUpdate from './WeatherUpdate';
+import Authentication from './Authentication';
+import CaptureSession from './CaptureSession';
 
 export {
     LoginResponse,
@@ -15,5 +17,7 @@ export {
     SiegeActionSQLi,
     UserChatInput,
     HardwareID,
-    WeatherUpdate
+    WeatherUpdate,
+    Authentication,
+    CaptureSession
 };

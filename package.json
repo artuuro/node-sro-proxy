@@ -1,6 +1,6 @@
 {
     "name": "node-sro-proxy",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "description": "Stateless NodeJS (ES6+) middleware layer for online MMORPG Silkroad Online",
     "main": "index.js",
     "author": "Arthur G",
@@ -9,7 +9,7 @@
     "scripts": {
         "install": "yarn --ignore-scripts",
         "install:db": "cross-env MODULE=CreateDB npm-run-all dev",
-        "API_Gateway": "cross-env MODULE=API_Gateway npm-run-all prod",
+        "API_Proxy": "cross-env MODULE=API_Proxy npm-run-all prod",
         "API_Account": "cross-env MODULE=API_Account npm-run-all prod",
         "API_Shard": "cross-env MODULE=API_Shard npm-run-all prod",
         "GatewayServer": "cross-env MODULE=GatewayServer npm-run-all prod",
@@ -18,7 +18,7 @@
         "dev:GatewayServer": "cross-env MODULE=GatewayServer npm-run-all dev",
         "dev:DownloadServer": "cross-env MODULE=DownloadServer npm-run-all dev",
         "dev:AgentServer": "cross-env MODULE=AgentServer npm-run-all dev",
-        "dev:API_Gateway": "cross-env MODULE=API_Gateway npm-run-all dev",
+        "dev:API_Proxy": "cross-env MODULE=API_Proxy npm-run-all dev",
         "dev:API_Account": "cross-env MODULE=API_Account npm-run-all dev",
         "dev:API_Shard": "cross-env MODULE=API_Shard npm-run-all dev",
         "dev": "nodemon",

@@ -1,15 +1,10 @@
-import Router from '@lib/Gateway';
 import config from '@config/DownloadServer';
+import AsyncServer from '@lib/AsyncServer';
 
-class DownloadServer {
+class Download extends AsyncServer {
     constructor() {
-        this.module = new Router(config);
-    }
-
-    async run() {
-        return this.module.start();
+        super(config);
     }
 }
 
-export default DownloadServer;
-
+export default Download;

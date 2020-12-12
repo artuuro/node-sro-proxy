@@ -1,17 +1,10 @@
-import Router from '@lib/Gateway';
 import config from '@config/GatewayServer';
-import { API } from '@config/Database';
-class GatewayServer {
-    constructor() {
-        this.module = new Router({
-            ...config,
-            API
-        });
-    }
+import AsyncServer from '@lib/AsyncServer';
 
-    async run() {
-        return this.module.start();
+class Gateway extends AsyncServer {
+    constructor() {
+        super(config);
     }
 }
 
-export default GatewayServer;
+export default Gateway;

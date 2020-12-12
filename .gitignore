@@ -3,5 +3,4 @@ bin
 src/config/Database.js
 *.log
 *.bak
-*.bat
 data

@@ -1,5 +1,4 @@
 export default {
-    fork_mode: true,
     module: 'AgentServer',
     LOCAL: {
         HOST: '0.0.0.0',
@@ -9,7 +8,10 @@ export default {
         HOST: '138.201.58.79',
         PORT: 16004
     },
-    IP_LIMIT: 1,
+    LIMITS: {
+        IP: 1,
+        HWID: 1
+    },
     BANNED_COUNTRY_CODES: ['TR'],
     CHAT_TYPES: {
         1: 'Public',
@@ -32,7 +34,8 @@ export default {
     middlewares: {
         client: {
             0x705E: 'SiegeActionSQLi',
-            0x7025: 'UserChatInput'
+            0x7025: 'UserChatInput',
+            0x6103: 'CaptureSession'
         },
         remote: {
             0x3809: 'WeatherUpdate'

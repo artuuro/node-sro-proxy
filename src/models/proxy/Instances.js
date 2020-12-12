@@ -1,4 +1,4 @@
-const Clients = (db, types) => db.define('Clients', {
+const Instances = (db, types) => db.define('Instances', {
     id: {
         type: types.INTEGER,
         primaryKey: true,
@@ -12,12 +12,17 @@ const Clients = (db, types) => db.define('Clients', {
         type: types.STRING,
         allowNull: false
     },
-    userId: {
-        type: types.INTEGER,
-        allowNUll: true
+    username: {
+        type: types.STRING,
+        allowNUll: false
+    },
+    connected: {
+        type: types.BOOLEAN,
+        allowNull: false,
+        default: false
     },
     createdAt: types.DATE,
     updatedAt: types.DATE
 });
 
-export default Clients;
+export default Instances;

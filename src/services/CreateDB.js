@@ -1,9 +1,14 @@
 import config from '@config/Database';
 import SQLAdapter from '@lib/SQLAdapter';
-import * as models from '@models/gateway';
+import * as models from '@models/proxy';
+import api from '@config/API';
+
 class CreateDB {
     constructor() {
-        this.adapter = new SQLAdapter(config, models);
+        this.adapter = new SQLAdapter({
+            database: api.proxy.database,
+            ...config
+        }, models);
     }
 
     async run() {
