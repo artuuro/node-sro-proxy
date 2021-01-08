@@ -36,7 +36,7 @@ class AsyncServer {
                         sort: JSON.stringify(['createdAt']),
                         filter: JSON.stringify({ 
                             remote: socket.remoteAddress,
-                            active: true
+                            active: 1
                         }),
                     }
                 });
@@ -45,7 +45,7 @@ class AsyncServer {
                 const validate = new IPValidation(socket.remoteAddress);
                 const { isProxy, country } = validate.info();
 
-                if (this.config.BANNED_COUNTRY_CODES.has(country.short) || isProxy) {
+                if (this.config.BANNED_COUNTRY_CODES.has(country.short) || isProxy || ipBlacklisted) {
                     socket.destroy(); 
                 } else {
                     const id = this.generateUniqueId(`${socket.remoteAddress}:${socket.remotePort}`);

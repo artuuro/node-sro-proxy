@@ -1,45 +1,49 @@
 export default {
-    module: 'AgentServer',
+    module: process.env.MODULE || 'AgentServer',
     LOCAL: {
-        HOST: '0.0.0.0',
-        PORT: 7002
+        HOST: process.env.BIND_IP || '0.0.0.0',
+        PORT: process.env.BIND_PORT || 8002,
     },
     REMOTE: {
-        HOST: '138.201.58.79',
-        PORT: 16004
+        HOST: process.env.REMOTE_IP || '138.201.58.79',
+        PORT: process.env.REMOTE_PORT || 16004
     },
     LIMITS: {
-        IP: 1,
-        HWID: 1
+        IP: process.env.IP_LIMIT || 20,
+        HWID: process.env.HWID_LIMIT || 3,
     },
-    BANNED_COUNTRY_CODES: ['TR'],
+    BANNED_COUNTRY_CODES: process.env.BLOCKED_COUNTRIES ? process.env.BLOCKED_COUNTRIES.split(',') : [],
     CHAT_TYPES: {
         1: 'Public',
         2: 'Private',
-        3: '(Elevated)Public',
+        3: 'GM Public',
         4: 'Party',
         5: 'Guild',
         6: 'Global',
-        7: '(Elevated)Notice',
+        7: 'GM Notice',
         9: 'Stall',
         11: 'Union',
         12: 'Global',
         13: 'NPC Quest',
-        16: 'Academy'
+        16: 'Academy',
     },
     weather: {
-        type: 3, // 1 = normal, 2 = rain, 3 = snowing
-        intensity: 200 //(default is 200)
+        type: [1, 3, 3, 3, 1], // 1 = normal, 2 = rain, 3 = snowing (more in array, more chance having)
+        intensity: [25, 50, 25, 10], // random values in array (same rules as above)
     },
     middlewares: {
         client: {
             0x705E: 'SiegeActionSQLi',
             0x7025: 'UserChatInput',
-            0x6103: 'CaptureSession'
+            0x6103: 'LoginPacket',
         },
         remote: {
-            0x3809: 'WeatherUpdate'
-        }
+            0x3809: 'WeatherUpdate',
+            0xA103: 'GameLoginReply',
+        },
+    },
+    hooks: {
+        'exit': 'onAgentDisconnect'
     },
     whitelist: {
         0x7474: 'ACADEMY_LEAVE',
@@ -48,6 +52,7 @@ export default {
         0x7155: 'ALCHEMY_MANUFACTURE',
         0x716A: 'ALCHEMY_SOCKET',
         0x7202: 'SKILL_WITHDRAW',
+        0x7203: 'MASTERY_WITHDRAW',
         0x70A1: 'SKILL_LEARN',
         0x747B: 'ACADEMY_MATCHING_CHANGE',
         0x747A: 'ACADEMY_MATCHING_REGISTER',

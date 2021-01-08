@@ -21,6 +21,11 @@ const Instances = (db, types) => db.define('Instances', {
         allowNull: false,
         default: false
     },
+    is_bot: {
+        type: types.BOOLEAN,
+        allowNull: false,
+        default: false
+    },
     createdAt: types.DATE,
     updatedAt: types.DATE
 });

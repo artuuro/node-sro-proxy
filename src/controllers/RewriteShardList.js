@@ -1,6 +1,6 @@
-async function ServerStatus(Event, packet) {
-    const { FAKE_PLAYERS } = Event.config;
-    const { reader, writer } = Event.stream;
+async function ServerStatus({ config, stream }, packet) {
+    const { FAKE_PLAYERS } = config;
+    const { reader, writer } = stream;
 
     const read = new reader(packet.data);
     const write = new writer();

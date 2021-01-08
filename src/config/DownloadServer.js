@@ -1,17 +1,20 @@
 export default {
-    module: 'DownloadServer',
-    BANNED_COUNTRY_CODES: ['TR'],
+    module: process.env.MODULE || 'DownloadServer',
+    BANNED_COUNTRY_CODES: process.env.BLOCKED_COUNTRIES ? process.env.BLOCKED_COUNTRIES.split(',') : [],
     LIMITS: {
-        IP: 1,
-        HWID: 1
+        IP: process.env.IP_LIMIT || 3,
     },
     LOCAL: {
-        HOST: '0.0.0.0',
-        PORT: 7003
+        HOST: process.env.BIND_IP || '0.0.0.0',
+        PORT: process.env.BIND_PORT || 8003
     },
     REMOTE: {
-        HOST: '138.201.58.79',
-        PORT: 16002
+        HOST: process.env.REMOTE_IP || '138.201.58.79',
+        PORT: process.env.REMOTE_PORT || 16002
+    },
+    middlewares: {
+        client: {},
+        remote: {},
     },
     whitelist: {
         0x2002: 'PING',

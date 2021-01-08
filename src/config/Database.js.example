@@ -1,5 +1,5 @@
 export default {
     host: '',           // Remote or local hostname
     username: '',       // DB Username
-    password: ''       // DB Password
+    password: ''        // DB Password
 };

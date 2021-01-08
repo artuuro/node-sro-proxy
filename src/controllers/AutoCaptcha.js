@@ -1,9 +1,8 @@
-async function AutoCaptcha(Event, packet) {
-    const { serverSocket, security } = Event.instance;
-    const { writer } = Event.stream;
+async function AutoCaptcha({ stream, config }, packet) {
+    const { writer } = stream;
 
     const write = new writer();
-    write.string(Event.config.CAPTCHA);
+    write.string(config.CAPTCHA);
 
     return {
         packet: {

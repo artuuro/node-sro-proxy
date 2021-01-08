@@ -1,8 +1,9 @@
 import { SilkroadSecurityJS as Security, stream } from 'silkroad-security';
-import DataAPI from '@lib/DataAPI';
+import api from '@lib/DataAPI';
 import NodeCache from 'node-cache';
 import { Socket } from 'net';
 import * as ctrl from '@control';
+import * as hook from './hooks';
 
 const { config, info } = JSON.parse(process.argv[2]);
 const socket = new Socket();
@@ -16,9 +17,7 @@ const memory = new NodeCache();
 const disconnect = async () => {
     const get_session = memory.get('session') || false;
 
-    if (get_session) await DataAPI.proxy.put(`/instances/${get_session}`, {
-        connected: false
-    });
+    if (config.hooks && config.hooks.exit) await hook[config.hooks.exit](api, get_session);
 
     process.send({ type: 'disconnect' });
 };
@@ -41,18 +40,7 @@ async function handlePacket(sender, packet) {
         if ((target === 'remote' && config.whitelist[packet.opcode]) || target == 'client') {
             const middleware = middlewares[sender] ? middlewares[sender][packet.opcode] || false : false;
 
-            const result = middleware ? await middleware({
-                stream,
-                config,
-                api: DataAPI,
-                memory,
-                disconnect,
-                instance: {
-                    info,
-                    security,
-                    serverSocket: socket
-                }
-            }, packet, target) : { packet };
+            const result = middleware ? await middleware({ stream, config, api, memory, info }, packet, target) : { packet };
 
             if (result) {
                 target = result.target ? result.target : target;
@@ -64,9 +52,8 @@ async function handlePacket(sender, packet) {
                     result.packet.massive
                 )
 
-                if (result.exit) disconnect();
+                if (result.exit) await disconnect();
             }
-
         }
     }
 
@@ -98,8 +85,8 @@ socket.connect({
 });
 
 // Errors
-socket.on('error', disconnect);
-socket.on('close', disconnect);
+socket.on('error', async () => await disconnect());
+socket.on('close', async () => await disconnect());
 
 // Server -> Client
 socket.on('data', data => handlePacket('remote', data));

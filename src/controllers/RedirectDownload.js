@@ -1,7 +1,6 @@
-async function RedirectAgent(Event, packet) {
-    const { DownloadServer } = Event.config.REDIRECT;
-    const { reader, writer } = Event.stream;
-
+async function RedirectAgent({ config, stream }, packet) {
+    const { DownloadServer } = config.REDIRECT;
+    const { reader, writer } = stream;
     const read = new reader(packet.data);
     const status = read.uint8();
 

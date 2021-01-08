@@ -1,23 +1,35 @@
-async function Authentication(Event, packet) {
-    const { config, stream, memory } = Event;
+async function Authentication({ config, stream, memory, info, api }, packet) {
     const { reader, writer } = stream;
-    const { ip } = Event.instance.info;
-    const { get, post, put } = Event.api.proxy;
+    const { ip } = info;
+    const { get, post, put } = api.proxy;
 
     const write = new writer();
     const read = new reader(packet.data);
-    const locale = read.uint8();
-    const username = read.string('ascii').toLowerCase();
 
-    const get_instance = await get(`/instances`, {
+    const {
+        locale,
+        username,
+        password,
+        serverId,
+    } = {
+        locale: read.uint8(),
+        username: read.string('ascii').toLowerCase(),
+        password: read.string('ascii'),
+        serverId: read.uint16(),
+    };
+
+    const { data: [ db_instance ] } = await get(`/instances`, {
         params: {
             filter: JSON.stringify({
-                username: username
+                username
             }),
             sort: JSON.stringify(['updatedAt', 'DESC']),
             limit: 1
         }
     });
+
+    memory.set('username', username);
+    if (db_instance) memory.set('session', db_instance.id);
 
     const errorPacket = () => ({
         packet: {
@@ -29,49 +41,38 @@ async function Authentication(Event, packet) {
         exit: true
     });
 
-    const get_hwid = memory.get('hwid');
+    const hwid = memory.get('hwid');
 
-    const instance = get_instance.data.length ? {
-        ...get_instance.data[0],
-        ip,
-        hwid: get_hwid || get_instance.data[0].hwid || false,
+    const instance = db_instance ? { 
+        ...db_instance, 
+        ip, 
+        hwid: hwid || db_instance.hwid || false 
     } : {
-        username,
-        ip,
-        hwid: get_hwid || false,
+        username, 
+        ip, 
+        hwid: hwid || false,
     };
 
     // Missing HWID
-    if (instance.hwid === false) {
-        const instance_by_ip = await get(`/instances`, {
-            params: {
-                filter: JSON.stringify({
-                    ip,
-                    connected: false
-                }),
-                sort: JSON.stringify(['updatedAt', 'DESC']),
-                limit: 1
-            }
-        });
+    if (!instance.hwid) {
+        write.uint8(2);
+        write.uint8(9);
 
-        if (instance_by_ip.data.length) {
-            instance.hwid = instance_by_ip.data[0].hwid;
-        } else {
-            write.uint8(2);
-            write.uint8(9);
-
-            return errorPacket();
-        }
+        return errorPacket();
     }
 
-    const [connections_per_ip, connections_per_hwid, blacklist] = await Promise.all(
+    const [
+        connections_per_ip, 
+        connections_per_hwid, 
+        blacklist
+    ] = await Promise.all(
         [
             await get(`/instances`, {
                 params: {
                     select: JSON.stringify(['id']),
                     filter: JSON.stringify({
                         ip: ip,
-                        connected: true
+                        connected: 1
                     })
                 }
             }),
@@ -79,7 +80,7 @@ async function Authentication(Event, packet) {
                 params: {
                     filter: JSON.stringify({
                         hwid: instance.hwid,
-                        connected: true
+                        connected: 1
                     })
                 }
             }),
@@ -91,7 +92,7 @@ async function Authentication(Event, packet) {
                             instance.hwid, 
                             instance.ip
                         ],
-                        active: true
+                        active: 1
                     })
                 }
             })
@@ -103,7 +104,7 @@ async function Authentication(Event, packet) {
         connections_per_hwid.data.length
     ];
 
-    // HWID Blacklisted
+    // Blacklist:
     if (blacklist.data.length) {
         write.uint8(2);
         write.uint8(2);
@@ -112,8 +113,9 @@ async function Authentication(Event, packet) {
         return errorPacket();
     }
 
-    // IP Blacklisted
-    if (ip_count === config.LIMITS.IP || hwid_count === config.LIMITS.HWID) {
+    // IP Limits:
+    if (ip_count >= parseInt(config.LIMITS.IP) || hwid_count >= parseInt(config.LIMITS.HWID)) {
+
         write.uint8(2);
         write.uint8(10);
 
@@ -123,13 +125,25 @@ async function Authentication(Event, packet) {
     if (instance.id) {
         await put(`/instances/${instance.id}`, {
             ip: instance.ip,
-            hwid: instance.hwid
+            hwid: instance.hwid,
         });
     } else {
         await post(`/instances`, {
-            ...instance
+            ...instance,
+            connected: 0,
+            is_bot: 0,
         });
     }
+
+    // if (locale !== 22) {
+    //     write.uint8(22);
+    //     write.string(username);
+    //     write.string(password);
+    //     write.uint16(serverId);
+    //     packet.data = write.toData();
+    // }
+
+    
 
     return { packet };
 }

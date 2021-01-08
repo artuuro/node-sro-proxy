@@ -7,7 +7,8 @@ import UserChatInput from './UserChatInput';
 import HardwareID from './HardwareID';
 import WeatherUpdate from './WeatherUpdate';
 import Authentication from './Authentication';
-import CaptureSession from './CaptureSession';
+import GameLoginReply from './GameLoginReply';
+import LoginPacket from './LoginPacket';
 
 export {
     LoginResponse,
@@ -19,5 +20,6 @@ export {
     HardwareID,
     WeatherUpdate,
     Authentication,
-    CaptureSession
+    GameLoginReply,
+    LoginPacket,
 };

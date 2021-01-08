@@ -18,10 +18,11 @@ class WebServer {
             this.app = new express();
 
             // LOCAL AUTH:
-            this.app.use((req, res, next) => {
-                if (req.headers.token && req.headers.token === this.serverConfig.auth) return next();
-                return res.status(401).json({ message: 'Not Authorized' });
-            });
+            // this.app.use((req, res, next) => {
+            //     console.log(req.url)
+            //     if (req.headers.token && req.headers.token === this.serverConfig.auth) return next();
+            //     return res.status(401).json({ message: 'Not Authorized' });
+            // });
 
             for (const name of Object.keys(this.database.models)) {
                 this.app.use(crud(`/${name.toLowerCase()}`, sequelizeCrud(this.database.models[name])));
@@ -29,6 +30,7 @@ class WebServer {
             }
 
             this.app.use((err, req, res, next) => {
+                console.log(err)
                 res.status(404).json({ message: 'Not Found' });
             });
 

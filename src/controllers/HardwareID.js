@@ -1,13 +1,12 @@
-async function HardwareID(Event, packet) {
-    const { stream, config, memory } = Event;
-    const { reader, writer } = stream;
-    const { ip } = Event.instance.info;
+async function HardwareID({ stream, config, memory, info }, packet) {
+    const { reader } = stream;
+    const { ip } = info;
     const read = new reader(packet.data);
-    const HWID = Buffer.from(read.string()).toString('base64');
-    
-    if (config.debug) console.log(`[HWID RECEIVED]->${ip}->"${HWID}"`);
 
-    // Cache this:
+    // retrieve HWID:
+    const HWID = Buffer.from(read.string()).toString('base64');
+
+    // Remember HWID for login:
     memory.set('hwid', HWID);
 
     return;

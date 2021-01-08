@@ -1,28 +1,28 @@
 export default {
-    module: 'GatewayServer',
-    CAPTCHA: '0',
-    FAKE_PLAYERS: 403,
+    module: process.env.MODULE || 'AgentServer',
+    CAPTCHA: process.env.LOGIN_CAPTCHA || '0',
+    FAKE_PLAYERS: process.env.FAKE_PLAYERS || 0,
     LIMITS: {
-        IP: 1,
-        HWID: 1
+        IP: process.env.IP_LIMIT || 20,
+        HWID: process.env.HWID_LIMIT || 3,
     },
-    BANNED_COUNTRY_CODES: ['TR'],
+    BANNED_COUNTRY_CODES: process.env.BLOCKED_COUNTRIES ? process.env.BLOCKED_COUNTRIES.split(',') : [],
     LOCAL: {
-        HOST: '0.0.0.0',
-        PORT: 7001
+        HOST: process.env.BIND_IP || '0.0.0.0',
+        PORT: process.env.BIND_PORT || 8001
     },
     REMOTE: {
-        HOST: '138.201.58.79',
-        PORT: 15779
+        HOST: process.env.REMOTE_IP || '138.201.58.79',
+        PORT: process.env.REMOTE_PORT || 15779
     },
     REDIRECT: {
         AgentServer: {
-            HOST: '127.0.0.1', //138.201.58.79
-            PORT: 7002
+            HOST: process.env.REDIRECT_AGENT_IP || '127.0.0.1',
+            PORT: process.env.REDIRECT_AGENT_PORT || 8002
         },
         DownloadServer: {
-            HOST: '127.0.0.1', //138.201.58.79
-            PORT: 7003
+            HOST: process.env.REDIRECT_DOWNLOAD_IP || '127.0.0.1',
+            PORT: process.env.REDIRECT_DOWNLOAD_PORT || 8003
         }
     },
     whitelist: {
@@ -44,8 +44,7 @@ export default {
             0xA100: 'RedirectDownload',
             0xA101: 'RewriteShardList',
             0xA102: 'LoginResponse',
-            0x2322: 'AutoCaptcha',
-            
+            0x2322: 'AutoCaptcha'
         }
     }
 };
