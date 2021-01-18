@@ -1,11 +1,11 @@
 import redirects from '@config/redirects';
+import { truncate } from 'lodash';
 
 async function LoginResponse({ config, stream, memory, api }, packet) {
     const { writer, reader } = stream;
     const { get, put } = api.proxy;
 
     const username = memory.get('username');
-
     const read = new reader(packet.data);
     const status = read.uint8();
 
@@ -16,17 +16,19 @@ async function LoginResponse({ config, stream, memory, api }, packet) {
 
         const redirect = redirects[`${host}:${port}`];
 
-        console.log(redirect);
-
         const {
-            data,
+            data: [{ id }],
         } = await get(`/instances?limit=1`, {
-            filter: JSON.stringify({ username }),
+            params: {
+                filter: JSON.stringify({
+                    username
+                }),
+                sort: JSON.stringify(['updatedAt', 'DESC']),
+                limit: 1
+            }
         });
 
-        const { id } = data.find(i => i.username == username);
-
-        if (instance) {
+        if (id) {
             await put(`/instances/${id}`, {
                 connected: 1
             });
@@ -45,6 +47,10 @@ async function LoginResponse({ config, stream, memory, api }, packet) {
                 }
             };
         }
+
+        return {
+            exit: true,
+        };
     }
 
     return { packet };

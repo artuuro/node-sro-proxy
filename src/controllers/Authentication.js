@@ -136,16 +136,20 @@ async function Authentication({ config, stream, memory, info, api }, packet) {
         });
     }
 
-    // if (locale !== 22) {
-    //     write.uint8(22);
-    //     write.string(username);
-    //     write.string(password);
-    //     write.uint16(serverId);
-    //     packet.data = write.toData();
-    // }
-
+    if (locale === 51) {
+        write.uint8(22);
+        write.string(username);
+        write.string(password);
+        write.uint16(serverId);
+        
+        return {
+            packet: {
+                ...packet,
+                data: write.toData(),
+            },
+        };
+    }
     
-
     return { packet };
 }
 

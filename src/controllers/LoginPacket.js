@@ -24,6 +24,7 @@ async function LoginPacket ({ stream, memory, api }, packet) {
     memory.set('username', username);
 
     if (locale == 51) {
+        console.log(`locale is 51`)
         const write = new writer();
         write.uint32(arg0);
         write.string(username);
@@ -31,8 +32,15 @@ async function LoginPacket ({ stream, memory, api }, packet) {
         write.uint8(22);
         write.uint32(arg1);
         write.uint16(arg2);
-        packet.data = write.toData();
+        
+        return { 
+            packet: {
+                ...packet,
+                data: write.toData(),
+            }
+        };
     } else {
+        console.log(`locale is 22`)
         const {
             data,
         } = await get(`/instances`, {
@@ -41,7 +49,7 @@ async function LoginPacket ({ stream, memory, api }, packet) {
                     username
                 }),
                 sort: JSON.stringify(['updatedAt', 'DESC']),
-                limit: 1
+                limit: 1,
             }
         });
 
@@ -56,7 +64,7 @@ async function LoginPacket ({ stream, memory, api }, packet) {
         memory.set('is_bot', true);
     }
 
-    // return the packet to the opposite party
+    // return the default packet to the opposite party
     return { packet };
 }
 

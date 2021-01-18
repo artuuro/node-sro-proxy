@@ -9,6 +9,7 @@ import WeatherUpdate from './WeatherUpdate';
 import Authentication from './Authentication';
 import GameLoginReply from './GameLoginReply';
 import LoginPacket from './LoginPacket';
+import NoticeRequest from './NoticeRequest';
 
 export {
     LoginResponse,
@@ -22,4 +23,5 @@ export {
     Authentication,
     GameLoginReply,
     LoginPacket,
+    NoticeRequest,
 };

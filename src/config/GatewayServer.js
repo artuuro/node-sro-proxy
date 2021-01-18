@@ -9,11 +9,11 @@ export default {
     BANNED_COUNTRY_CODES: process.env.BLOCKED_COUNTRIES ? process.env.BLOCKED_COUNTRIES.split(',') : [],
     LOCAL: {
         HOST: process.env.BIND_IP || '0.0.0.0',
-        PORT: process.env.BIND_PORT || 8001
+        PORT: process.env.BIND_PORT || 8001,
     },
     REMOTE: {
         HOST: process.env.REMOTE_IP || '138.201.58.79',
-        PORT: process.env.REMOTE_PORT || 15779
+        PORT: process.env.REMOTE_PORT || 15779,
     },
     whitelist: {
         0x2002: 'GLOBAL_PING',
@@ -28,13 +28,14 @@ export default {
     middlewares: {
         client: {
             0xCAFE: 'HardwareID',
-            0x6102: 'Authentication'
+            0x6102: 'Authentication',
+            0x6104: 'NoticeRequest',
         },
         remote: {
             0xA100: 'RedirectDownload',
             0xA101: 'RewriteShardList',
             0xA102: 'LoginResponse',
-            0x2322: 'AutoCaptcha'
-        }
-    }
+            0x2322: 'AutoCaptcha',
+        },
+    },
 };
