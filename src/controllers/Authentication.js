@@ -18,6 +18,20 @@ async function Authentication({ config, stream, memory, info, api }, packet) {
         serverId: read.uint16(),
     };
 
+    if (locale == 22 && config.BLOCK_BOTS) {
+        write.uint8(3);
+        write.uint8(11);
+
+        return {
+            packet: {
+                opcode: 0xA102,
+                data: write.toData(),
+            },
+            target: 'client',
+            exit: true,
+        };
+    }
+
     const { data: [ db_instance ] } = await get(`/instances`, {
         params: {
             filter: JSON.stringify({
@@ -136,21 +150,19 @@ async function Authentication({ config, stream, memory, info, api }, packet) {
         });
     }
 
-    if (locale === 51) {
-        write.uint8(22);
-        write.string(username);
-        write.string(password);
-        write.uint16(serverId);
-        
-        return {
-            packet: {
-                ...packet,
-                data: write.toData(),
-            },
-        };
-    }
+    write.uint8(22);
+    write.string(username);
+    write.string(password);
+    write.uint16(serverId);
     
-    return { packet };
+    return {
+        packet: {
+            ...packet,
+            data: write.toData(),
+        },
+    };
+    
+   
 }
 
 export default Authentication;

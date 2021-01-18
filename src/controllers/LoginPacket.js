@@ -1,8 +1,9 @@
-async function LoginPacket ({ stream, memory, api }, packet) {
+async function LoginPacket ({ stream, memory, api, config }, packet) {
     const { reader, writer } = stream;
     const { get, put } = api.proxy;
     const read = new reader(packet.data);
-    
+    const write = new writer();
+
     // destructure packet:
     const {
         arg0,
@@ -24,8 +25,6 @@ async function LoginPacket ({ stream, memory, api }, packet) {
     memory.set('username', username);
 
     if (locale == 51) {
-        console.log(`locale is 51`)
-        const write = new writer();
         write.uint32(arg0);
         write.string(username);
         write.string(password);
@@ -40,7 +39,12 @@ async function LoginPacket ({ stream, memory, api }, packet) {
             }
         };
     } else {
-        console.log(`locale is 22`)
+        if (config.BLOCK_BOTS) {
+            return {
+                exit: true,
+            };
+        }
+
         const {
             data,
         } = await get(`/instances`, {

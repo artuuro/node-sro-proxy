@@ -24,6 +24,10 @@ set REDIRECT_DOWNLOAD_PORT=8003
 set FAKE_PLAYERS=403
 set IP_LIMIT=20
 set HWID_LIMIT=3
+set BLOCK_BOTS=false
+
+:: Value to send automatically at login captcha
+set LOGIN_CAPTCHA=0
 
 :: Block country access
 :: set BLOCKED_COUNTRIES=TR,GB,USA

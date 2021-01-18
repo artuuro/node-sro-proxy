@@ -15,6 +15,7 @@ export default {
         HOST: process.env.REMOTE_IP || '138.201.58.79',
         PORT: process.env.REMOTE_PORT || 15779,
     },
+    BLOCK_BOTS: process.env.BLOCK_BOTS || true,
     whitelist: {
         0x2002: 'GLOBAL_PING',
         0x9000: 'GLOBAL_HANDSHAKE_ACCEPT',
