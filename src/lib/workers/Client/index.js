@@ -102,3 +102,6 @@ process.on('message', async message => {
         break;
     }
 });
+
+// Graceful exit
+process.on('SIGTERM', async () => await disconnect());

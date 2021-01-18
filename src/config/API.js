@@ -1,6 +1,6 @@
 export default {
     proxy: {
-        database: `SRO_PROXY`,
+        database: `SRO_PROXY_TEST`,
         host: `http://127.0.0.1`,
         port: 1991,
         auth: `sroparadise.net`
