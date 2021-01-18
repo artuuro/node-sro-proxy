@@ -15,16 +15,6 @@ export default {
         HOST: process.env.REMOTE_IP || '138.201.58.79',
         PORT: process.env.REMOTE_PORT || 15779
     },
-    REDIRECT: {
-        AgentServer: {
-            HOST: process.env.REDIRECT_AGENT_IP || '127.0.0.1',
-            PORT: process.env.REDIRECT_AGENT_PORT || 8002
-        },
-        DownloadServer: {
-            HOST: process.env.REDIRECT_DOWNLOAD_IP || '127.0.0.1',
-            PORT: process.env.REDIRECT_DOWNLOAD_PORT || 8003
-        }
-    },
     whitelist: {
         0x2002: 'GLOBAL_PING',
         0x9000: 'GLOBAL_HANDSHAKE_ACCEPT',

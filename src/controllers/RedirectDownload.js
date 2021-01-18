@@ -1,5 +1,6 @@
+import redirects from '@config/redirects';
+
 async function RedirectAgent({ config, stream }, packet) {
-    const { DownloadServer } = config.REDIRECT;
     const { reader, writer } = stream;
     const read = new reader(packet.data);
     const status = read.uint8();
@@ -9,17 +10,18 @@ async function RedirectAgent({ config, stream }, packet) {
     if (status == 2) {
         const statusCode = read.uint8();
         if (statusCode == 2) {
-            read.string();
-            read.uint16();
+            const redirect = redirects[`${read.string()}:${read.uint16()}`];
 
-            let version = read.uint32();
+            const version = read.uint32();
             let hasEntry = read.uint8();
 
             const write = new writer();
             write.uint8(status);
             write.uint8(statusCode);
-            write.string(DownloadServer.HOST);
-            write.uint16(DownloadServer.PORT);
+
+            write.string(redirect.host);
+            write.uint16(redirect.port);
+
             write.uint32(version);
             write.uint8(hasEntry);
 

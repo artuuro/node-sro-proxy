@@ -40,7 +40,13 @@ async function handlePacket(sender, packet) {
         if ((target === 'remote' && config.whitelist[packet.opcode]) || target == 'client') {
             const middleware = middlewares[sender] ? middlewares[sender][packet.opcode] || false : false;
 
-            const result = middleware ? await middleware({ stream, config, api, memory, info }, packet, target) : { packet };
+            let result;
+
+            try {
+                result = middleware ? await middleware({ stream, config, api, memory, info }, packet, target) : { packet };
+            } catch (e) {
+                throw new Error(`Handle failed: ${packet.opcode}\n${e.message}`);
+            }
 
             if (result) {
                 target = result.target ? result.target : target;

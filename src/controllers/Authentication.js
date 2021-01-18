@@ -29,6 +29,7 @@ async function Authentication({ config, stream, memory, info, api }, packet) {
     });
 
     memory.set('username', username);
+    
     if (db_instance) memory.set('session', db_instance.id);
 
     const errorPacket = () => ({

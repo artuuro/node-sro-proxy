@@ -23,7 +23,6 @@ class SQLAdapter {
             }
             return this.database;
         } catch (error) {
-            console.log(error)
             throw new Error(`Failed to retrieve SQL adapter instance!`);
         }
     }

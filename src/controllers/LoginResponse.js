@@ -1,33 +1,42 @@
+import redirects from '@config/redirects';
+
 async function LoginResponse({ config, stream, memory, api }, packet) {
-    const { AgentServer } = config.REDIRECT;
     const { writer, reader } = stream;
-    const read = new reader(packet.data);
-    const status = read.uint8();
     const { get, put } = api.proxy;
+
     const username = memory.get('username');
 
+    const read = new reader(packet.data);
+    const status = read.uint8();
+
     if (status == 1) {
+        const token = read.uint16();
+        const host = read.string();
+        const port = read.uint16();
+
+        const redirect = redirects[`${host}:${port}`];
+
+        console.log(redirect);
+
         const {
             data,
-        } = await get(`/instances`, {
+        } = await get(`/instances?limit=1`, {
             filter: JSON.stringify({ username }),
-            limit: 1
         });
 
-        const [instance] = data;
+        const { id } = data.find(i => i.username == username);
 
         if (instance) {
-            await put(`/instances/${instance.id}`, {
+            await put(`/instances/${id}`, {
                 connected: 1
             });
 
-            const token = read.uint32();
             const write = new writer();
 
             write.uint8(status);
             write.uint32(token);
-            write.string(AgentServer.HOST);
-            write.uint16(AgentServer.PORT);
+            write.string(redirect.host);
+            write.uint16(redirect.port);
 
             return {
                 packet: {
@@ -35,8 +44,6 @@ async function LoginResponse({ config, stream, memory, api }, packet) {
                     data: write.toData(),
                 }
             };
-        } else {
-            return { exit: true };
         }
     }
 
