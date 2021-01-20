@@ -1,5 +1,8 @@
 @echo off
 title API_Proxy
+
+cd ../../
+
 set NODE_ENV=production
 set MODULE=API_Proxy
 

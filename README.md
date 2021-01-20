@@ -1,20 +1,20 @@
 # node-sro-proxy
 
 ## Features
-- Low memory usage & low latency
-- Client->server packet whitelists
-- Both way packet interception & manipulation
-- Cluster mode enabling to handle basically unlimited amount of connections (more clusters = more connections)
-- Plugin/Service system allowing to load up things like MSSQL, Memory Cache (already provided) and similar.
-- Packet-based Middleware system with basic features as:
-  - Client HWID capture
-  - Auto-Captcha
-  - AgentServer redirect
-  - DownloadServer redirect
-  - ShardList rewrite (fake online players)
-  - Fortress SQL injection fix
+- Fully ES6+ JavaScript using BabelJS and NodeJS v14+.
+- This is designed to definitely be the easiest way of getting your own edits/custom stuff running.
+- Connection is as stable and smooth like there "would be no proxy" when running in production.
+- GatewayServer, AgentServer, DownloadServer filters with configuration.
+- Unlimited connections (RAM, CPU is your limit).
+- Special API designed to allow easily implementing new back-end features or packet handles.
+- Session detection (online/offline), updating in database, recording users to rows.
+- Web APIs providing full CRUD over entire VSRO database.
+- Multiple pre-built controllers to help getting you started creating new content straight away.
+- Some fun stuff like modified weather packet (see `src/controllers`).
 
 ### Prerequesities
+- Extract `data` folder from https://silkroad.pw/files/data.rar to the project root (.bin files are for IP geolocation and Proxy).
+- Inject HWID.dll from `HWID_DLL` into your client.
 - NodeJS LTS: https://nodejs.org/dist/v12.18.3/node-v12.18.3-x64.msi
 - Silkroad Online game client & server 
 - Yarn package manager: `npm i -g yarn`
@@ -22,7 +22,7 @@
 
 ### Setup
 - Install dependencies `yarn`
-- Setup `src/config/AgentServer.js`, `src/config/GatewayServer.js` and `src/config/DownloadServer.js` accordingly.
+- Setup `src/config/AgentServer.js`, `src/config/GatewayServer.js` and `src/config/DownloadServer.js` accordingly or use ENV.
 - Rename `src/config/Database.js.example` to `Database.js` and configure accordingly.
 - Run `yarn install:db` to create (or drop & create again) the initial database.
 
@@ -37,7 +37,10 @@
 - DownloadServer `yarn DownloadServer`
 - All at once `pm2 start && pm2 dashboard`
 
-### Build
+### Other launching options:
+- See `.bat` or `.sh` files for use-cases.
+
+### Build production version
 `yarn build`
 
 ## What else?

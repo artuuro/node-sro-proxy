@@ -1,6 +1,8 @@
 @echo off
 title AgentServer
 
+cd ../../
+
 set NODE_ENV=production
 set MODULE=AgentServer
 

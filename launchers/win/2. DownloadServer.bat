@@ -1,6 +1,8 @@
 @echo off
 title DownloadServer
 
+cd ../../
+
 set NODE_ENV=production
 set MODULE=DownloadServer
 

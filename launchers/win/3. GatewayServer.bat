@@ -1,6 +1,8 @@
 @echo off
 title GatewayServer
 
+cd ../../
+
 set NODE_ENV=production
 set MODULE=GatewayServer
 
